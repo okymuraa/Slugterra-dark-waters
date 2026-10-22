@@ -1,0 +1,100 @@
+{
+  "consumables": {
+    "First": {
+      "baseData": {
+        "title": "consum_healthboost_title",
+        "description": "consum_healthboost_desc",
+        "isUnLocked": false,
+        "isShowInStore": true,
+        "userData": []
+      },
+      "priceData": {
+        "smallPackPrice": 600,
+        "largePackPrice": 1000
+      },
+      "Target": 2,
+      "Radius": 0,
+      "Health": 20,
+      "HealthPerSecond": 0,
+      "HealDuration": 0,
+      "SpeedRatio": 0,
+      "SpeedDuration": 0,
+      "AttackRatio": 0,
+      "AttackDuration": 0,
+      "DamageRatio": 0,
+      "DamageDuration": 0
+    },
+    "SpeedBoost": {
+      "baseData": {
+        "title": "consum_speedboost_title",
+        "description": "consum_speedboost_desc",
+        "isUnLocked": false,
+        "isShowInStore": true,
+        "userData": []
+      },
+      "priceData": {
+        "smallPackPrice": 1000,
+        "largePackPrice": 1500
+      },
+      "Target": 0,
+      "Radius": 0,
+      "Health": 0,
+      "HealthPerSecond": 0,
+      "HealDuration": 0,
+      "SpeedRatio": 2.0,
+      "SpeedDuration": 10,
+      "AttackRatio": 0,
+      "AttackDuration": 0,
+      "DamageRatio": 0,
+      "DamageDuration": 0
+    },
+    "ArmorBoost": {
+      "baseData": {
+        "title": "consum_armorboost_title",
+        "description": "consum_armorboost_desc",
+        "isUnLocked": false,
+        "isShowInStore": true,
+        "userData": []
+      },
+      "priceData": {
+        "smallPackPrice": 1000,
+        "largePackPrice": 1500
+      },
+      "Target": 0,
+      "Radius": 0,
+      "Health": 0,
+      "HealthPerSecond": 0,
+      "HealDuration": 0,
+      "SpeedRatio": 0,
+      "SpeedDuration": 0,
+      "AttackRatio": 0,
+      "AttackDuration": 0,
+      "DamageRatio": 0,
+      "DamageDuration": 5
+    },
+    "SlugFood": {
+      "baseData": {
+        "title": "consum_slugfood_title",
+        "description": "consum_slugfood_desc",
+        "isUnLocked": false,
+        "isShowInStore": true,
+        "userData": []
+      },
+      "priceData": {
+        "smallPackPrice": 600,
+        "largePackPrice": 1000
+      },
+      "Target": 0,
+      "Radius": 0,
+      "Health": 0,
+      "HealthPerSecond": 0,
+      "HealDuration": 0,
+      "SpeedRatio": 0,
+      "SpeedDuration": 0,
+      "AttackRatio": 0,
+      "AttackDuration": 0,
+      "DamageRatio": 0,
+      "DamageDuration": 0
+    }
+  }
+}

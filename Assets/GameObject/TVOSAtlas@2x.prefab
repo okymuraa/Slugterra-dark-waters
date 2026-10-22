@@ -1,0 +1,1444 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1709254077376921
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4730242686860875}
+  - component: {fileID: 114724804207875695}
+  m_Layer: 0
+  m_Name: TVOSAtlas@2x
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4730242686860875
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &114724804207875695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f28a10f064b0573af11a2e931d98da, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  version: 3
+  materialIdsValid: 1
+  needMaterialInstance: 1
+  spriteDefinitions:
+  - name: double-sided_arrow
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.31, y: 1.02, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.32, y: 1.02, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.155, y: -0.51, z: 0}
+    - {x: 0.155, y: -0.51, z: 0}
+    - {x: -0.155, y: 0.51, z: 0}
+    - {x: 0.155, y: 0.51, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.910645, y: 0.3144536}
+    - {x: 0.9409175, y: 0.3144536}
+    - {x: 0.910645, y: 0.41406202}
+    - {x: 0.9409175, y: 0.41406202}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: dbc548a38e449f947ae6f4ad3abab166
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: dot_point
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.29999998, y: 0.29999998, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.29999998, y: 0.29999998, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.14999999, y: -0.14999999, z: 0}
+    - {x: 0.14999999, y: -0.14999999, z: 0}
+    - {x: -0.14999999, y: 0.14999999, z: 0}
+    - {x: 0.14999999, y: 0.14999999, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.94091845, y: 0.4111333}
+    - {x: 0.97021437, y: 0.4111333}
+    - {x: 0.94091845, y: 0.4404292}
+    - {x: 0.97021437, y: 0.4404292}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: b6f8ee973c49b6644b1a06ad6d86853e
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: remote_controller
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 5.06, y: 1.8199999, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 5.06, y: 1.8199999, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -2.53, y: -0.90999997, z: 0}
+    - {x: 2.53, y: -0.90999997, z: 0}
+    - {x: -2.53, y: 0.90999997, z: 0}
+    - {x: 2.53, y: 0.90999997, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 4.882813E-07, y: 4.882813E-07}
+    - {x: 0.49414015, y: 4.882813E-07}
+    - {x: 4.882813E-07, y: 0.17773388}
+    - {x: 0.49414015, y: 0.17773388}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 972eb232b6875214f9d082a21d0975b6
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: line_bend
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.17999999, y: 0.17999999, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.17999999, y: 0.17999999, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.089999996, y: -0.089999996, z: 0}
+    - {x: 0.089999996, y: -0.089999996, z: 0}
+    - {x: -0.089999996, y: 0.089999996, z: 0}
+    - {x: 0.089999996, y: 0.089999996, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.97509813, y: 0.27343798}
+    - {x: 0.9926753, y: 0.27343798}
+    - {x: 0.97509813, y: 0.29101515}
+    - {x: 0.9926753, y: 0.29101515}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: b7e50a831f60dcb4e9db765e4a8ab0f0
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: line
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.02, y: 0.02, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.02, y: 0.02, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.01, y: -0.01, z: 0}
+    - {x: 0.01, y: -0.01, z: 0}
+    - {x: -0.01, y: 0.01, z: 0}
+    - {x: 0.01, y: 0.01, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.9868169, y: 4.882813E-07}
+    - {x: 0.98876905, y: 4.882813E-07}
+    - {x: 0.9868169, y: 0.0019526368}
+    - {x: 0.98876905, y: 0.0019526368}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: af6f6842f46e9814a882833caf5ea060
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: dot
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.24, y: 0.24, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.24, y: 0.24, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.12, y: -0.12, z: 0}
+    - {x: 0.12, y: -0.12, z: 0}
+    - {x: -0.12, y: 0.12, z: 0}
+    - {x: 0.12, y: 0.12, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.97509813, y: 0.25000048}
+    - {x: 0.9985347, y: 0.25000048}
+    - {x: 0.97509813, y: 0.27343702}
+    - {x: 0.9985347, y: 0.27343702}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: d442cbcd408288e47a82afe5569746e8
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: glow_small_anim2
+    boundsData:
+    - {x: 1.4901161E-08, y: 1.4901161E-08, z: 0}
+    - {x: 0.51, y: 0.51, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.79999995, y: 0.79999995, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.25499997, y: -0.25499997, z: 0}
+    - {x: 0.255, y: -0.25499997, z: 0}
+    - {x: -0.25499997, y: 0.255, z: 0}
+    - {x: 0.255, y: 0.255, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.94091845, y: 0.3144536}
+    - {x: 0.9907222, y: 0.3144536}
+    - {x: 0.94091845, y: 0.36425734}
+    - {x: 0.9907222, y: 0.36425734}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 585dd69554989e04ebce818d2783788b
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: btn_play-pause_small
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.65999997, y: 0.65999997, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.71999997, y: 0.71999997, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.32999998, y: -0.32999998, z: 0}
+    - {x: 0.32999998, y: -0.32999998, z: 0}
+    - {x: -0.32999998, y: 0.32999998, z: 0}
+    - {x: 0.32999998, y: 0.32999998, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.910645, y: 0.25000048}
+    - {x: 0.9750972, y: 0.25000048}
+    - {x: 0.910645, y: 0.31445265}
+    - {x: 0.9750972, y: 0.31445265}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: d748c39eab4c72f48945e727831dca15
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: glow_small_anim1
+    boundsData:
+    - {x: -1.4901161E-08, y: -1.4901161E-08, z: 0}
+    - {x: 0.78999996, y: 0.78999996, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.79999995, y: 0.79999995, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.39499998, y: -0.39499998, z: 0}
+    - {x: 0.39499995, y: -0.39499998, z: 0}
+    - {x: -0.39499998, y: 0.39499995, z: 0}
+    - {x: 0.39499995, y: 0.39499995, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.910645, y: 0.09668018}
+    - {x: 0.9877925, y: 0.09668018}
+    - {x: 0.910645, y: 0.17382763}
+    - {x: 0.9877925, y: 0.17382763}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: bbce209131ddffc41a8ece1e0cf01e8e
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: glow_big_anim2
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.78000003, y: 0.78000003, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.14, y: 1.14, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.39000002, y: -0.39000002, z: 0}
+    - {x: 0.39000002, y: -0.39000002, z: 0}
+    - {x: -0.39000002, y: 0.39000002, z: 0}
+    - {x: 0.39000002, y: 0.39000002, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.910645, y: 0.17382862}
+    - {x: 0.9868159, y: 0.17382862}
+    - {x: 0.910645, y: 0.24999951}
+    - {x: 0.9868159, y: 0.24999951}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 2423a17301f78a74d87d0ff1b81fbf4f
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: glow_big_anim1
+    boundsData:
+    - {x: 2.9802322E-08, y: 2.9802322E-08, z: 0}
+    - {x: 1.06, y: 1.06, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.14, y: 1.14, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.53, y: -0.53, z: 0}
+    - {x: 0.53000003, y: -0.53, z: 0}
+    - {x: -0.53, y: 0.53000003, z: 0}
+    - {x: 0.53000003, y: 0.53000003, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.8193364, y: 0.63574266}
+    - {x: 0.9228511, y: 0.63574266}
+    - {x: 0.8193364, y: 0.73925734}
+    - {x: 0.9228511, y: 0.73925734}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: fe8a3abae3208ef4d9efd9f487997aeb
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: btn_menu_small
+    boundsData:
+    - {x: 7.450581E-09, y: 0.0024999902, z: 0}
+    - {x: 0.48000002, y: 0.50499994, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.5, y: 0.53999996, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.24, y: -0.24999999, z: 0}
+    - {x: 0.24000001, y: -0.24999999, z: 0}
+    - {x: -0.24, y: 0.25499997, z: 0}
+    - {x: 0.24000001, y: 0.25499997, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.94091845, y: 0.3642583}
+    - {x: 0.94091845, y: 0.41113234}
+    - {x: 0.9902339, y: 0.3642583}
+    - {x: 0.9902339, y: 0.41113234}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: da4730f3666137b47a0ef1b7a2de3d40
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 1
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: glow_arrow_anim2
+    boundsData:
+    - {x: 0, y: 0.004999995, z: 0}
+    - {x: 0.78, y: 0.99, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.02, y: 1.22, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.39, y: -0.49, z: 0}
+    - {x: 0.39, y: -0.49, z: 0}
+    - {x: -0.39, y: 0.5, z: 0}
+    - {x: 0.39, y: 0.5, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.910645, y: 4.882813E-07}
+    - {x: 0.9868159, y: 4.882813E-07}
+    - {x: 0.910645, y: 0.096679196}
+    - {x: 0.9868159, y: 0.096679196}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 606f64f01706f3445a34272af154cc8d
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: glow_arrow_anim1
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.02, y: 1.22, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.02, y: 1.22, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.51, y: -0.61, z: 0}
+    - {x: 0.51, y: -0.61, z: 0}
+    - {x: -0.51, y: 0.61, z: 0}
+    - {x: 0.51, y: 0.61, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.7001958, y: 0.63574266}
+    - {x: 0.7001958, y: 0.7353511}
+    - {x: 0.81933546, y: 0.63574266}
+    - {x: 0.81933546, y: 0.7353511}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: ee98fc61acc7fd64aa61ae733cc2c1e6
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 1
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.2548833, y: 0.17773487}
+    - {x: 0.48828077, y: 0.17773487}
+    - {x: 0.2548833, y: 0.3129878}
+    - {x: 0.48828077, y: 0.3129878}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 013398f9c35a3e94e8e51012bec91bb2
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_right
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.48828173, y: 0.24853565}
+    - {x: 0.7216792, y: 0.24853565}
+    - {x: 0.48828173, y: 0.3837886}
+    - {x: 0.7216792, y: 0.3837886}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 3534257cc89ee544f83b25f1b2ddf6e0
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_menu
+    boundsData:
+    - {x: -0.0025000274, y: 0.0024999976, z: 0}
+    - {x: 1.325, y: 0.945, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.36, y: 0.96, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.665, y: -0.47, z: 0}
+    - {x: 0.65999997, y: -0.47, z: 0}
+    - {x: -0.665, y: 0.475, z: 0}
+    - {x: 0.65999997, y: 0.475, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.8300786, y: 0.5434575}
+    - {x: 0.9594722, y: 0.5434575}
+    - {x: 0.8300786, y: 0.6357417}
+    - {x: 0.9594722, y: 0.6357417}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: af1cc39e75d50374f8f3d11efc34c399
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_play-pause
+    boundsData:
+    - {x: 0, y: 0.0024999976, z: 0}
+    - {x: 1.33, y: 0.945, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.36, y: 0.96, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -0.665, y: -0.47, z: 0}
+    - {x: 0.665, y: -0.47, z: 0}
+    - {x: -0.665, y: 0.475, z: 0}
+    - {x: 0.665, y: 0.475, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.7001958, y: 0.5434575}
+    - {x: 0.83007765, y: 0.5434575}
+    - {x: 0.7001958, y: 0.6357417}
+    - {x: 0.83007765, y: 0.6357417}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 4b96afe81a6542640bd1df0593e5e98d
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_controller
+    boundsData:
+    - {x: -0.0025000572, y: 0.0024999976, z: 0}
+    - {x: 5.5649996, y: 1.255, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 5.6, y: 1.3, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -2.7849998, y: -0.625, z: 0}
+    - {x: 2.7799997, y: -0.625, z: 0}
+    - {x: -2.7849998, y: 0.63, z: 0}
+    - {x: 2.7799997, y: 0.63, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.7880864, y: 4.882813E-07}
+    - {x: 0.7880864, y: 0.54345655}
+    - {x: 0.91064405, y: 4.882813E-07}
+    - {x: 0.91064405, y: 0.54345655}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 2a26ec19804852f458d312ddcb9868af
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 1
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: hand_tutorial_white
+    boundsData:
+    - {x: -0.0024999976, y: 0, z: 0}
+    - {x: 2.545, y: 3.01, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.56, y: 3.02, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.275, y: -1.505, z: 0}
+    - {x: 1.27, y: -1.505, z: 0}
+    - {x: -1.275, y: 1.505, z: 0}
+    - {x: 1.27, y: 1.505, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.4941411, y: 4.882813E-07}
+    - {x: 0.4941411, y: 0.24853466}
+    - {x: 0.78808546, y: 4.882813E-07}
+    - {x: 0.78808546, y: 0.24853466}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: a8dab4f02be1dde4caa5fba120260c89
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 1
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_center
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.2548833, y: 0.31298876}
+    - {x: 0.48828077, y: 0.31298876}
+    - {x: 0.2548833, y: 0.4482417}
+    - {x: 0.48828077, y: 0.4482417}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 8ec83c63c4fcff249a7d3329c25fad53
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: fade_gradient_out
+    boundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.61, y: 2.61, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 3.3, y: 3.3, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.305, y: -1.305, z: 0}
+    - {x: 1.305, y: -1.305, z: 0}
+    - {x: -1.305, y: 1.305, z: 0}
+    - {x: 1.305, y: 1.305, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 4.882813E-07, y: 0.17773487}
+    - {x: 0.25488234, y: 0.17773487}
+    - {x: 4.882813E-07, y: 0.4326167}
+    - {x: 0.25488234, y: 0.4326167}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 0.99999994, y: 0}
+    - {x: 0, y: 0.99999994}
+    - {x: 0.99999994, y: 0.99999994}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 6389fc185f24c134a8d16f99585c4f08
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_corner
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 4.882813E-07, y: 0.43261766}
+    - {x: 0.23339795, y: 0.43261766}
+    - {x: 4.882813E-07, y: 0.5678706}
+    - {x: 0.23339795, y: 0.5678706}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 876378f2b30c14c47b0c8208826e4ecc
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_left
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.48828173, y: 0.38378954}
+    - {x: 0.7216792, y: 0.38378954}
+    - {x: 0.48828173, y: 0.5190425}
+    - {x: 0.7216792, y: 0.5190425}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 9f39543dfb9c4684a88e70e64d96f9fc
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_up-down
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.23339893, y: 0.44824266}
+    - {x: 0.4667964, y: 0.44824266}
+    - {x: 0.23339893, y: 0.5834956}
+    - {x: 0.4667964, y: 0.5834956}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 842dc885e9946664682dbb80555f5e10
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_left-right
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 4.882813E-07, y: 0.5678716}
+    - {x: 0.23339795, y: 0.5678716}
+    - {x: 4.882813E-07, y: 0.7031245}
+    - {x: 0.23339795, y: 0.7031245}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 232b4885edb86db4b87c624731f611c0
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_left-big
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.46679735, y: 0.51904345}
+    - {x: 0.70019484, y: 0.51904345}
+    - {x: 0.46679735, y: 0.6542964}
+    - {x: 0.70019484, y: 0.6542964}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 7d10a8f81909f0a43babc05d53fdb44a
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_all
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 0.23339893, y: 0.5834966}
+    - {x: 0.4667964, y: 0.5834966}
+    - {x: 0.23339893, y: 0.7187495}
+    - {x: 0.4667964, y: 0.7187495}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: 5b50adb003cd4ea4ea6e2c0727c49e00
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  - name: tutorial_btn_touchpad_right-big
+    boundsData:
+    - {x: -5.9604645E-08, y: 0.0024999678, z: 0}
+    - {x: 2.3899999, y: 1.385, z: 0}
+    untrimmedBoundsData:
+    - {x: 0, y: 0, z: 0}
+    - {x: 2.3999999, y: 1.4, z: 0}
+    texelSize: {x: 0.01, y: 0.01}
+    positions:
+    - {x: -1.1949999, y: -0.69, z: 0}
+    - {x: 1.1949998, y: -0.69, z: 0}
+    - {x: -1.1949999, y: 0.69499993, z: 0}
+    - {x: 1.1949998, y: 0.69499993, z: 0}
+    normals: []
+    tangents: []
+    uvs:
+    - {x: 4.882813E-07, y: 0.7031255}
+    - {x: 0.23339795, y: 0.7031255}
+    - {x: 4.882813E-07, y: 0.8383784}
+    - {x: 0.23339795, y: 0.8383784}
+    normalizedUvs:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    indices: 000000000300000001000000020000000300000000000000
+    material: {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+    materialId: 0
+    sourceTextureGUID: e5e71bf2d7da7484c8aff8db1042d2be
+    extractRegion: 0
+    regionX: 0
+    regionY: 0
+    regionW: 0
+    regionH: 0
+    flipped: 0
+    complexGeometry: 0
+    physicsEngine: 0
+    colliderType: 0
+    customColliders: []
+    colliderVertices: []
+    colliderIndicesFwd:
+    colliderIndicesBack:
+    colliderConvex: 0
+    colliderSmoothSphereCollisions: 0
+    polygonCollider2D: []
+    edgeCollider2D: []
+    attachPoints: []
+  premultipliedAlpha: 0
+  material: {fileID: 0}
+  materials:
+  - {fileID: 2100000, guid: ba93e36296511ce4b8480f7b896c1358, type: 2}
+  textures: []
+  pngTextures:
+  - {fileID: 4900000, guid: 3b70c54b7f14676419eb6d9728545ce8, type: 3}
+  pngNames: []
+  materialPngTextureId: 00000000
+  textureFilterMode: 0
+  textureMipMaps: 0
+  allowMultipleAtlases: 0
+  spriteCollectionGUID: 0f8297a822a54ee4db29226934754263
+  spriteCollectionName: TVOSAtlas@2x
+  assetName:
+  loadable: 0
+  invOrthoSize: 2
+  halfTargetHeight: 50
+  buildKey: 16116499
+  dataGuid: afb08fc54c6229b4aa24e06b2ad7ffda
+  managedSpriteCollection: 1
+  hasPlatformData: 0
+  spriteCollectionPlatforms: []
+  spriteCollectionPlatformGUIDs: []
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1709254077376921}
+  m_IsPrefabParent: 1

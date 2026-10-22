@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 3_2_MIssion_Level_Mask
+  m_Shader: {fileID: 4800000, guid: 1ec13a84a4846b34c98382fb40b94ead, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _Control:
+        m_Texture: {fileID: 2800000, guid: f7ccca741636994489c1eb3d6518128f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _Splat0:
+        m_Texture: {fileID: 2800000, guid: 0b23f61fb5b520d48a30afa488c51fad, type: 3}
+        m_Scale: {x: 7, y: 7}
+        m_Offset: {x: 0, y: 0}
+      _Splat1:
+        m_Texture: {fileID: 2800000, guid: fa31f1165ace18645a830da795002f8a, type: 3}
+        m_Scale: {x: 17, y: 17}
+        m_Offset: {x: 0, y: 0}
+      _Splat2:
+        m_Texture: {fileID: 2800000, guid: 4eb2b4150f1c1e746b5c847b1a28e161, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _BumpScale: 1
+      _Cutoff: 0.5
+      _DetailNormalMapScale: 1
+      _DstBlend: 0
+      _EmissionScaleUI: 0
+      _Glossiness: 0.5
+      _Metallic: 0
+      _Mode: 0
+      _OcclusionStrength: 1
+      _Parallax: 0.02
+      _SrcBlend: 1
+      _UVSec: 0
+      _ZWrite: 1
+    m_Colors:
+      _Color: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}

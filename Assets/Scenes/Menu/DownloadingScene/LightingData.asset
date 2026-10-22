@@ -1,0 +1,1132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!258 &25800000
+LightProbes:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: LightingData
+  m_Data:
+    m_Tetrahedralization:
+      m_Tetrahedra:
+      - indices[0]: 1
+        indices[1]: 8
+        indices[2]: 9
+        indices[3]: 4
+        neighbors[0]: 17
+        neighbors[1]: 20
+        neighbors[2]: 18
+        neighbors[3]: 21
+        matrix:
+          e00: 0
+          e01: 0.5025125
+          e02: -0.5025125
+          e03: 0
+          e10: -0
+          e11: -1
+          e12: -0
+          e13: 0
+          e20: 0.5
+          e21: -0.0025125004
+          e22: 0.5025125
+          e23: 0
+      - indices[0]: 7
+        indices[1]: 6
+        indices[2]: 3
+        indices[3]: 8
+        neighbors[0]: 14
+        neighbors[1]: 9
+        neighbors[2]: 15
+        neighbors[3]: 22
+        matrix:
+          e00: -0.3142145
+          e01: 0.0648379
+          e02: -0.24937658
+          e03: 0
+          e10: -0.18578553
+          e11: -0.56483793
+          e12: 0.2493766
+          e13: 0
+          e20: 0.5
+          e21: -0.5
+          e22: -0
+          e23: 0
+      - indices[0]: 2
+        indices[1]: 9
+        indices[2]: 3
+        indices[3]: 8
+        neighbors[0]: 21
+        neighbors[1]: 14
+        neighbors[2]: 13
+        neighbors[3]: 7
+        matrix:
+          e00: 0.082834214
+          e01: -0.40142727
+          e02: 0.31859308
+          e03: 0
+          e10: 0.40142727
+          e11: 0.97769845
+          e12: -0.37912574
+          e13: 0
+          e20: 0.31859308
+          e21: 0.37912574
+          e22: -0.69771886
+          e23: 0
+      - indices[0]: 1
+        indices[1]: 2
+        indices[2]: 0
+        indices[3]: 9
+        neighbors[0]: 4
+        neighbors[1]: 20
+        neighbors[2]: 7
+        neighbors[3]: 23
+        matrix:
+          e00: -0
+          e01: -0
+          e02: -0.5025125
+          e03: 0
+          e10: 0.4201681
+          e11: 0
+          e12: 0
+          e13: 0
+          e20: 0.4972403
+          e21: 0.59171593
+          e22: 0
+          e23: 0
+      - indices[0]: 0
+        indices[1]: 2
+        indices[2]: 10
+        indices[3]: 9
+        neighbors[0]: 5
+        neighbors[1]: 12
+        neighbors[2]: 3
+        neighbors[3]: 24
+        matrix:
+          e00: 0.4972403
+          e01: 0.59171593
+          e02: 0.34029883
+          e03: 0
+          e10: 0.4201681
+          e11: 0
+          e12: 0.13130254
+          e13: 0
+          e20: 0
+          e21: 0
+          e22: 0.3125
+          e23: 0
+      - indices[0]: 10
+        indices[1]: 9
+        indices[2]: 2
+        indices[3]: 6
+        neighbors[0]: 13
+        neighbors[1]: 25
+        neighbors[2]: 11
+        neighbors[3]: 4
+        matrix:
+          e00: 0
+          e01: 0
+          e02: 0.3125
+          e03: 0
+          e10: 0
+          e11: 0.5
+          e12: -0.15625
+          e13: 0
+          e20: 0.2283105
+          e21: -0.2283105
+          e22: -0
+          e23: 0
+      - indices[0]: 6
+        indices[1]: 5
+        indices[2]: 10
+        indices[3]: 4
+        neighbors[0]: 8
+        neighbors[1]: 11
+        neighbors[2]: 10
+        neighbors[3]: 26
+        matrix:
+          e00: 0.1395512
+          e01: -0.5
+          e02: -0.19985975
+          e03: 0
+          e10: -0.44880787
+          e11: -0
+          e12: 0.14025246
+          e13: 0
+          e20: -0.2791024
+          e21: 0
+          e22: 0.3997195
+          e23: 0
+      - indices[0]: 3
+        indices[1]: 2
+        indices[2]: 1
+        indices[3]: 9
+        neighbors[0]: 3
+        neighbors[1]: 21
+        neighbors[2]: 2
+        neighbors[3]: 27
+        matrix:
+          e00: -0.42016813
+          e01: -0.50000006
+          e02: -0
+          e03: 0
+          e10: 0.4201681
+          e11: 0
+          e12: 0
+          e13: 0
+          e20: 0.5320721
+          e21: 0.6331658
+          e22: -0.5025125
+          e23: 0
+      - indices[0]: 10
+        indices[1]: 5
+        indices[2]: 0
+        indices[3]: 4
+        neighbors[0]: 19
+        neighbors[1]: 12
+        neighbors[2]: 6
+        neighbors[3]: 28
+        matrix:
+          e00: -0.4167566
+          e01: 0.49320307
+          e02: 0.59686244
+          e03: 0
+          e10: -0.6701613
+          e11: 0.7930903
+          e12: 0.45726615
+          e13: 0
+          e20: -0.24660152
+          e21: 0.8835521
+          e22: 0.353173
+          e23: 0
+      - indices[0]: 7
+        indices[1]: 3
+        indices[2]: 1
+        indices[3]: 8
+        neighbors[0]: 21
+        neighbors[1]: 16
+        neighbors[2]: 1
+        neighbors[3]: 29
+        matrix:
+          e00: -0.31375003
+          e01: 0.066249974
+          e02: -0.25
+          e03: 0
+          e10: 0.5
+          e11: -0.5
+          e12: 0
+          e13: 0
+          e20: 0.18624997
+          e21: 0.56624997
+          e22: -0.25
+          e23: 0
+      - indices[0]: 8
+        indices[1]: 5
+        indices[2]: 6
+        indices[3]: 4
+        neighbors[0]: 6
+        neighbors[1]: 17
+        neighbors[2]: 18
+        neighbors[3]: 15
+        matrix:
+          e00: 0.41115707
+          e01: 0
+          e02: -0.5888429
+          e03: 0
+          e10: -0.20661156
+          e11: -0
+          e12: -0.20661156
+          e13: 0
+          e20: -0.20557854
+          e21: -0.5
+          e22: 0.29442146
+          e23: 0
+      - indices[0]: 9
+        indices[1]: 6
+        indices[2]: 10
+        indices[3]: 4
+        neighbors[0]: 6
+        neighbors[1]: 12
+        neighbors[2]: 17
+        neighbors[3]: 5
+        matrix:
+          e00: 0.5
+          e01: 0
+          e02: -0.15625
+          e03: 0
+          e10: -0
+          e11: -0.5
+          e12: -0.15625
+          e13: 0
+          e20: 0
+          e21: 0
+          e22: 0.3125
+          e23: 0
+      - indices[0]: 0
+        indices[1]: 9
+        indices[2]: 10
+        indices[3]: 4
+        neighbors[0]: 11
+        neighbors[1]: 8
+        neighbors[2]: 20
+        neighbors[3]: 4
+        matrix:
+          e00: 2.9802322E-08
+          e01: 0.59171593
+          e02: 0.18491122
+          e03: 0
+          e10: 0.49999997
+          e11: -0.59171593
+          e12: -0.34116122
+          e13: 0
+          e20: 0
+          e21: 0
+          e22: 0.3125
+          e23: 0
+      - indices[0]: 2
+        indices[1]: 6
+        indices[2]: 9
+        indices[3]: 8
+        neighbors[0]: 17
+        neighbors[1]: 2
+        neighbors[2]: 14
+        neighbors[3]: 5
+        matrix:
+          e00: 0.22831053
+          e01: -0.2283105
+          e02: 0
+          e03: 0
+          e10: -0.2283105
+          e11: -0.27168947
+          e12: 0.5
+          e13: 0
+          e20: 0
+          e21: 0.5
+          e22: 0.5
+          e23: 0
+      - indices[0]: 3
+        indices[1]: 6
+        indices[2]: 2
+        indices[3]: 8
+        neighbors[0]: 13
+        neighbors[1]: 2
+        neighbors[2]: 1
+        neighbors[3]: 30
+        matrix:
+          e00: -9.803395E-09
+          e01: -0.3968254
+          e02: -0.39682537
+          e03: 0
+          e10: -0.22831051
+          e11: -0.55606294
+          e12: 0.2156266
+          e13: 0
+          e20: 0.2283105
+          e21: -0.04711169
+          e22: 0.1811988
+          e23: 0
+      - indices[0]: 6
+        indices[1]: 8
+        indices[2]: 7
+        indices[3]: 5
+        neighbors[0]: 16
+        neighbors[1]: 31
+        neighbors[2]: 10
+        neighbors[3]: 1
+        matrix:
+          e00: -0.20567141
+          e01: -0.5449521
+          e02: 0.24937657
+          e03: 0
+          e10: 0.41237116
+          e11: 0.5876289
+          e12: 0
+          e13: 0
+          e20: -0.00051417557
+          e21: -0.24886243
+          e22: -0.24937658
+          e23: 0
+      - indices[0]: 7
+        indices[1]: 8
+        indices[2]: 1
+        indices[3]: 5
+        neighbors[0]: 18
+        neighbors[1]: 32
+        neighbors[2]: 15
+        neighbors[3]: 9
+        matrix:
+          e00: 0
+          e01: -0.2475001
+          e02: -0.24999996
+          e03: 0
+          e10: 0
+          e11: -0.5049999
+          e12: 0.5
+          e13: 0
+          e20: 0.20618558
+          e21: 0.5463144
+          e22: -0.25000003
+          e23: 0
+      - indices[0]: 9
+        indices[1]: 8
+        indices[2]: 6
+        indices[3]: 4
+        neighbors[0]: 10
+        neighbors[1]: 11
+        neighbors[2]: 0
+        neighbors[3]: 13
+        matrix:
+          e00: 0.5
+          e01: 0
+          e02: 0.5
+          e03: 0
+          e10: -0
+          e11: -0
+          e12: -1
+          e13: 0
+          e20: 0
+          e21: -0.5
+          e22: 0.5
+          e23: 0
+      - indices[0]: 1
+        indices[1]: 5
+        indices[2]: 8
+        indices[3]: 4
+        neighbors[0]: 10
+        neighbors[1]: 0
+        neighbors[2]: 19
+        neighbors[3]: 16
+        matrix:
+          e00: 0.20618555
+          e01: 0.5014764
+          e02: -0.29529086
+          e03: 0
+          e10: -0.20618558
+          e11: 0.0010360826
+          e12: -0.20722166
+          e13: 0
+          e20: -0
+          e21: -1
+          e22: -0
+          e23: 0
+      - indices[0]: 0
+        indices[1]: 5
+        indices[2]: 1
+        indices[3]: 4
+        neighbors[0]: 18
+        neighbors[1]: 20
+        neighbors[2]: 8
+        neighbors[3]: 33
+        matrix:
+          e00: 0
+          e01: 0.59171593
+          e02: 0
+          e03: 0
+          e10: -0.20618558
+          e11: 0.2440066
+          e12: -0.20722164
+          e13: 0
+          e20: 0.20618555
+          e21: -0.24400656
+          e22: -0.29529083
+          e23: 0
+      - indices[0]: 1
+        indices[1]: 9
+        indices[2]: 0
+        indices[3]: 4
+        neighbors[0]: 12
+        neighbors[1]: 19
+        neighbors[2]: 0
+        neighbors[3]: 3
+        matrix:
+          e00: 0
+          e01: 5.9604645E-08
+          e02: -0.5025125
+          e03: 0
+          e10: 0.5
+          e11: -0.591716
+          e12: 0.5025125
+          e13: 0
+          e20: 0
+          e21: 0.59171593
+          e22: 0
+          e23: 0
+      - indices[0]: 3
+        indices[1]: 9
+        indices[2]: 1
+        indices[3]: 8
+        neighbors[0]: 0
+        neighbors[1]: 9
+        neighbors[2]: 2
+        neighbors[3]: 7
+        matrix:
+          e00: 0.5
+          e01: -0.5
+          e02: 3.921358E-08
+          e03: 0
+          e10: 0.63065326
+          e11: -0.13316576
+          e12: 0.5025125
+          e13: 0
+          e20: -0.13065326
+          e21: 0.6331658
+          e22: -0.5025125
+          e23: 0
+      - indices[0]: 7
+        indices[1]: 6
+        indices[2]: 3
+        indices[3]: -1
+        neighbors[0]: 30
+        neighbors[1]: 29
+        neighbors[2]: 31
+        neighbors[3]: 1
+        matrix:
+          e00: 0.1240703
+          e01: 1.200505
+          e02: 0.55060023
+          e03: 11.720275
+          e10: 0.15741937
+          e11: 7.704161
+          e12: 1.443929
+          e13: 28.223707
+          e20: 0
+          e21: 11.735675
+          e22: 0
+          e23: 11.735675
+      - indices[0]: 1
+        indices[1]: 2
+        indices[2]: 0
+        indices[3]: -1
+        neighbors[0]: 24
+        neighbors[1]: 33
+        neighbors[2]: 27
+        neighbors[3]: 3
+        matrix:
+          e00: -1.3893315
+          e01: -0.6253935
+          e02: 0.025875403
+          e03: 9.062534
+          e10: -7.302624
+          e11: -4.023166
+          e12: 1.7986239
+          e13: 38.626087
+          e20: -9.595898
+          e21: -6.1892233
+          e22: 5.256174
+          e23: 62.039455
+      - indices[0]: 0
+        indices[1]: 2
+        indices[2]: 10
+        indices[3]: -1
+        neighbors[0]: 25
+        neighbors[1]: 28
+        neighbors[2]: 23
+        neighbors[3]: 4
+        matrix:
+          e00: -1.2490469
+          e01: -0.5591475
+          e02: -1.1897712
+          e03: 1.4852341
+          e10: -7.783813
+          e11: -4.151682
+          e12: -7.0317144
+          e13: -17.255053
+          e20: -11.915543
+          e21: -7.6853633
+          e22: -10.184115
+          e23: -36.764656
+      - indices[0]: 2
+        indices[1]: 6
+        indices[2]: 10
+        indices[3]: -1
+        neighbors[0]: 26
+        neighbors[1]: 24
+        neighbors[2]: 30
+        neighbors[3]: 5
+        matrix:
+          e00: -0.51778436
+          e01: 1.097901
+          e02: -0.9382834
+          e03: 1.8453438
+          e10: -1.814939
+          e11: 8.154187
+          e12: -4.5598593
+          e13: -10.177302
+          e20: 0
+          e21: 15.021959
+          e22: -4.6943626
+          e23: -16.946648
+      - indices[0]: 6
+        indices[1]: 5
+        indices[2]: 10
+        indices[3]: -1
+        neighbors[0]: 28
+        neighbors[1]: 25
+        neighbors[2]: 31
+        neighbors[3]: 6
+        matrix:
+          e00: 1.3752095
+          e01: 0.3199517
+          e02: -0.84560543
+          e03: 2.976123
+          e10: 7.9696403
+          e11: 3.2196112
+          e12: -4.9860063
+          e13: -10.978385
+          e20: 9.262467
+          e21: 7.87144
+          e22: -5.3543463
+          e23: -19.32919
+      - indices[0]: 3
+        indices[1]: 2
+        indices[2]: 1
+        indices[3]: -1
+        neighbors[0]: 23
+        neighbors[1]: 29
+        neighbors[2]: 30
+        neighbors[3]: 7
+        matrix:
+          e00: -1.165722
+          e01: -0.0057735406
+          e02: 0.66992205
+          e03: 13.464457
+          e10: -6.0229883
+          e11: -0.18287398
+          e12: 5.1118546
+          e13: 60.238445
+          e20: -7.2321925
+          e21: -1.8100561
+          e22: 6.830404
+          e23: 69.1498
+      - indices[0]: 10
+        indices[1]: 5
+        indices[2]: 0
+        indices[3]: -1
+        neighbors[0]: 33
+        neighbors[1]: 24
+        neighbors[2]: 26
+        neighbors[3]: 8
+        matrix:
+          e00: 1.0200484
+          e01: -1.2686542
+          e02: -1.0541091
+          e03: 2.9684825
+          e10: 6.9640603
+          e11: -9.630105
+          e12: -7.249411
+          e13: -15.611366
+          e20: 10.996151
+          e21: -17.892464
+          e22: -11.604556
+          e23: -41.892445
+      - indices[0]: 7
+        indices[1]: 3
+        indices[2]: 1
+        indices[3]: -1
+        neighbors[0]: 27
+        neighbors[1]: 32
+        neighbors[2]: 22
+        neighbors[3]: 9
+        matrix:
+          e00: -0.5181633
+          e01: 0.07046829
+          e02: 1.1566623
+          e03: 16.413769
+          e10: -3.7592883
+          e11: -0.37281963
+          e12: 5.568075
+          e13: 60.312157
+          e20: -4.527829
+          e21: -1.6105696
+          e22: 6.0776243
+          e23: 59.62149
+      - indices[0]: 3
+        indices[1]: 6
+        indices[2]: 2
+        indices[3]: -1
+        neighbors[0]: 25
+        neighbors[1]: 27
+        neighbors[2]: 22
+        neighbors[3]: 14
+        matrix:
+          e00: -0.5010547
+          e01: 1.3016272
+          e02: -0.0996969
+          e03: 7.637962
+          e10: -1.7149107
+          e11: 9.199602
+          e12: 0.38178748
+          e13: 23.99693
+          e20: 0
+          e21: 15.506725
+          e22: 0
+          e23: 15.506725
+      - indices[0]: 7
+        indices[1]: 5
+        indices[2]: 6
+        indices[3]: -1
+        neighbors[0]: 26
+        neighbors[1]: 22
+        neighbors[2]: 32
+        neighbors[3]: 15
+        matrix:
+          e00: 1.1160464
+          e01: 0.7877256
+          e02: 0.57882005
+          e03: 13.390802
+          e10: 6.2013035
+          e11: 6.28675
+          e12: 1.995192
+          e13: 40.181664
+          e20: 8.506906
+          e21: 12.12234
+          e22: 0
+          e23: 20.629244
+      - indices[0]: 1
+        indices[1]: 5
+        indices[2]: 7
+        indices[3]: -1
+        neighbors[0]: 31
+        neighbors[1]: 29
+        neighbors[2]: 33
+        neighbors[3]: 16
+        matrix:
+          e00: 0.55666095
+          e01: -0.6305645
+          e02: 1.300632
+          e03: 19.054438
+          e10: 1.7218941
+          e11: -5.335181
+          e12: 7.706849
+          e13: 85.21242
+          e20: 0
+          e21: -11.07525
+          e22: 10.965597
+          e23: 107.57251
+      - indices[0]: 0
+        indices[1]: 5
+        indices[2]: 1
+        indices[3]: -1
+        neighbors[0]: 32
+        neighbors[1]: 23
+        neighbors[2]: 28
+        neighbors[3]: 19
+        matrix:
+          e00: 0.5319953
+          e01: -1.282026
+          e02: 0.7617863
+          e03: 15.024847
+          e10: 1.7396778
+          e11: -8.287135
+          e12: 5.4023747
+          e13: 68.075516
+          e20: 0
+          e21: -12.201548
+          e22: 10.362118
+          e23: 103.38818
+      m_HullRays:
+      - {x: 0.29266706, y: 0.95236874, z: 0.085672304}
+      - {x: 0.4561776, y: 0.55686116, z: -0.69412357}
+      - {x: 0.9071126, y: -0.4127859, z: 0.08218544}
+      - {x: 0.5191915, y: -0.6139491, z: -0.59456426}
+      - {x: 0, y: 0, z: 0}
+      - {x: -0.9373729, y: 0.24239843, z: -0.25015008}
+      - {x: -0.37974763, y: -0.8971763, z: 0.22553594}
+      - {x: -0.142318, y: -0.40379566, z: -0.9037116}
+      - {x: 0, y: 0, z: 0}
+      - {x: 0, y: 0, z: 0}
+      - {x: -0.09326337, y: -0.10904057, z: 0.9896526}
+    m_ProbeSets:
+    - m_Hash:
+        serializedVersion: 2
+        Hash: 1c7b4a88c10689cc1c49b0f876ab315e
+      m_Offset: 0
+      m_Size: 11
+    m_Positions:
+    - {x: 1, y: 2.69, z: -6.81}
+    - {x: 1, y: 1, z: -8.8}
+    - {x: 3.3799999, y: -1, z: -6.81}
+    - {x: 1, y: -1, z: -9.33}
+    - {x: -1, y: 1, z: -6.81}
+    - {x: -3.85, y: 1, z: -8.8}
+    - {x: -1, y: -1, z: -6.81}
+    - {x: -1, y: -1, z: -10.82}
+    - {x: 0, y: 0, z: -7.81}
+    - {x: 1, y: 1, z: -6.81}
+    - {x: 0, y: 0, z: -3.61}
+    m_NonTetrahedralizedProbeSetIndexMap: {}
+  m_BakedCoefficients:
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  - sh[ 0]: 1.0002824
+    sh[ 1]: 0.0005452484
+    sh[ 2]: -0.0002384223
+    sh[ 3]: 0.0005428884
+    sh[ 4]: -3.4924597E-09
+    sh[ 5]: -0.0003290316
+    sh[ 6]: 1.2223609E-08
+    sh[ 7]: 0.0009830593
+    sh[ 8]: 0.0006786216
+    sh[ 9]: 0
+    sh[10]: 0
+    sh[11]: 0
+    sh[12]: 0
+    sh[13]: 0
+    sh[14]: 0
+    sh[15]: 0
+    sh[16]: 0
+    sh[17]: 0
+    sh[18]: 0
+    sh[19]: 0
+    sh[20]: 0
+    sh[21]: 0
+    sh[22]: 0
+    sh[23]: 0
+    sh[24]: 0
+    sh[25]: 0
+    sh[26]: 0
+  m_BakedLightOcclusion:
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff
+  - m_ProbeOcclusionLightIndex: ffffffffffffffffffffffffffffffff
+    m_Occlusion:
+    - 1
+    - 1
+    - 1
+    - 1
+    m_OcclusionMaskChannel: ffffffff

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<GameConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Player>
+    <WalkSpeed>5</WalkSpeed>
+    <RunSpeed>20</RunSpeed>
+    <Health>50</Health>
+    <Energy>10</Energy>
+    <EnergyPerSecond>0.25</EnergyPerSecond>
+    <Ammunition>100</Ammunition>
+    <DefaultSlug HitRate="1" Range="10" Speed="20" ReloadTime="1" Energy="0" HittingArea="0" Type="None" />
+    <Blaster>SomeBlaster</Blaster>
+    <Armour>SomeArmour</Armour>
+  </Player>
+  <Slugs>
+    <AttackSlugs>
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Infurnus" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Tazerling" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Rammstone" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Grenuke" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Armashelt" />
+    </AttackSlugs>
+    <DefenceSlugs>
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Frostcrawler" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Bubbaleon" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Frightgeist" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Phosphoro" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Arachnet" />
+    </DefenceSlugs>
+    <SpecialSlugs>
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="BoonDoc" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Polero" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Fandango" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Lariat" />
+      <Slug HitRate="2" Range="25" Speed="8" ReloadTime="4" Energy="2" HittingArea="2" Type="Crystalyd" />
+    </SpecialSlugs>
+  </Slugs>
+  <Enemy>
+    <WalkSpeed>2</WalkSpeed>
+    <RunSpeed>4</RunSpeed>
+    <Health>4</Health>
+    <Energy>4</Energy>
+    <EnergyPerSecond>0.25</EnergyPerSecond>
+    <Ammunition>100</Ammunition>
+    <DefaultSlug HitRate="2" Range="10" Speed="8" ReloadTime="0.7" Energy="0" HittingArea="0" Type="None" />
+  </Enemy>
+  <Boss>
+    <WalkSpeed>4</WalkSpeed>
+    <RunSpeed>6</RunSpeed>
+    <Health>20</Health>
+    <Energy>10</Energy>
+    <EnergyPerSecond>0.25</EnergyPerSecond>
+    <Ammunition>100</Ammunition>
+    <DefaultSlug HitRate="1" Range="10" Speed="20" ReloadTime="1" Energy="0" HittingArea="0" Type="None" />
+  </Boss>
+</GameConfig>

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Desert_Terrain_1_Floor
+  m_Shader: {fileID: 4800000, guid: 1ec13a84a4846b34c98382fb40b94ead, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _Control:
+        m_Texture: {fileID: 2800000, guid: a3ffa4f3f8ca1c64792e1fc4fea87014, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _Splat0:
+        m_Texture: {fileID: 2800000, guid: 1a41f8b5a40a1194e95c358705e0449a, type: 3}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 0, y: 0}
+      _Splat1:
+        m_Texture: {fileID: 2800000, guid: 6a2a29de4218b7c4eb73335d2506ece2, type: 3}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 0, y: 0}
+      _Splat2:
+        m_Texture: {fileID: 2800000, guid: 0abf67df1383c714c8e607170f7d31ac, type: 3}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: {}
+    m_Colors:
+      _Color: {r: 1, g: 1, b: 1, a: 1}

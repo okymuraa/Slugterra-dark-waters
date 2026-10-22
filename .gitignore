@@ -1,0 +1,85 @@
+# ==============================================================================
+# Unity .gitignore
+# ==============================================================================
+
+# Carpetas temporales y de caché generadas por Unity
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Archivos de caché de Asset Store Tools
+/[Aa]ssets/AssetStoreTools*
+
+# Plugins de JetBrains Rider autogenerados
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Caches de IDEs y compiladores
+.vs/
+.gradle/
+ExportedObj/
+.consulo/
+
+# Proyectos y soluciones generados automáticamente por Unity / IDEs
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Metadatos generados para archivos temporales
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Reportes de crash generados por Unity
+sysinfo.txt
+crashlytics-build.properties
+
+# Builds y paquetes exportados
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Archivos generados de Addressables
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/[Ss]treaming[Aa]ssets/aa.meta
+/[Aa]ssets/[Ss]treaming[Aa]ssets/aa/*
+
+# Archivos temporales de Package Manager (asegura mantener manifest y lock)
+# /[Pp]ackages/*
+# !/[Pp]ackages/manifest.json
+# !/[Pp]ackages/packages-lock.json
+
+# Configuraciones de VS Code específicas de usuario (mantiene configuraciones del repo)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Archivos generados por el Sistema Operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
