@@ -19,7 +19,7 @@ public class tk2dSystem : ScriptableObject
 
 	private static tk2dSystem _inst;
 
-	private static string currentPlatform = string.Empty;
+	private static string currentPlatform = "2x";
 
 	[SerializeField]
 	private tk2dResourceTocEntry[] allResourceEntries = new tk2dResourceTocEntry[0];

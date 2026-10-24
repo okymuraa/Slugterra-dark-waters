@@ -239,7 +239,7 @@ public class AN_InApp_EditorClient : MonoBehaviour, AN_InAppClient
 
 	public void Connect(string base64EncodedPublicKey)
 	{
-		foreach (GoogleProductTemplate inAppProduct in AndroidNativeSettings.Instance.InAppProducts)
+		foreach (GoogleProductTemplate inAppProduct in AndroidNativeSettings.Instance.InAppProducts.ToArray())
 		{
 			AddProduct(inAppProduct);
 		}

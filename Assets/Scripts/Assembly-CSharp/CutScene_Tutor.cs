@@ -455,6 +455,8 @@ public class CutScene_Tutor : SlugterraCutScene
 
 	private bool checkSkip;
 
+	public bool skipTutorialCutscenes = true;
+
 	private void Start()
 	{
 		_inGameView = HUDPanel.GetComponent<InGameView>();
@@ -474,7 +476,107 @@ public class CutScene_Tutor : SlugterraCutScene
 		_cameraFade.StartFade(new Color(0f, 0f, 0f, 1f), 1.5f, 0.1f, 2f);
 		StartCoroutine(SetActiveFalse(FadePlane, 0.1f));
 		AfterStart();
-		if (_cutScenePart == CutScenePart.Part_0)
+		if (skipTutorialCutscenes)
+		{
+			_cutScenePart = CutScenePart.Part_Start;
+			CutSceneUse = false;
+			gameController.PlayCutScene(false);
+			if (_cutSceneView != null)
+			{
+				_cutSceneView.ShowScreens(false);
+			}
+			if (_filmSceneView != null)
+			{
+				_filmSceneView.ShowScreens(false);
+			}
+			if (Help != null)
+			{
+				Help.DisableHelp("skip");
+			}
+			if (HelpLayer2 != null)
+			{
+				HelpLayer2.DisableHelp("continue");
+			}
+			if (MainCamera.GetComponent<Animation>() != null)
+			{
+				MainCamera.GetComponent<Animation>().Stop();
+			}
+			_cameraSmoothFollow.enabled = true;
+			UICamera.GetComponent<Camera>().enabled = true;
+			HUDPanel.SetActive(true);
+			SlugPanel.SetActive(true);
+			if (SourcePart_1.MiniMapPanel != null)
+			{
+				SourcePart_1.MiniMapPanel.SetActive(true);
+			}
+			MoveTerrainElements(7, true);
+			EnableMove();
+			if (SourceCommon.Most1 != null)
+			{
+				StartCoroutine(AnimationPlay(SourceCommon.Most1.gameObject, 1f, "up"));
+			}
+			if (SourceCommon.Most2 != null)
+			{
+				StartCoroutine(AnimationPlay(SourceCommon.Most2.gameObject, 1f, "up"));
+			}
+			if (SourcePart_4.Fence != null)
+			{
+				SourcePart_4.Fence.gameObject.SetActive(false);
+			}
+			if (SourcePart_4.EnemyGroup != null)
+			{
+				SourcePart_4.EnemyGroup.SetActive(true);
+			}
+			if (SourcePart_4._sphereEnemyColliderTouch != null)
+			{
+				for (int i = 0; i < SourcePart_4._sphereEnemyColliderTouch.Length; i++)
+				{
+					if (SourcePart_4._sphereEnemyColliderTouch[i] != null)
+					{
+						SourcePart_4._sphereEnemyColliderTouch[i].enabled = true;
+					}
+				}
+			}
+			if (SourcePart_0.Eli_point_0 != null && _eliController != null)
+			{
+				_eliController.transform.position = SourcePart_0.Eli_point_0.position;
+				_eliController.transform.rotation = SourcePart_0.Eli_point_0.rotation;
+				if (_eliController.Animator != null)
+				{
+					_eliController.Animator.transform.localEulerAngles = Vector3.zero;
+				}
+				if (_eliController.MoveTarget != null)
+				{
+					_eliController.MoveTarget.position = SourcePart_0.Eli_point_0.position;
+				}
+			}
+			if (SourcePart_0.Pronto_point_0 != null && _prontoController != null)
+			{
+				_prontoController.transform.position = SourcePart_0.Pronto_point_0.position;
+				_prontoController.transform.rotation = SourcePart_0.Pronto_point_0.rotation;
+				if (_prontoController.Animator != null)
+				{
+					_prontoController.Animator.transform.localEulerAngles = Vector3.zero;
+				}
+			}
+			if (SourcePart_0.wallAdded != null)
+			{
+				SourcePart_0.wallAdded.SetActive(true);
+			}
+			if (Arrow != null)
+			{
+				Arrow.SetActive(false);
+			}
+			_eliController.gameObject.SetActive(true);
+			_eliController.CanSwipe = true;
+			_eliController.CanAttack = true;
+			_eliController.UseAutoattack = true;
+			_prontoController.gameObject.SetActive(true);
+			_prontoController.enabled = true;
+			DonDestroyMonoSingleton<InputManager>.Instance.EnableInputEvents(GetType());
+			InputEnable = true;
+		}
+		else if (_cutScenePart == CutScenePart.Part_0)
 		{
 			UICamera.GetComponent<Camera>().enabled = false;
 			HUDPanel.SetActive(false);

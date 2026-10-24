@@ -112,21 +112,17 @@ public class CutScene_2_1_0 : SlugterraCutScene
 
 	private void OnEnable()
 	{
-		_buyHealth = PlayerPrefs.GetInt("buyHealth_2_1");
-		_buySpeed = PlayerPrefs.GetInt("buySpeed_2_1");
-		_buyArmor = PlayerPrefs.GetInt("buyArmor_2_1");
-		_buyKorm = PlayerPrefs.GetInt("buyKorm_2_1");
-		UseTutor = true;
-		if (_buyHealth == 1 && _buySpeed == 1 && _buyArmor == 1 && _buyKorm == 1)
-		{
-			TutorialComplete = true;
-			UseTutor = false;
-		}
-		if (UseTutor)
-		{
-			PauseController shopGameView = _shopGameView;
-			shopGameView.listAlreadyFilled = (Action<List<ConsumableItemController>>)Delegate.Combine(shopGameView.listAlreadyFilled, new Action<List<ConsumableItemController>>(StartTutor));
-		}
+		_buyHealth = 1;
+		_buySpeed = 1;
+		_buyArmor = 1;
+		_buyKorm = 1;
+		TutorialComplete = true;
+		UseTutor = false;
+		LockEli = false;
+		PlayerPrefs.SetInt("buyHealth_2_1", 1);
+		PlayerPrefs.SetInt("buySpeed_2_1", 1);
+		PlayerPrefs.SetInt("buyArmor_2_1", 1);
+		PlayerPrefs.SetInt("buyKorm_2_1", 1);
 	}
 
 	private void OnDisable()
@@ -491,13 +487,46 @@ public class CutScene_2_1_0 : SlugterraCutScene
 
 	private void Skip()
 	{
-		_camerAnimation.Stop();
-		_cameraSmoothFollow.enabled = true;
-		UICamera.SetActive(true);
-		Help.ShowHelp("selectslug", null, Vector3.zero);
+		LockEli = false;
+		TutorialComplete = true;
+		UseTutor = false;
+		Time.timeScale = 1f;
+		PlayerPrefs.SetInt("buyHealth_2_1", 1);
+		PlayerPrefs.SetInt("buySpeed_2_1", 1);
+		PlayerPrefs.SetInt("buyArmor_2_1", 1);
+		PlayerPrefs.SetInt("buyKorm_2_1", 1);
+		if (_camerAnimation != null)
+		{
+			_camerAnimation.Stop();
+		}
+		if (_cameraSmoothFollow != null)
+		{
+			_cameraSmoothFollow.enabled = true;
+		}
+		if (UICamera != null)
+		{
+			UICamera.SetActive(true);
+		}
+		if (SlugPanel != null)
+		{
+			SlugPanel.SetActive(true);
+		}
+		if (Help != null)
+		{
+			Help.DisableHelp("buy");
+			Help.DisableHelp("pause");
+			Help.DisableHelp("resume");
+			Help.ShowHelp("selectslug", null, Vector3.zero);
+		}
 		ShowScreens(false);
-		_eliController.SetAttackTarget(null);
-		_assistantController.SetAttackTarget(null);
+		if (_eliController != null)
+		{
+			_eliController.SetAttackTarget(null);
+		}
+		if (_assistantController != null)
+		{
+			_assistantController.SetAttackTarget(null);
+		}
 		DonDestroyMonoSingleton<InputManager>.Instance.EnableInputEvents(GetType());
 		gameController.PlayCutScene(false);
 		RisePlayCutSceneEvent(false);

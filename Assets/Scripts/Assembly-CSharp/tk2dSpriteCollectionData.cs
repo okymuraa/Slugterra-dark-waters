@@ -300,6 +300,10 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 					{
 						int num = ((materialPngTextureId.Length != 0) ? materialPngTextureId[k] : 0);
 						materialInsts[k].mainTexture = textureInsts[num];
+						if (materials[k] != null)
+						{
+							materials[k].mainTexture = textureInsts[num];
+						}
 					}
 				}
 			}

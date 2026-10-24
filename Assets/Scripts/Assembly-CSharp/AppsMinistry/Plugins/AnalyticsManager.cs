@@ -279,7 +279,10 @@ namespace AppsMinistry.Plugins
 
 		public static void LogException(string description, bool isFatal = false)
 		{
-			GoogleAnalyticsV4.instance.LogException(description, isFatal);
+			if (GoogleAnalyticsV4.instance != null)
+			{
+				GoogleAnalyticsV4.instance.LogException(description, isFatal);
+			}
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
 			dictionary.Add("Desription", description);
 			dictionary.Add("isFatal", isFatal.ToString());
@@ -287,14 +290,20 @@ namespace AppsMinistry.Plugins
 
 		public static void LogScene(string screenName)
 		{
-			GoogleAnalyticsV4.instance.LogScreen(screenName);
+			if (GoogleAnalyticsV4.instance != null)
+			{
+				GoogleAnalyticsV4.instance.LogScreen(screenName);
+			}
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
 			dictionary.Add("sceneOpened", screenName);
 		}
 
 		public static void LogEvent(string category, string action, string label = "", int value = 0)
 		{
-			GoogleAnalyticsV4.instance.LogEvent(category, action, label, value);
+			if (GoogleAnalyticsV4.instance != null)
+			{
+				GoogleAnalyticsV4.instance.LogEvent(category, action, label, value);
+			}
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
 			dictionary.Add("action", action);
 			dictionary.Add("label", label);
@@ -303,7 +312,10 @@ namespace AppsMinistry.Plugins
 
 		public static void LogInApp(string transactionId, string name, string SKU, float price, int quantity = 1, string category = "", string currencyCode = "")
 		{
-			GoogleAnalyticsV4.instance.LogItem(transactionId, name, SKU, category, price, quantity, currencyCode);
+			if (GoogleAnalyticsV4.instance != null)
+			{
+				GoogleAnalyticsV4.instance.LogItem(transactionId, name, SKU, category, price, quantity, currencyCode);
+			}
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
 			dictionary.Add("transactionId", transactionId);
 			dictionary.Add("productName", name);

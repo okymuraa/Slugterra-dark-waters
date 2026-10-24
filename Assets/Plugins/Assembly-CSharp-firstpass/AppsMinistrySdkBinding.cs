@@ -18,7 +18,14 @@ public class AppsMinistrySdkBinding
 
 	private AppsMinistrySdkBinding()
 	{
-		appsMinistrySdk = new AppsMinistrySdk_Android();
+		if (UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android && !UnityEngine.Application.isEditor)
+		{
+			appsMinistrySdk = new AppsMinistrySdk_Android();
+		}
+		else
+		{
+			appsMinistrySdk = new AppsMinistrySdk_Dummy();
+		}
 	}
 
 	public void AppsMinistrySdkConfigure(int appId, string key)

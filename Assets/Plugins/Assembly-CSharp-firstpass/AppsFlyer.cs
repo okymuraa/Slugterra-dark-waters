@@ -4,35 +4,52 @@ using UnityEngine;
 
 public class AppsFlyer : MonoBehaviour
 {
-	private static AndroidJavaClass obj = new AndroidJavaClass("com.appsflyer.AppsFlyerLib");
+	private static AndroidJavaClass obj;
 
-	private static AndroidJavaObject cls_AppsFlyer = obj.CallStatic<AndroidJavaObject>("getInstance", new object[0]);
+	private static AndroidJavaObject cls_AppsFlyer;
 
-	private static AndroidJavaClass propertiesClass = new AndroidJavaClass("com.appsflyer.AppsFlyerProperties");
+	private static AndroidJavaClass propertiesClass;
 
-	private static AndroidJavaObject afPropertiesInstance = propertiesClass.CallStatic<AndroidJavaObject>("getInstance", new object[0]);
+	private static AndroidJavaObject afPropertiesInstance;
 
-	private static AndroidJavaClass cls_AppsFlyerHelper = new AndroidJavaClass("com.appsflyer.AppsFlyerUnityHelper");
+	private static AndroidJavaClass cls_AppsFlyerHelper;
 
 	private static string devKey;
 
+	private static bool IsAndroidRuntime
+	{
+		get
+		{
+			return Application.platform == RuntimePlatform.Android && !Application.isEditor;
+		}
+	}
+
 	public static void trackEvent(string eventName, string eventValue)
 	{
-		MonoBehaviour.print("AF.cs this is deprecated method. please use trackRichEvent instead. nothing is sent.");
 	}
 
 	public static void setCurrencyCode(string currencyCode)
 	{
-		cls_AppsFlyer.Call("setCurrencyCode", currencyCode);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setCurrencyCode", currencyCode);
+		}
 	}
 
 	public static void setCustomerUserID(string customerUserID)
 	{
-		cls_AppsFlyer.Call("setAppUserId", customerUserID);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setAppUserId", customerUserID);
+		}
 	}
 
 	public static void loadConversionData(string callbackObject)
 	{
+		if (!IsAndroidRuntime || cls_AppsFlyerHelper == null)
+		{
+			return;
+		}
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
 			using (AndroidJavaObject androidJavaObject = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -50,19 +67,27 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void setCollectIMEI(bool shouldCollect)
 	{
-		cls_AppsFlyer.Call("setCollectIMEI", shouldCollect);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setCollectIMEI", shouldCollect);
+		}
 	}
 
 	public static void setCollectAndroidID(bool shouldCollect)
 	{
-		MonoBehaviour.print("AF.cs setCollectAndroidID");
-		cls_AppsFlyer.Call("setCollectAndroidID", shouldCollect);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setCollectAndroidID", shouldCollect);
+		}
 	}
 
 	public static void init(string key)
 	{
-		MonoBehaviour.print("AF.cs init");
 		devKey = key;
+		if (!IsAndroidRuntime)
+		{
+			return;
+		}
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
 			using (AndroidJavaObject androidJavaObject = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -74,7 +99,10 @@ public class AppsFlyer : MonoBehaviour
 
 	private static void init_cb()
 	{
-		MonoBehaviour.print("AF.cs start tracking");
+		if (!IsAndroidRuntime || cls_AppsFlyer == null)
+		{
+			return;
+		}
 		trackAppLaunch();
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
@@ -88,12 +116,14 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void setAppsFlyerKey(string key)
 	{
-		MonoBehaviour.print("AF.cs setAppsFlyerKey");
 	}
 
 	public static void trackAppLaunch()
 	{
-		MonoBehaviour.print("AF.cs trackAppLaunch");
+		if (!IsAndroidRuntime || cls_AppsFlyer == null)
+		{
+			return;
+		}
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
 			using (AndroidJavaObject androidJavaObject = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -105,12 +135,18 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void setAppID(string packageName)
 	{
-		cls_AppsFlyer.Call("setAppId", packageName);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setAppId", packageName);
+		}
 	}
 
 	public static void createValidateInAppListener(string aObject, string callbackMethod, string callbackFailedMethod)
 	{
-		MonoBehaviour.print("AF.cs createValidateInAppListener called");
+		if (!IsAndroidRuntime || cls_AppsFlyerHelper == null)
+		{
+			return;
+		}
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
 			using (AndroidJavaObject androidJavaObject = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -122,7 +158,10 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void validateReceipt(string publicKey, string purchaseData, string signature, string price, string currency, Dictionary<string, string> extraParams)
 	{
-		MonoBehaviour.print("AF.cs validateReceipt pk = " + publicKey + " data = " + purchaseData + "sig = " + signature);
+		if (!IsAndroidRuntime || cls_AppsFlyer == null)
+		{
+			return;
+		}
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
 			using (AndroidJavaObject androidJavaObject = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -132,7 +171,6 @@ public class AppsFlyer : MonoBehaviour
 				{
 					androidJavaObject2 = ConvertHashMap(extraParams);
 				}
-				MonoBehaviour.print("inside cls_activity");
 				cls_AppsFlyer.Call("validateAndTrackInAppPurchase", androidJavaObject, publicKey, signature, purchaseData, price, currency, androidJavaObject2);
 			}
 		}
@@ -140,6 +178,10 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void trackRichEvent(string eventName, Dictionary<string, string> eventValues)
 	{
+		if (!IsAndroidRuntime || cls_AppsFlyer == null)
+		{
+			return;
+		}
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
 			using (AndroidJavaObject androidJavaObject = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -172,20 +214,26 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void setImeiData(string imeiData)
 	{
-		MonoBehaviour.print("AF.cs setImeiData");
-		cls_AppsFlyer.Call("setImeiData", imeiData);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setImeiData", imeiData);
+		}
 	}
 
 	public static void setAndroidIdData(string androidIdData)
 	{
-		MonoBehaviour.print("AF.cs setImeiData");
-		cls_AppsFlyer.Call("setAndroidIdData", androidIdData);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setAndroidIdData", androidIdData);
+		}
 	}
 
 	public static void setIsDebug(bool isDebug)
 	{
-		MonoBehaviour.print("AF.cs setDebugLog");
-		cls_AppsFlyer.Call("setDebugLog", isDebug);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setDebugLog", isDebug);
+		}
 	}
 
 	public static void setIsSandbox(bool isSandbox)
@@ -202,6 +250,10 @@ public class AppsFlyer : MonoBehaviour
 
 	public static string getAppsFlyerId()
 	{
+		if (!IsAndroidRuntime || cls_AppsFlyer == null)
+		{
+			return string.Empty;
+		}
 		using (AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 		{
 			using (AndroidJavaObject androidJavaObject = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -213,11 +265,18 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void setGCMProjectNumber(string googleGCMNumber)
 	{
-		cls_AppsFlyer.Call("setGCMProjectNumber", googleGCMNumber);
+		if (IsAndroidRuntime && cls_AppsFlyer != null)
+		{
+			cls_AppsFlyer.Call("setGCMProjectNumber", googleGCMNumber);
+		}
 	}
 
 	public static void updateServerUninstallToken(string token)
 	{
+		if (!IsAndroidRuntime)
+		{
+			return;
+		}
 		AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.appsflyer.AppsFlyerLib");
 		AndroidJavaObject androidJavaObject = androidJavaClass.CallStatic<AndroidJavaObject>("getInstance", new object[0]);
 		using (AndroidJavaClass androidJavaClass2 = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -231,6 +290,10 @@ public class AppsFlyer : MonoBehaviour
 
 	public static void enableUninstallTracking(string senderId)
 	{
+		if (!IsAndroidRuntime)
+		{
+			return;
+		}
 		AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.appsflyer.AppsFlyerLib");
 		AndroidJavaObject androidJavaObject = androidJavaClass.CallStatic<AndroidJavaObject>("getInstance", new object[0]);
 		androidJavaObject.Call("updateServerUninstallToken", senderId);

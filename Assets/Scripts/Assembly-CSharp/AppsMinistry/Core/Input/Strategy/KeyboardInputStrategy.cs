@@ -11,6 +11,10 @@ namespace AppsMinistry.Core.Input.Strategy
 
 		private bool showHelp;
 
+		private bool _wasMovingKeyboard;
+
+		private Vector2 _lastMoveDir = Vector2.up;
+
 		public override void Activate()
 		{
 			base.Activate();
@@ -24,58 +28,117 @@ namespace AppsMinistry.Core.Input.Strategy
 		public override void Update()
 		{
 			base.Update();
+			UpdateKeyboardMovement();
+			UpdateMouseCombat();
 			DownKeys();
 			PressKeys();
 			UpKeys();
 		}
 
+		private void UpdateMouseCombat()
+		{
+			if (UnityEngine.Input.GetMouseButtonDown(1))
+			{
+				Use_OnBegineAttack();
+			}
+			float scroll = UnityEngine.Input.GetAxis("Mouse ScrollWheel");
+			if (scroll > 0.05f)
+			{
+				OnUseNextSlug();
+			}
+			else if (scroll < -0.05f)
+			{
+				OnUsePreviousSlug();
+			}
+		}
+
+		private Vector2 GetKeyboardMoveVector()
+		{
+			float x = 0f;
+			float y = 0f;
+			if (GetKeyPress(KeyCode.W) || GetKeyPress(KeyCode.UpArrow))
+			{
+				y += 1f;
+			}
+			if (GetKeyPress(KeyCode.S) || GetKeyPress(KeyCode.DownArrow))
+			{
+				y -= 1f;
+			}
+			if (GetKeyPress(KeyCode.D) || GetKeyPress(KeyCode.RightArrow))
+			{
+				x += 1f;
+			}
+			if (GetKeyPress(KeyCode.A) || GetKeyPress(KeyCode.LeftArrow))
+			{
+				x -= 1f;
+			}
+			Vector2 vec = new Vector2(x, y);
+			if (vec.sqrMagnitude > 1f)
+			{
+				vec.Normalize();
+			}
+			return vec;
+		}
+
+		private void UpdateKeyboardMovement()
+		{
+			if (UnityEngine.Input.GetMouseButton(0) || UnityEngine.Input.GetMouseButton(1))
+			{
+				if (_wasMovingKeyboard)
+				{
+					_wasMovingKeyboard = false;
+					Use_OnMoveEndEvent();
+				}
+				return;
+			}
+			Vector2 moveVec = GetKeyboardMoveVector();
+			if (moveVec.sqrMagnitude > 0.01f)
+			{
+				_wasMovingKeyboard = true;
+				_lastMoveDir = moveVec.normalized;
+				Use_OnMoveEvent(moveVec);
+			}
+			else if (_wasMovingKeyboard)
+			{
+				_wasMovingKeyboard = false;
+				Use_OnMoveEndEvent();
+			}
+		}
+
 		private void DownKeys()
 		{
-			if (GetKeyDown(KeyCode.UpArrow))
+			if (GetKeyDown(KeyCode.UpArrow) || GetKeyDown(KeyCode.W))
 			{
 				Use_OnButtonDown(InputEvent.Up);
-				Use_OnMoveEvent(new Vector2(0f, 1f));
-				if (!timing.ContainsKey(KeyCode.UpArrow))
-				{
-					timing.Add(KeyCode.UpArrow, Time.deltaTime);
-				}
+				timing[KeyCode.UpArrow] = Time.deltaTime;
 			}
-			else if (GetKeyDown(KeyCode.DownArrow))
+			if (GetKeyDown(KeyCode.DownArrow) || GetKeyDown(KeyCode.S))
 			{
 				Use_OnButtonDown(InputEvent.Down);
-				Use_OnMoveEvent(new Vector2(0f, -1f));
-				if (!timing.ContainsKey(KeyCode.DownArrow))
-				{
-					timing.Add(KeyCode.DownArrow, Time.deltaTime);
-				}
+				timing[KeyCode.DownArrow] = Time.deltaTime;
 			}
-			else if (GetKeyDown(KeyCode.LeftArrow))
+			if (GetKeyDown(KeyCode.LeftArrow) || GetKeyDown(KeyCode.A))
 			{
 				Use_OnButtonDown(InputEvent.Left);
-				Use_OnMoveEvent(new Vector2(-1f, 0f));
-				if (!timing.ContainsKey(KeyCode.LeftArrow))
-				{
-					timing.Add(KeyCode.LeftArrow, Time.deltaTime);
-				}
+				timing[KeyCode.LeftArrow] = Time.deltaTime;
 			}
-			else if (GetKeyDown(KeyCode.RightArrow))
+			if (GetKeyDown(KeyCode.RightArrow) || GetKeyDown(KeyCode.D))
 			{
 				Use_OnButtonDown(InputEvent.Right);
-				Use_OnMoveEvent(new Vector2(1f, 0f));
-				if (!timing.ContainsKey(KeyCode.RightArrow))
-				{
-					timing.Add(KeyCode.RightArrow, Time.deltaTime);
-				}
+				timing[KeyCode.RightArrow] = Time.deltaTime;
 			}
-			else if (GetKeyDown(KeyCode.Return))
+			if (GetKeyDown(KeyCode.Space) || GetKeyDown(KeyCode.LeftShift))
+			{
+				Use_OnMoveEndEvent();
+				Use_OnSwipe(_lastMoveDir);
+				Use_OnSwipeClick(_lastMoveDir);
+			}
+			if (GetKeyDown(KeyCode.Return))
 			{
 				Use_OnButtonDown(InputEvent.Enter);
-				if (!timing.ContainsKey(KeyCode.Return))
-				{
-					timing.Add(KeyCode.Return, Time.deltaTime);
-				}
+				timing[KeyCode.Return] = Time.deltaTime;
 			}
-			else if (GetKeyDown(KeyCode.KeypadEnter))
+			else if (GetKeyDown(KeyCode.KeypadEnter) || GetKeyDown(KeyCode.E))
 			{
 				OnUseSlug();
 			}
@@ -87,116 +150,100 @@ namespace AppsMinistry.Core.Input.Strategy
 			{
 				OnUsePreviousPowerUp();
 			}
-			else
+			else if (GetKeyDown(KeyCode.PageUp) || GetKeyDown(KeyCode.Q))
 			{
-				if (GetKeyDown(KeyCode.KeypadPeriod))
-				{
-					return;
-				}
-				if (GetKeyDown(KeyCode.PageUp))
-				{
-					OnUseNextSlug();
-				}
-				else if (GetKeyDown(KeyCode.PageDown))
-				{
-					OnUsePreviousSlug();
-				}
-				else if (GetKeyDown(KeyCode.W))
-				{
-					Use_OnMoveEndEvent();
-					Use_OnSwipeClick(new Vector2(0f, 1f));
-				}
-				else if (GetKeyDown(KeyCode.S))
-				{
-					Use_OnMoveEndEvent();
-					Use_OnSwipeClick(new Vector2(0f, -1f));
-				}
-				else if (GetKeyDown(KeyCode.D))
-				{
-					Use_OnMoveEndEvent();
-					Use_OnSwipeClick(new Vector2(1f, 0f));
-				}
-				else if (GetKeyDown(KeyCode.A))
-				{
-					Use_OnMoveEndEvent();
-					Use_OnSwipeClick(new Vector2(-1f, 0f));
-				}
-				else if (GetKeyDown(KeyCode.Escape))
-				{
-					if (tutorSkipping || !showHelp)
-					{
-					}
-					tutorSkipping = !tutorSkipping;
-					showHelp = false;
-					OnBackBtn();
-				}
+				OnUseNextSlug();
+			}
+			else if (GetKeyDown(KeyCode.PageDown))
+			{
+				OnUsePreviousSlug();
+			}
+			else if (GetKeyDown(KeyCode.Escape))
+			{
+				tutorSkipping = !tutorSkipping;
+				showHelp = false;
+				OnBackBtn();
+			}
+			if (GetKeyDown(KeyCode.Alpha1))
+			{
+				OnUseSlugByIndex(0);
+			}
+			else if (GetKeyDown(KeyCode.Alpha2))
+			{
+				OnUseSlugByIndex(1);
+			}
+			else if (GetKeyDown(KeyCode.Alpha3))
+			{
+				OnUseSlugByIndex(2);
+			}
+		}
+
+		private void OnUseSlugByIndex(int index)
+		{
+			Slugterra.Game.Units.Player.PlayerController localPlayer = UnityEngine.Object.FindObjectOfType<Slugterra.Game.Units.Player.PlayerController>();
+			if (localPlayer != null)
+			{
+				localPlayer.SelectSlugByIndex(index);
 			}
 		}
 
 		private void PressKeys()
 		{
-			if (GetKeyPress(KeyCode.UpArrow))
+			if (GetKeyPress(KeyCode.UpArrow) || GetKeyPress(KeyCode.W))
 			{
 				Use_OnButtonPress(InputEvent.Up);
-				Use_OnMoveEvent(new Vector2(0f, 1f));
-				timing[KeyCode.UpArrow] += Time.deltaTime;
+				timing[KeyCode.UpArrow] = (timing.ContainsKey(KeyCode.UpArrow) ? timing[KeyCode.UpArrow] : 0f) + Time.deltaTime;
 			}
-			else if (GetKeyPress(KeyCode.DownArrow))
+			if (GetKeyPress(KeyCode.DownArrow) || GetKeyPress(KeyCode.S))
 			{
 				Use_OnButtonPress(InputEvent.Down);
-				Use_OnMoveEvent(new Vector2(0f, -1f));
-				timing[KeyCode.DownArrow] += Time.deltaTime;
+				timing[KeyCode.DownArrow] = (timing.ContainsKey(KeyCode.DownArrow) ? timing[KeyCode.DownArrow] : 0f) + Time.deltaTime;
 			}
-			else if (GetKeyPress(KeyCode.LeftArrow))
+			if (GetKeyPress(KeyCode.LeftArrow) || GetKeyPress(KeyCode.A))
 			{
 				Use_OnAccelMoveLeft();
 				Use_OnButtonPress(InputEvent.Left);
-				Use_OnMoveEvent(new Vector2(-1f, 0f));
-				timing[KeyCode.LeftArrow] += Time.deltaTime;
+				timing[KeyCode.LeftArrow] = (timing.ContainsKey(KeyCode.LeftArrow) ? timing[KeyCode.LeftArrow] : 0f) + Time.deltaTime;
 			}
-			else if (GetKeyPress(KeyCode.RightArrow))
+			if (GetKeyPress(KeyCode.RightArrow) || GetKeyPress(KeyCode.D))
 			{
 				Use_OnAccelMoveRight();
 				Use_OnButtonPress(InputEvent.Right);
-				Use_OnMoveEvent(new Vector2(1f, 0f));
-				timing[KeyCode.RightArrow] += Time.deltaTime;
+				timing[KeyCode.RightArrow] = (timing.ContainsKey(KeyCode.RightArrow) ? timing[KeyCode.RightArrow] : 0f) + Time.deltaTime;
 			}
-			else if (GetKeyPress(KeyCode.Return))
+			if (GetKeyPress(KeyCode.Return))
 			{
 				Use_OnButtonPress(InputEvent.Enter);
-				timing[KeyCode.Return] += Time.deltaTime;
+				timing[KeyCode.Return] = (timing.ContainsKey(KeyCode.Return) ? timing[KeyCode.Return] : 0f) + Time.deltaTime;
 			}
 		}
 
 		private void UpKeys()
 		{
-			if (GetKeyUp(KeyCode.UpArrow))
+			if (GetKeyUp(KeyCode.UpArrow) || GetKeyUp(KeyCode.W))
 			{
 				Use_OnButtonUp(InputEvent.Up);
-				Use_OnMoveEndEvent();
 				timing.Remove(KeyCode.UpArrow);
 			}
-			else if (GetKeyUp(KeyCode.DownArrow))
+			if (GetKeyUp(KeyCode.DownArrow) || GetKeyUp(KeyCode.S))
 			{
 				Use_OnButtonUp(InputEvent.Down);
-				Use_OnMoveEndEvent();
 				timing.Remove(KeyCode.DownArrow);
 			}
-			else if (GetKeyUp(KeyCode.LeftArrow))
+			if (GetKeyUp(KeyCode.LeftArrow) || GetKeyUp(KeyCode.A))
 			{
 				Use_OnButtonUp(InputEvent.Left);
-				Use_OnMoveEndEvent();
 				timing.Remove(KeyCode.LeftArrow);
 			}
-			else if (GetKeyUp(KeyCode.RightArrow))
+			if (GetKeyUp(KeyCode.RightArrow) || GetKeyUp(KeyCode.D))
 			{
 				Use_OnButtonUp(InputEvent.Right);
-				Use_OnMoveEndEvent();
 				timing.Remove(KeyCode.RightArrow);
 			}
-			else if (GetKeyUp(KeyCode.Return))
+			if (GetKeyUp(KeyCode.Return))
 			{
-				if (timing[KeyCode.Return] > 0.3f)
+				float held = (timing.ContainsKey(KeyCode.Return) ? timing[KeyCode.Return] : 0f);
+				if (held > 0.3f)
 				{
 					OnOpenMinimap();
 				}
@@ -207,7 +254,7 @@ namespace AppsMinistry.Core.Input.Strategy
 				}
 				timing.Remove(KeyCode.Return);
 			}
-			else if (GetKeyUp(KeyCode.Keypad0))
+			else if (GetKeyUp(KeyCode.Keypad0) || GetKeyUp(KeyCode.Tab))
 			{
 				Use_OnNextTargetBtnEvent();
 			}
@@ -215,9 +262,13 @@ namespace AppsMinistry.Core.Input.Strategy
 			{
 				Use_OnPrevTargetBtnEvent();
 			}
-			else if (GetKeyUp(KeyCode.LeftControl))
+			else if (GetKeyUp(KeyCode.LeftControl) || GetKeyUp(KeyCode.F))
 			{
 				Use_OnBegineAttack();
+			}
+			else if (GetKeyUp(KeyCode.M))
+			{
+				OnOpenMinimap();
 			}
 			else if (GetKeyUp(KeyCode.H) && !tutorSkipping)
 			{

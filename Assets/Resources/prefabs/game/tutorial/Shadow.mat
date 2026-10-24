@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Shadow
-  m_Shader: {fileID: 34, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 4fbb070ef4d472c4aad532308580d910, type: 3}
   m_ShaderKeywords:
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
       _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ec3269131102af942b9d16a6b64e237e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -44,7 +44,7 @@ Material:
       _UVSec: 0
       _ZWrite: 1
     m_Colors:
-      _Color: {r: 0.007352948, g: 0.007352948, b: 0.007352948, a: 0.7176471}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
       _Emission: {r: 0, g: 0, b: 0, a: 0}
       _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
       _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}

@@ -630,6 +630,8 @@ namespace Slugterra.Game.Units.Player
 				DonDestroyMonoSingleton<InputManager>.Instance.OnNextTarget += OnNextTarget;
 				DonDestroyMonoSingleton<InputManager>.Instance.OnPrevTarget += OnPrevTarget;
 				DonDestroyMonoSingleton<InputManager>.Instance.OnBeginAttack += OnBeginAttack;
+				DonDestroyMonoSingleton<InputManager>.Instance.NextSlugEvent += OnNextSlug;
+				DonDestroyMonoSingleton<InputManager>.Instance.PreviousSlugEvent += OnPreviousSlug;
 				if (MonoSingleton<AppController>.Instance.GetCurrentGameLevel().Scene != typeof(DesertBase_1Test))
 				{
 					DonDestroyMonoSingleton<InputManager>.Instance.OnTouch += OnTouch;
@@ -664,6 +666,8 @@ namespace Slugterra.Game.Units.Player
 				DonDestroyMonoSingleton<InputManager>.Instance.OnNextTarget -= OnNextTarget;
 				DonDestroyMonoSingleton<InputManager>.Instance.OnPrevTarget -= OnPrevTarget;
 				DonDestroyMonoSingleton<InputManager>.Instance.OnBeginAttack -= OnBeginAttack;
+				DonDestroyMonoSingleton<InputManager>.Instance.NextSlugEvent -= OnNextSlug;
+				DonDestroyMonoSingleton<InputManager>.Instance.PreviousSlugEvent -= OnPreviousSlug;
 				DonDestroyMonoSingleton<InputManager>.Instance.OnTouch -= OnTouch;
 				if ((bool)_button)
 				{
@@ -803,21 +807,89 @@ namespace Slugterra.Game.Units.Player
 		public virtual void OnBeginAttack()
 		{
 			ShootWithFlopper = true;
-			if (!UseAutoattack)
+			UseAutoattack = true;
+			IsIgnorEnemy = false;
+			RotateToTarget = true;
+			if (AttackTarget == null || !AttackTarget.gameObject.activeSelf)
+			{
+				List<Transform> list = BuildTargetsPriorityList();
+				List<Transform> list2 = list.FindAll(CheckTargetInFOV);
+				if (list2.Count > 0)
+				{
+					AttackTarget = list2[0];
+				}
+				else if (list.Count > 0)
+				{
+					AttackTarget = list[0];
+				}
+			}
+		}
+
+		public void OnNextSlug()
+		{
+			CycleSlug(true);
+		}
+
+		public void OnPreviousSlug()
+		{
+			CycleSlug(false);
+		}
+
+		public void SelectSlugByIndex(int index)
+		{
+			Humanoid humanoid = Model as Humanoid;
+			if (humanoid == null || humanoid.Slugs == null)
 			{
 				return;
 			}
-			if (AttackTarget != null)
+			List<SlugType> available = new List<SlugType>();
+			foreach (KeyValuePair<SlugType, Slug> pair in humanoid.Slugs)
 			{
-				AttackTarget = null;
+				if (pair.Key != SlugType.Flopper && pair.Key != SlugType.None && pair.Value != null && pair.Value.Available)
+				{
+					available.Add(pair.Key);
+				}
+			}
+			if (index >= 0 && index < available.Count)
+			{
+				OnUseSlug(available[index]);
+			}
+		}
+
+		private void CycleSlug(bool forward)
+		{
+			Humanoid humanoid = Model as Humanoid;
+			if (humanoid == null || humanoid.Slugs == null || humanoid.Slugs.Count == 0)
+			{
 				return;
 			}
-			List<Transform> list = BuildTargetsPriorityList();
-			List<Transform> list2 = list.FindAll(CheckTargetInFOV);
-			if (list2.Count > 0)
+			List<SlugType> available = new List<SlugType>();
+			foreach (KeyValuePair<SlugType, Slug> pair in humanoid.Slugs)
 			{
-				AttackTarget = list2[0];
+				if (pair.Key != SlugType.Flopper && pair.Key != SlugType.None && pair.Value != null && pair.Value.Available)
+				{
+					available.Add(pair.Key);
+				}
 			}
+			if (available.Count == 0)
+			{
+				return;
+			}
+			int currentIndex = -1;
+			if (NextSlug != null)
+			{
+				currentIndex = available.IndexOf(NextSlug.Type);
+			}
+			int targetIndex;
+			if (forward)
+			{
+				targetIndex = (currentIndex + 1) % available.Count;
+			}
+			else
+			{
+				targetIndex = (currentIndex - 1 + available.Count) % available.Count;
+			}
+			OnUseSlug(available[targetIndex]);
 		}
 
 		private void OnLinkFinish(LinkCommand command)

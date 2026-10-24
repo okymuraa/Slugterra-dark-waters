@@ -50,9 +50,12 @@ namespace Slugterra.Game.Units.Player.Strategy
 					Controller.PathFinder.target.position = _terrainPosition;
 				}
 			}
-			else if (_tapOn == TapOn.eEnemy && Controller.AttackTarget != _enemy)
+			else if (_tapOn == TapOn.eEnemy)
 			{
 				Controller.AttackTarget = _enemy;
+				Controller.UseAutoattack = true;
+				Controller.IsIgnorEnemy = false;
+				Controller.RotateToTarget = true;
 				flag = Vector3.SqrMagnitude(Controller.AttackTarget.position - Controller.Transform.position) > Mathf.Pow((Controller.Model as Humanoid).Blaster.Range, 2f);
 				if (flag && Controller.PathFinder != null)
 				{
@@ -143,10 +146,25 @@ namespace Slugterra.Game.Units.Player.Strategy
 				}
 				if (Controller.PathFinder != null)
 				{
-					Controller.PathFinder.target.position = Controller.Transform.position + new Vector3(axises.x, 0f, axises.y) * 3f;
+					Vector3 worldDir = new Vector3(axises.x, 0f, axises.y);
+					if (Camera.main != null)
+					{
+						Vector3 camForward = Camera.main.transform.forward;
+						camForward.y = 0f;
+						camForward.Normalize();
+						Vector3 camRight = Camera.main.transform.right;
+						camRight.y = 0f;
+						camRight.Normalize();
+						worldDir = camRight * axises.x + camForward * axises.y;
+					}
+					Controller.PathFinder.target.position = Controller.Transform.position + worldDir * 3f;
+					if (!Controller.PathFinder.target.gameObject.activeSelf)
+					{
+						Controller.PathFinder.target.gameObject.SetActive(true);
+					}
 					Controller.PathFinder.canSearch = true;
 					Controller.PathFinder.canMove = true;
-					Controller.PathFinder.speed = Controller.Model.CurrentSpeed * axises.magnitude;
+					Controller.PathFinder.speed = Controller.Model.CurrentSpeed * Mathf.Clamp01(axises.magnitude);
 				}
 			}
 		}
@@ -157,6 +175,15 @@ namespace Slugterra.Game.Units.Player.Strategy
 			if (_walkCommand != null && _walkCommand.enabled)
 			{
 				_walkCommand.enabled = false;
+			}
+			if (Controller.PathFinder != null)
+			{
+				Controller.PathFinder.canMove = false;
+				Controller.PathFinder.target.position = Controller.Transform.position;
+				if (Controller.PathFinder.target.gameObject.activeSelf)
+				{
+					Controller.PathFinder.target.gameObject.SetActive(false);
+				}
 			}
 		}
 
@@ -200,25 +227,9 @@ namespace Slugterra.Game.Units.Player.Strategy
 
 		public override void OnTouch(Vector3 position, float actionTime)
 		{
-			if (!(actionTime > 0.3f) || !MonoSingleton<GameCollisionMap>.Instance.IsTapOnTerrain(position, out _terrainPosition))
+			if (!MonoSingleton<GameCollisionMap>.Instance.IsTapOnTerrain(position, out _terrainPosition))
 			{
 				return;
-			}
-			if (Controller.PathFinder != null)
-			{
-				Controller.PathFinder.target.position = _terrainPosition;
-			}
-			if (_walkCommand == null)
-			{
-				_walkCommand = MonoCommand.ExecuteOn<WalkAnimationCommand>(Controller.GameObject, new object[1] { Controller });
-			}
-			if (_walkCommand != null && !_walkCommand.enabled)
-			{
-				_walkCommand.enabled = true;
-			}
-			if (Controller.StateMachine.CurrentState != null)
-			{
-				Controller.StateMachine.Terminate();
 			}
 			if (Controller.PathFinder != null)
 			{
@@ -231,17 +242,37 @@ namespace Slugterra.Game.Units.Player.Strategy
 				Controller.PathFinder.canMove = true;
 				Controller.PathFinder.speed = Controller.Model.CurrentSpeed;
 			}
+			if (_walkCommand == null)
+			{
+				_walkCommand = MonoCommand.ExecuteOn<WalkAnimationCommand>(Controller.GameObject, new object[1] { Controller });
+			}
+			if (_walkCommand != null && !_walkCommand.enabled)
+			{
+				_walkCommand.enabled = true;
+			}
+			if (Controller.StateMachine.CurrentState != null && !(Controller.StateMachine.CurrentState is MoveState))
+			{
+				Controller.StateMachine.Terminate();
+			}
 			Controller.Model.Run();
 		}
 
 		public override void OnRelease(Vector3 direction, float actionTime)
 		{
-			if (actionTime > 0.3f)
+			if (actionTime > 0.2f)
 			{
 				Controller.StateMachine.ChangeState<IdleState>(new object[0]);
 				if (_walkCommand != null && _walkCommand.enabled)
 				{
 					_walkCommand.enabled = false;
+				}
+				if (Controller.PathFinder != null)
+				{
+					Controller.PathFinder.canMove = false;
+					if (Controller.PathFinder.target.gameObject.activeSelf)
+					{
+						Controller.PathFinder.target.gameObject.SetActive(false);
+					}
 				}
 			}
 		}

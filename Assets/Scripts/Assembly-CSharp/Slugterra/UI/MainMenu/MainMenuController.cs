@@ -96,14 +96,8 @@ namespace Slugterra.UI.MainMenu
 
 		private void OnMap()
 		{
-			if (PlayerPrefsSystem.HasKey(typeof(ShaneTutor_0_1).Name))
-			{
-				SceneLoader.LoadScene<MapSceneController>();
-			}
-			else
-			{
-				SceneLoader.LoadScene<ShaneTutor_0_1>();
-			}
+			PlayerPrefs.SetInt(typeof(ShaneTutor_0_1).Name, 1);
+			SceneLoader.LoadScene<MapSceneController>();
 		}
 
 		private void OnGameService()

@@ -14,13 +14,13 @@ namespace Slugterra.Scene
 	{
 		protected override void OnLoad()
 		{
-			if (Camera.main.pixelWidth > 1280)
+			if (Camera.main == null || Camera.main.pixelWidth > 1280)
 			{
 				tk2dSystem.CurrentPlatform = "2x";
 			}
 			else
 			{
-				tk2dSystem.CurrentPlatform = "1x";
+				tk2dSystem.CurrentPlatform = "2x";
 			}
 			PhotonNetwork.PhotonServerSettings.AppID = "b88e965e-596d-4f99-b4de-da95caffd865";
 			MonoSingleton<AppController>.Instance.Load();
@@ -44,11 +44,8 @@ namespace Slugterra.Scene
 		private IEnumerator Wait()
 		{
 			yield return new WaitForSeconds(0.4f);
-			Type nextScene = typeof(ShaneTutor_0_1);
-			if (PlayerPrefsSystem.HasKey(typeof(ShaneTutor_0_1).Name))
-			{
-				nextScene = typeof(MainSceneController);
-			}
+			PlayerPrefs.SetInt(typeof(ShaneTutor_0_1).Name, 1);
+			Type nextScene = typeof(MainSceneController);
 			string[] bundlesList = new string[3]
 			{
 				"atlases" + tk2dSystem.CurrentPlatform,

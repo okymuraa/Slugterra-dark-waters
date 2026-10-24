@@ -162,6 +162,10 @@ public class CutScene_2_1_Tutor : MonoBehaviour
 		}
 		if (timer1 > 0.25f)
 		{
+			if (_eliController != null && _eliController.NextSlug != null && _eliController.NextSlug.Type != SlugType.Flopper)
+			{
+				selectsgug = true;
+			}
 			if (targetBot != null)
 			{
 				if (!selectsgug && !cd && Vector3.Magnitude(targetBot.transform.position - _eliController.transform.position) < 16f)

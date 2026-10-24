@@ -24,6 +24,10 @@ public static class CrittercismAndroid
 
 	public static void Init(string appID, CrittercismConfig config)
 	{
+		if (Application.platform != RuntimePlatform.Android || Application.isEditor)
+		{
+			return;
+		}
 		if (isInitialized)
 		{
 			Debug.Log("CrittercismAndroid is already initialized.");

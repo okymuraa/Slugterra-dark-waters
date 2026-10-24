@@ -16,7 +16,7 @@ namespace AppsMinistry.Utils
 		private float _checkInterval = 2f;
 
 		[SerializeField]
-		private bool _isInternetAvailable;
+		private bool _isInternetAvailable = true;
 
 		private bool showconnectionStatus;
 
@@ -28,7 +28,7 @@ namespace AppsMinistry.Utils
 
 		private int urlIndex;
 
-		private string[] networksUrl = new string[4] { "http://ya.ru", "http://www.bing.com/", "http://yahoo.com", "http://google.com" };
+		private string[] networksUrl = new string[4] { "https://ya.ru", "https://www.bing.com/", "https://yahoo.com", "https://google.com" };
 
 		public bool IsInternetAvailable
 		{
@@ -103,6 +103,20 @@ namespace AppsMinistry.Utils
 
 		private IEnumerator CheckAndroidConnection()
 		{
+			if (Application.isEditor || Application.platform != RuntimePlatform.Android)
+			{
+				_isInternetAvailable = Application.internetReachability != NetworkReachability.NotReachable;
+				_pingInWork = false;
+				if (_isInternetAvailable)
+				{
+					OnInternetConnectionAppear();
+				}
+				else
+				{
+					OnInternetConnectionLost();
+				}
+				yield break;
+			}
 			float startTime = Time.realtimeSinceStartup;
 			_pingInWork = true;
 			urlIndex = Mathf.Clamp(urlIndex, 0, networksUrl.Length - 1);

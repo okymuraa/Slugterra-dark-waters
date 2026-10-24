@@ -33,6 +33,10 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	internal void InitializeTracker()
 	{
+		if (Application.platform != RuntimePlatform.Android || Application.isEditor)
+		{
+			return;
+		}
 		Debug.Log("Initializing Google Analytics Android Tracker.");
 		using (AndroidJavaObject androidJavaObject = new AndroidJavaClass("com.google.android.gms.analytics.GoogleAnalytics"))
 		{
@@ -55,6 +59,7 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	internal void SetTrackerVal(Field fieldName, object value)
 	{
+		if (tracker == null) return;
 		object[] args = new object[2]
 		{
 			fieldName.ToString(),
@@ -77,11 +82,13 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	public void SetOptOut(bool optOut)
 	{
+		if (googleAnalyticsSingleton == null) return;
 		googleAnalyticsSingleton.Call("setAppOptOut", optOut);
 	}
 
 	internal void LogScreen(AppViewHitBuilder builder)
 	{
+		if (tracker == null) return;
 		tracker.Call("setScreenName", builder.GetScreenName());
 		AndroidJavaObject androidJavaObject = new AndroidJavaObject("com.google.android.gms.analytics.HitBuilders$ScreenViewBuilder");
 		object[] args = new object[1] { androidJavaObject.Call<AndroidJavaObject>("build", new object[0]) };
@@ -90,6 +97,7 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	internal void LogEvent(EventHitBuilder builder)
 	{
+		if (tracker == null) return;
 		AndroidJavaObject androidJavaObject = new AndroidJavaObject("com.google.android.gms.analytics.HitBuilders$EventBuilder");
 		androidJavaObject.Call<AndroidJavaObject>("setCategory", new object[1] { builder.GetEventCategory() });
 		androidJavaObject.Call<AndroidJavaObject>("setAction", new object[1] { builder.GetEventAction() });
@@ -101,6 +109,7 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	internal void LogTransaction(TransactionHitBuilder builder)
 	{
+		if (tracker == null) return;
 		AndroidJavaObject androidJavaObject = new AndroidJavaObject("com.google.android.gms.analytics.HitBuilders$TransactionBuilder");
 		androidJavaObject.Call<AndroidJavaObject>("setTransactionId", new object[1] { builder.GetTransactionID() });
 		androidJavaObject.Call<AndroidJavaObject>("setAffiliation", new object[1] { builder.GetAffiliation() });
@@ -114,6 +123,7 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	internal void LogItem(ItemHitBuilder builder)
 	{
+		if (tracker == null) return;
 		AndroidJavaObject androidJavaObject = new AndroidJavaObject("com.google.android.gms.analytics.HitBuilders$ItemBuilder");
 		androidJavaObject.Call<AndroidJavaObject>("setTransactionId", new object[1] { builder.GetTransactionID() });
 		androidJavaObject.Call<AndroidJavaObject>("setName", new object[1] { builder.GetName() });
@@ -128,6 +138,7 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	public void LogException(ExceptionHitBuilder builder)
 	{
+		if (tracker == null) return;
 		AndroidJavaObject androidJavaObject = new AndroidJavaObject("com.google.android.gms.analytics.HitBuilders$ExceptionBuilder");
 		androidJavaObject.Call<AndroidJavaObject>("setDescription", new object[1] { builder.GetExceptionDescription() });
 		androidJavaObject.Call<AndroidJavaObject>("setFatal", new object[1] { builder.IsFatal() });
@@ -137,6 +148,7 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	public void LogSocial(SocialHitBuilder builder)
 	{
+		if (tracker == null) return;
 		AndroidJavaObject androidJavaObject = new AndroidJavaObject("com.google.android.gms.analytics.HitBuilders$SocialBuilder");
 		androidJavaObject.Call<AndroidJavaObject>("setAction", new object[1] { builder.GetSocialAction() });
 		androidJavaObject.Call<AndroidJavaObject>("setNetwork", new object[1] { builder.GetSocialNetwork() });
@@ -147,6 +159,7 @@ public class GoogleAnalyticsAndroidV4 : IDisposable
 
 	public void LogTiming(TimingHitBuilder builder)
 	{
+		if (tracker == null) return;
 		AndroidJavaObject androidJavaObject = new AndroidJavaObject("com.google.android.gms.analytics.HitBuilders$TimingBuilder");
 		androidJavaObject.Call<AndroidJavaObject>("setCategory", new object[1] { builder.GetTimingCategory() });
 		androidJavaObject.Call<AndroidJavaObject>("setLabel", new object[1] { builder.GetTimingLabel() });

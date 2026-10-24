@@ -45,8 +45,23 @@ namespace Slugterra.Scene
 			}
 		}
 
+		protected override void OnLoad()
+		{
+			if (string.IsNullOrEmpty(tk2dSystem.CurrentPlatform))
+			{
+				tk2dSystem.CurrentPlatform = "2x";
+			}
+			MonoSingleton<Slugterra.App.AppController>.Instance.Load();
+			base.OnLoad();
+		}
+
 		protected override void OnLoaded()
 		{
+			if (string.IsNullOrEmpty(tk2dSystem.CurrentPlatform))
+			{
+				tk2dSystem.CurrentPlatform = "2x";
+			}
+			MonoSingleton<Slugterra.App.AppController>.Instance.Load();
 			SceneLoader.OnSceneChanged();
 			Time.timeScale = 1f;
 			if (!DonDestroyMonoSingleton<InputManager>.Instance.enabled)

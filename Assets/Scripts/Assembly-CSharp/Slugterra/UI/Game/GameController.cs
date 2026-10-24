@@ -255,9 +255,13 @@ namespace Slugterra.UI.Game
 				{
 					duelSetting = MonoSingleton<AppController>.Instance.Model.DuelSetting;
 					GameObject foe = GameFactory.GetFoe(EnemyType.BossKord.ToString());
-					if (currentGameLevel.Scene != typeof(ScorchedSparksTutorial_1_1) && duelSetting.Foe.Type != string.Empty)
+					if (currentGameLevel.Scene != typeof(ScorchedSparksTutorial_1_1) && duelSetting.Foe != null && !string.IsNullOrEmpty(duelSetting.Foe.Type) && duelSetting.Foe.Type != EnemyType.None.ToString())
 					{
-						foe = GameFactory.GetFoe(duelSetting.Foe.Type);
+						GameObject customFoe = GameFactory.GetFoe(duelSetting.Foe.Type);
+						if (customFoe != null)
+						{
+							foe = customFoe;
+						}
 					}
 					GameObject gameObject2 = UnityEngine.Object.Instantiate(foe);
 					bossController = gameObject2.GetComponentInChildren<BossController>();

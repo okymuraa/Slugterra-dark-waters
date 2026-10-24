@@ -1,6 +1,8 @@
 using AppsMinistry.Core;
 using AppsMinistry.Scene;
+using Slugterra.Configuration;
 using Slugterra.Game.Mission;
+using Slugterra.Game.Units.Player;
 using UnityEngine;
 
 namespace Slugterra.Scene.Game
@@ -71,12 +73,32 @@ namespace Slugterra.Scene.Game
 
 		private void Update()
 		{
+			if (forFence)
+			{
+				PlayerController eli = UnityEngine.Object.FindObjectOfType<PlayerController>();
+				if (eli != null && eli.NextSlug != null && eli.NextSlug.Type != SlugType.Flopper)
+				{
+					ArrowTurnOn();
+				}
+			}
 			if (Fence == null && forFence)
 			{
-				Arrow.SetActive(false);
-				_infurnus.OnClick -= ArrowTurnOn;
-				_ButtonTemp1.OnClick -= ArrowTurnOn;
-				_ButtonTemp2.OnClick -= ArrowTurnOn;
+				if (Arrow != null)
+				{
+					Arrow.SetActive(false);
+				}
+				if (_infurnus != null)
+				{
+					_infurnus.OnClick -= ArrowTurnOn;
+				}
+				if (_ButtonTemp1 != null)
+				{
+					_ButtonTemp1.OnClick -= ArrowTurnOn;
+				}
+				if (_ButtonTemp2 != null)
+				{
+					_ButtonTemp2.OnClick -= ArrowTurnOn;
+				}
 				forFence = false;
 			}
 		}
