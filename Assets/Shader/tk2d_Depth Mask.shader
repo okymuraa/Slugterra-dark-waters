@@ -6,7 +6,7 @@ Shader "tk2d/Depth Mask" {
 		Tags { "Queue"="Transparent-100" "IgnoreProjector"="True" }
 		Pass {
 			ColorMask 0
-			ZWrite On
+			ZWrite Off
 			Cull Off
 			Lighting Off
 			CGPROGRAM

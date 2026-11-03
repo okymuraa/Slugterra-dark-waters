@@ -343,6 +343,7 @@ namespace Slugterra.Game.Units.Enemy
 
 		protected virtual void OnEnable()
 		{
+			SnapToGroundOnce();
 			ViewArea.OnTriggerEnterEvent += OnPlayerAreaEnter;
 			ViewArea.OnTriggerExitEvent += OnPlayerAreaExit;
 		}
@@ -518,8 +519,12 @@ namespace Slugterra.Game.Units.Enemy
 		protected override void OnUpdate()
 		{
 			base.OnUpdate();
-			if ((StateMachine.CurrentState is HideState || StateMachine.CurrentState is ChaseState) && AttackTarget != null && RotateToTarget)
+			if ((StateMachine.CurrentState is HideState || StateMachine.CurrentState is ChaseState) && AttackTarget != null)
 			{
+				if (!RotateToTarget)
+				{
+					RotateToTarget = true;
+				}
 				OnFire();
 			}
 		}

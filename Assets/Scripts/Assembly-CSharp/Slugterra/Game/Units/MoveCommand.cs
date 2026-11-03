@@ -8,7 +8,7 @@ namespace Slugterra.Game.Units
 	[SingletonCommand]
 	public class MoveCommand : MonoCommand<MoveCommand>, IObserver
 	{
-		private const float HOLD_TIME = 0.2f;
+		private const float HOLD_TIME = 1.2f;
 
 		private UnitController _controller;
 
@@ -76,11 +76,15 @@ namespace Slugterra.Game.Units
 			{
 				if (_holdTime < 0f)
 				{
-					_holdTime = Time.time + 0.2f;
+					_holdTime = Time.time + HOLD_TIME;
 				}
 				else if (_holdTime < Time.time)
 				{
 					Finish();
+				}
+				else if (_holdTime - Time.time < 0.6f && _controller.PathFinder != null && _controller.PathFinder.canSearch)
+				{
+					_controller.PathFinder.SearchPath();
 				}
 			}
 			else

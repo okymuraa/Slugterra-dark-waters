@@ -172,6 +172,11 @@ public abstract class tk2dBaseSprite : MonoBehaviour, ISpriteCollectionForceBuil
 			if (value != _spriteId)
 			{
 				InitInstance();
+				if (collectionInst == null || collectionInst.spriteDefinitions == null || collectionInst.spriteDefinitions.Length == 0)
+				{
+					_spriteId = value;
+					return;
+				}
 				value = Mathf.Clamp(value, 0, collectionInst.spriteDefinitions.Length - 1);
 				if (_spriteId < 0 || _spriteId >= collectionInst.spriteDefinitions.Length || GetCurrentVertexCount() != collectionInst.spriteDefinitions[value].positions.Length || collectionInst.spriteDefinitions[_spriteId].complexGeometry != collectionInst.spriteDefinitions[value].complexGeometry)
 				{
@@ -198,7 +203,12 @@ public abstract class tk2dBaseSprite : MonoBehaviour, ISpriteCollectionForceBuil
 		get
 		{
 			InitInstance();
-			return (!(collectionInst == null)) ? collectionInst.spriteDefinitions[_spriteId] : null;
+			if (collectionInst != null && collectionInst.spriteDefinitions != null && collectionInst.spriteDefinitions.Length > 0)
+			{
+				int id = Mathf.Clamp(_spriteId, 0, collectionInst.spriteDefinitions.Length - 1);
+				return collectionInst.spriteDefinitions[id];
+			}
+			return null;
 		}
 	}
 
@@ -228,7 +238,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, ISpriteCollectionForceBuil
 		}
 	}
 
-	private void InitInstance()
+	protected void InitInstance()
 	{
 		if (collectionInst == null && collection != null)
 		{
@@ -423,15 +433,31 @@ public abstract class tk2dBaseSprite : MonoBehaviour, ISpriteCollectionForceBuil
 	public Bounds GetBounds()
 	{
 		InitInstance();
-		tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[_spriteId];
-		return new Bounds(new Vector3(tk2dSpriteDefinition2.boundsData[0].x * _scale.x, tk2dSpriteDefinition2.boundsData[0].y * _scale.y, tk2dSpriteDefinition2.boundsData[0].z * _scale.z), new Vector3(tk2dSpriteDefinition2.boundsData[1].x * Mathf.Abs(_scale.x), tk2dSpriteDefinition2.boundsData[1].y * Mathf.Abs(_scale.y), tk2dSpriteDefinition2.boundsData[1].z * Mathf.Abs(_scale.z)));
+		if (collectionInst != null && collectionInst.spriteDefinitions != null && collectionInst.spriteDefinitions.Length > 0)
+		{
+			int id = Mathf.Clamp(_spriteId, 0, collectionInst.spriteDefinitions.Length - 1);
+			tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[id];
+			if (tk2dSpriteDefinition2 != null && tk2dSpriteDefinition2.boundsData != null && tk2dSpriteDefinition2.boundsData.Length >= 2)
+			{
+				return new Bounds(new Vector3(tk2dSpriteDefinition2.boundsData[0].x * _scale.x, tk2dSpriteDefinition2.boundsData[0].y * _scale.y, tk2dSpriteDefinition2.boundsData[0].z * _scale.z), new Vector3(tk2dSpriteDefinition2.boundsData[1].x * Mathf.Abs(_scale.x), tk2dSpriteDefinition2.boundsData[1].y * Mathf.Abs(_scale.y), tk2dSpriteDefinition2.boundsData[1].z * Mathf.Abs(_scale.z)));
+			}
+		}
+		return new Bounds(Vector3.zero, Vector3.one);
 	}
 
 	public Bounds GetUntrimmedBounds()
 	{
 		InitInstance();
-		tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[_spriteId];
-		return new Bounds(new Vector3(tk2dSpriteDefinition2.untrimmedBoundsData[0].x * _scale.x, tk2dSpriteDefinition2.untrimmedBoundsData[0].y * _scale.y, tk2dSpriteDefinition2.untrimmedBoundsData[0].z * _scale.z), new Vector3(tk2dSpriteDefinition2.untrimmedBoundsData[1].x * Mathf.Abs(_scale.x), tk2dSpriteDefinition2.untrimmedBoundsData[1].y * Mathf.Abs(_scale.y), tk2dSpriteDefinition2.untrimmedBoundsData[1].z * Mathf.Abs(_scale.z)));
+		if (collectionInst != null && collectionInst.spriteDefinitions != null && collectionInst.spriteDefinitions.Length > 0)
+		{
+			int id = Mathf.Clamp(_spriteId, 0, collectionInst.spriteDefinitions.Length - 1);
+			tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[id];
+			if (tk2dSpriteDefinition2 != null && tk2dSpriteDefinition2.untrimmedBoundsData != null && tk2dSpriteDefinition2.untrimmedBoundsData.Length >= 2)
+			{
+				return new Bounds(new Vector3(tk2dSpriteDefinition2.untrimmedBoundsData[0].x * _scale.x, tk2dSpriteDefinition2.untrimmedBoundsData[0].y * _scale.y, tk2dSpriteDefinition2.untrimmedBoundsData[0].z * _scale.z), new Vector3(tk2dSpriteDefinition2.untrimmedBoundsData[1].x * Mathf.Abs(_scale.x), tk2dSpriteDefinition2.untrimmedBoundsData[1].y * Mathf.Abs(_scale.y), tk2dSpriteDefinition2.untrimmedBoundsData[1].z * Mathf.Abs(_scale.z)));
+			}
+		}
+		return new Bounds(Vector3.zero, Vector3.one);
 	}
 
 	public static Bounds AdjustedMeshBounds(Bounds bounds, int renderLayer)
@@ -444,8 +470,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, ISpriteCollectionForceBuil
 
 	public tk2dSpriteDefinition GetCurrentSpriteDef()
 	{
-		InitInstance();
-		return (!(collectionInst == null)) ? collectionInst.spriteDefinitions[_spriteId] : null;
+		return CurrentSprite;
 	}
 
 	public virtual void ReshapeBounds(Vector3 dMin, Vector3 dMax)

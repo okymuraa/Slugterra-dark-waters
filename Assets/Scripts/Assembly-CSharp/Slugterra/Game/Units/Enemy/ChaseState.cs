@@ -53,18 +53,33 @@ namespace Slugterra.Game.Units.Enemy
 				{
 					MoveToRandomPoint();
 				}
+				else
+				{
+					MoveToTarget();
+				}
 			}
 			else if (num < _chance)
 			{
 				Transform optimalPoint = node.GetOptimalPoint(Controller.Transform.position, Controller.AttackTarget.position, _distanceForFire);
-				if (_oldWarNode != null && _oldWarPoint != null)
+				if (optimalPoint != null)
 				{
-					_oldWarNode.ReleasePoint(_oldWarPoint);
+					if (_oldWarNode != null && _oldWarPoint != null)
+					{
+						_oldWarNode.ReleasePoint(_oldWarPoint);
+					}
+					_oldWarNode = node;
+					_oldWarPoint = optimalPoint;
+					_moveCommand = MonoCommand.ExecuteOn<MoveCommand>(gameObject, new object[3] { Controller, optimalPoint, 0.45f });
+					_moveCommand.AsyncToken.AddResponder(new Responder<MoveCommand>(OnMoveFinish));
 				}
-				_oldWarNode = node;
-				_oldWarPoint = optimalPoint;
-				_moveCommand = MonoCommand.ExecuteOn<MoveCommand>(gameObject, new object[3] { Controller, optimalPoint, 0.45f });
-				_moveCommand.AsyncToken.AddResponder(new Responder<MoveCommand>(OnMoveFinish));
+				else
+				{
+					MoveToTarget();
+				}
+			}
+			else
+			{
+				MoveToTarget();
 			}
 		}
 

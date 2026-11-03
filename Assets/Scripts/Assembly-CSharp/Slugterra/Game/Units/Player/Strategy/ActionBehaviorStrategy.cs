@@ -26,10 +26,7 @@ namespace Slugterra.Game.Units.Player.Strategy
 
 		public override void OnUpdate()
 		{
-			if (Controller.AttackTarget == null)
-			{
-				AimAtAggressor();
-			}
+			// Pure manual targeting: disabled AimAtAggressor() and UpdateTarget()
 			if (Controller.PickUpArea.Items.Count > 0)
 			{
 				Controller.OnPickUp();
@@ -37,14 +34,6 @@ namespace Slugterra.Game.Units.Player.Strategy
 			if (Controller.NextSlug == null)
 			{
 				Controller.SetNextSlug(SlugType.Flopper);
-			}
-			if (Controller.IsTPCMode)
-			{
-				Type scene = MonoSingleton<AppController>.Instance.GetCurrentGameLevel().Scene;
-				if (scene != typeof(ShopSceneController) && scene != typeof(BackpackSceneController) && scene != typeof(MultiplayerSceneController) && Controller.AttackTarget == null && Controller.NextReaim < Time.time && Controller.GameController.Model.State == GameState.Play && Controller.UseAutoattack)
-				{
-					UpdateTarget();
-				}
 			}
 			if (Controller.AttackTarget == null)
 			{
@@ -55,20 +44,36 @@ namespace Slugterra.Game.Units.Player.Strategy
 				Controller.AttackTarget = null;
 				return;
 			}
+			UnitController targetUnit = Controller.AttackTarget.GetComponent<UnitController>();
+			if (targetUnit != null && targetUnit.Model != null && (targetUnit.Model.IsDead() || targetUnit.Model.Invulnerability))
+			{
+				Controller.AttackTarget = null;
+				if (targetUnit.Model.Invulnerability)
+				{
+					Controller.UseAutoattack = false;
+					Controller.DamageSystem.Clear();
+				}
+				return;
+			}
 			Collider component = Controller.AttackTarget.GetComponent<Collider>();
 			if (component == null || (component != null && !component.enabled))
 			{
 				Controller.AttackTarget = null;
+				return;
 			}
-			else if (!(Controller.NextFire > Time.time))
+			if (!Controller.IsTPCMode)
 			{
-				if (!Controller.IsReloadSlug && !Controller.IsIgnorEnemy && _fireCommand == null && Controller.IsCanUseSlug(Controller.NextSlug))
+				CheckAttackTargetInFOV();
+				if (Controller.AttackTarget == null)
+				{
+					return;
+				}
+			}
+			if (!(Controller.NextFire > Time.time))
+			{
+				if (Controller.CanAttack && !Controller.IsReloadSlug && !Controller.IsIgnorEnemy && _fireCommand == null && Controller.IsCanUseSlug(Controller.NextSlug))
 				{
 					Attack();
-				}
-				if (!Controller.IsTPCMode)
-				{
-					CheckAttackTargetInFOV();
 				}
 			}
 		}
@@ -87,6 +92,7 @@ namespace Slugterra.Game.Units.Player.Strategy
 				if (component is UnitController)
 				{
 					Controller.AttackTarget = transform;
+					Controller.RotateToTarget = true;
 				}
 			}
 		}
@@ -97,7 +103,7 @@ namespace Slugterra.Game.Units.Player.Strategy
 			{
 				Transform unitLastDamage = Controller.DamageSystem.UnitLastDamage;
 				UnitController component = unitLastDamage.GetComponent<UnitController>();
-				if (component != null && !component.Model.IsDead())
+				if (component != null && !component.Model.IsDead() && !component.Model.Invulnerability)
 				{
 					Controller.AttackTarget = unitLastDamage;
 				}
@@ -106,7 +112,7 @@ namespace Slugterra.Game.Units.Player.Strategy
 			{
 				Transform unitMaxDamage = Controller.DamageSystem.UnitMaxDamage;
 				UnitController component2 = unitMaxDamage.GetComponent<UnitController>();
-				if (component2 != null && !component2.Model.IsDead())
+				if (component2 != null && !component2.Model.IsDead() && !component2.Model.Invulnerability)
 				{
 					Controller.AttackTarget = unitMaxDamage;
 				}
@@ -115,10 +121,14 @@ namespace Slugterra.Game.Units.Player.Strategy
 
 		private void CheckAttackTargetInFOV()
 		{
+			if (_camera == null)
+			{
+				_camera = Camera.main;
+			}
 			if (!(_camera == null) && Controller.AttackTarget != null)
 			{
 				Vector3 vector = _camera.WorldToViewportPoint(Controller.AttackTarget.position);
-				if (vector.x < -0.01f || 1.01f < vector.x || vector.y < -0.01f || 1.01f < vector.y)
+				if (vector.z <= 0f || vector.x < -0.15f || 1.15f < vector.x || vector.y < -0.15f || 1.15f < vector.y)
 				{
 					Controller.AttackTarget = null;
 				}

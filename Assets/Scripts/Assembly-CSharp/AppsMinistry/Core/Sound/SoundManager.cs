@@ -18,7 +18,7 @@ namespace AppsMinistry.Core.Sound
 			{
 				if (_soundPrefab == null)
 				{
-					_soundPrefab = Resources.Load("Prefabs/Sounds/SoundItem") as GameObject;
+					_soundPrefab = Resources.Load("prefabs/sounds/SoundItem") as GameObject ?? Resources.Load("Prefabs/Sounds/SoundItem") as GameObject;
 				}
 				return _soundPrefab;
 			}
@@ -65,7 +65,16 @@ namespace AppsMinistry.Core.Sound
 				return;
 			}
 			_sounds[name] = path;
-			_loadedSound[name] = Resources.Load(path) as AudioClip;
+			AudioClip clip = Resources.Load(path) as AudioClip;
+			if (clip == null && !string.IsNullOrEmpty(path))
+			{
+				clip = Resources.Load(path.ToLower()) as AudioClip;
+				if (clip == null && path.StartsWith("Sounds/", System.StringComparison.OrdinalIgnoreCase))
+				{
+					clip = Resources.Load("sounds/" + path.Substring(7)) as AudioClip;
+				}
+			}
+			_loadedSound[name] = clip;
 		}
 
 		public SoundItem Play(string name)

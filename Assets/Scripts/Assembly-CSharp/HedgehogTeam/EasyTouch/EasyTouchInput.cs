@@ -24,7 +24,7 @@ namespace HedgehogTeam.EasyTouch
 
 		public int TouchCount()
 		{
-			return getTouchCount(true);
+			return getTouchCount(Application.isMobilePlatform);
 		}
 
 		private int getTouchCount(bool realTouch)

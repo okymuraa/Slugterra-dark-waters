@@ -44,6 +44,10 @@ namespace Slugterra.Game.Units.Player.Strategy
 			}
 			if (Controller.StateMachine.CurrentState != null)
 			{
+				if (Controller.StateMachine.CurrentState is RollState)
+				{
+					return;
+				}
 				Controller.StateMachine.Terminate();
 			}
 			Controller.PathFinder.target.position = Controller.Transform.position + new Vector3(axises.x, 0f, axises.y) * 3f;
@@ -55,6 +59,10 @@ namespace Slugterra.Game.Units.Player.Strategy
 
 		public override void OnMoveEnd()
 		{
+			if (Controller.StateMachine.CurrentState is RollState)
+			{
+				return;
+			}
 			Controller.StateMachine.ChangeState<IdleState>(new object[0]);
 			if (_walkCommand != null && _walkCommand.enabled)
 			{

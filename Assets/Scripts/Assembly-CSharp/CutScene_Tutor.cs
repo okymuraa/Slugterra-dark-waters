@@ -455,7 +455,9 @@ public class CutScene_Tutor : SlugterraCutScene
 
 	private bool checkSkip;
 
-	public bool skipTutorialCutscenes = true;
+	public bool skipTutorialCutscenes = false;
+
+	private bool _nachoFired;
 
 	private void Start()
 	{
@@ -639,11 +641,8 @@ public class CutScene_Tutor : SlugterraCutScene
 			StopAllCoroutines();
 			SourcePart_0.lockNachoFire = true;
 			StartCoroutine(_part_default(0.5f, 2f));
-			if (_skip)
-			{
-				StartCoroutine(_part_0_skip(0.5f));
-				_skip = false;
-			}
+			StartCoroutine(_part_0_skip(0.5f));
+			_skip = false;
 			_cutScenePart = CutScenePart.Part_1;
 			part_0 = false;
 		}
@@ -661,44 +660,32 @@ public class CutScene_Tutor : SlugterraCutScene
 		{
 			StopAllCoroutines();
 			StartCoroutine(_part_default(0.5f, 0f));
-			if (_skip)
-			{
-				StartCoroutine(_part_2_skip(0.5f));
-				_skip = false;
-			}
+			StartCoroutine(_part_2_skip(0.5f));
+			_skip = false;
 			part_2 = false;
 		}
 		if (part_3)
 		{
 			StopAllCoroutines();
 			StartCoroutine(_part_default(0.5f));
-			if (_skip)
-			{
-				StartCoroutine(_part_3_skip(0.5f));
-				_skip = false;
-			}
+			StartCoroutine(_part_3_skip(0.5f));
+			_skip = false;
 			part_3 = false;
 		}
 		if (part_4)
 		{
 			StopAllCoroutines();
 			StartCoroutine(_part_default(0.5f));
-			if (_skip)
-			{
-				StartCoroutine(_part_4_skip(0.5f));
-				_skip = false;
-			}
+			StartCoroutine(_part_4_skip(0.5f));
+			_skip = false;
 			part_4 = false;
 		}
 		if (part_5)
 		{
 			StopAllCoroutines();
 			StartCoroutine(_part_default(0.5f));
-			if (_skip)
-			{
-				StartCoroutine(_part_5_skip(0.5f));
-				_skip = false;
-			}
+			StartCoroutine(_part_5_skip(0.5f));
+			_skip = false;
 			part_5 = false;
 		}
 	}
@@ -1080,15 +1067,35 @@ public class CutScene_Tutor : SlugterraCutScene
 	private IEnumerator _part_0_start_0(float t)
 	{
 		yield return new WaitForSeconds(t);
-		SourcePart_0.Nacho.SetTrigger("IntroStart");
+		if (SourcePart_0.Nacho != null)
+		{
+			SourcePart_0.Nacho.SetTrigger("IntroStart");
+		}
+		StartCoroutine(_nachoFireFallback(SourcePart_0.weitFire > 0f ? SourcePart_0.weitFire : 4f));
+	}
+
+	private IEnumerator _nachoFireFallback(float fallbackDelay)
+	{
+		yield return new WaitForSeconds(fallbackDelay);
+		if (!SourcePart_0.lockNachoFire && !_nachoFired)
+		{
+			NachoFireEvent();
+		}
 	}
 
 	public void NachoFireEvent()
 	{
-		if (!SourcePart_0.lockNachoFire)
+		if (!SourcePart_0.lockNachoFire && !_nachoFired)
 		{
-			SourcePart_0.NachoShoot.Play();
-			SourcePart_0.Fly.Play();
+			_nachoFired = true;
+			if (SourcePart_0.NachoShoot != null)
+			{
+				SourcePart_0.NachoShoot.Play();
+			}
+			if (SourcePart_0.Fly != null)
+			{
+				SourcePart_0.Fly.Play();
+			}
 			StartCoroutine(_part_0_start_1(0f));
 		}
 	}
@@ -1096,66 +1103,158 @@ public class CutScene_Tutor : SlugterraCutScene
 	private IEnumerator _part_0_start_1(float t)
 	{
 		yield return new WaitForSeconds(t);
-		StartCoroutine(AnimationPlay(MainCamera, 1f, SourcePart_0.FlyForSlug.name));
-		SourcePart_0.Slug.gameObject.SetActive(true);
-		int allyLayer = LayerMask.NameToLayer("AllyLayer");
-		int neutralLayer = LayerMask.NameToLayer("NeutralLayer");
-		SourcePart_0.Slug.SetSlug(new Slug(SlugType.InfurnusGhoul, 1));
-		SourcePart_0.Slug.Parent = SourceCommon._sentinelController;
-		SlugStrategy slugStrategy = new EnemySlugStrategy(SourcePart_0.Slug, new int[2] { allyLayer, neutralLayer });
-		SourcePart_0.Slug.SetStrategy(slugStrategy);
+		if (SourcePart_0.FlyForSlug != null && MainCamera != null && MainCamera.GetComponent<Animation>() != null)
+		{
+			StartCoroutine(AnimationPlay(MainCamera, 1f, SourcePart_0.FlyForSlug.name));
+		}
+		if (SourcePart_0.Slug != null)
+		{
+			SourcePart_0.Slug.gameObject.SetActive(true);
+			int allyLayer = LayerMask.NameToLayer("AllyLayer");
+			int neutralLayer = LayerMask.NameToLayer("NeutralLayer");
+			SourcePart_0.Slug.SetSlug(new Slug(SlugType.InfurnusGhoul, 1));
+			if (SourceCommon._sentinelController == null)
+			{
+				SourceCommon._sentinelController = UnityEngine.Object.FindObjectOfType<SentinelController>();
+			}
+			SourcePart_0.Slug.Parent = SourceCommon._sentinelController;
+			SlugStrategy slugStrategy = new EnemySlugStrategy(SourcePart_0.Slug, new int[2] { allyLayer, neutralLayer });
+			SourcePart_0.Slug.SetStrategy(slugStrategy);
+		}
 		yield return new WaitForSeconds(SourcePart_0.weitAfterFire);
-		SourcePart_0.SplineCamera.enabled = true;
-		SourcePart_0.Nacho.SetTrigger("IntroEnd");
-		StartCoroutine(_part_0_start_2(SourcePart_0.FlyForSlug.length + SourcePart_0.weitWow));
+		if (SourcePart_0.SplineCamera != null)
+		{
+			SourcePart_0.SplineCamera.enabled = true;
+		}
+		if (SourcePart_0.Nacho != null)
+		{
+			SourcePart_0.Nacho.SetTrigger("IntroEnd");
+		}
+		float delayToWow = (SourcePart_0.FlyForSlug != null ? SourcePart_0.FlyForSlug.length : 3f) + SourcePart_0.weitWow;
+		StartCoroutine(_part_0_start_2(delayToWow));
 	}
 
 	private IEnumerator _part_0_start_2(float t)
 	{
 		yield return new WaitForSeconds(t);
-		StartCoroutine(AnimationPlay(SourcePart_0.wow.gameObject, 1f, SourcePart_0.wowClip.name));
-		StartCoroutine(TextHint(1f, 0f, 0f, "icon_pronto", text[0]));
-		SourcePart_0.SplineCamera.enabled = false;
-		StartCoroutine(_part_0_start_3(SourcePart_0.wowClip.length));
+		if (SourcePart_0.wow != null && SourcePart_0.wowClip != null)
+		{
+			StartCoroutine(AnimationPlay(SourcePart_0.wow.gameObject, 1f, SourcePart_0.wowClip.name));
+		}
+		if (text != null && text.Length > 0)
+		{
+			StartCoroutine(TextHint(1f, 0f, 0f, "icon_pronto", text[0]));
+		}
+		if (SourcePart_0.SplineCamera != null)
+		{
+			SourcePart_0.SplineCamera.enabled = false;
+		}
+		float wowLen = (SourcePart_0.wowClip != null ? SourcePart_0.wowClip.length : 2f);
+		StartCoroutine(_part_0_start_3(wowLen));
 	}
 
 	private IEnumerator _part_0_start_3(float t)
 	{
 		yield return new WaitForSeconds(t);
-		_eliController.gameObject.SetActive(true);
-		_prontoController.gameObject.SetActive(true);
-		SourcePart_0.wow.gameObject.SetActive(false);
-		StartCoroutine(MoveTargetUnit(_prontoController, 4f, SourcePart_0.Pronto_point_0.position, 0.5f));
-		StartCoroutine(MoveTargetUnit(_eliController, 4f, SourcePart_0.Eli_point_0.position, 1f));
+		if (_eliController != null)
+		{
+			_eliController.gameObject.SetActive(true);
+		}
+		if (_prontoController != null)
+		{
+			_prontoController.gameObject.SetActive(true);
+		}
+		if (SourcePart_0.wow != null)
+		{
+			SourcePart_0.wow.gameObject.SetActive(false);
+		}
+		if (_prontoController != null && SourcePart_0.Pronto_point_0 != null)
+		{
+			StartCoroutine(MoveTargetUnit(_prontoController, 4f, SourcePart_0.Pronto_point_0.position, 0.5f));
+		}
+		if (_eliController != null && SourcePart_0.Eli_point_0 != null)
+		{
+			StartCoroutine(MoveTargetUnit(_eliController, 4f, SourcePart_0.Eli_point_0.position, 1f));
+		}
 		StartCoroutine(SetActiveHelpTrue("skip", null, Vector3.zero, 1f));
-		StartCoroutine(SetActiveTrue(SourcePart_0.wallAdded, 2f));
+		if (SourcePart_0.wallAdded != null)
+		{
+			StartCoroutine(SetActiveTrue(SourcePart_0.wallAdded, 2f));
+		}
 	}
 
 	private IEnumerator _part_0_skip(float t)
 	{
 		yield return new WaitForSeconds(t);
-		_eliController.gameObject.SetActive(true);
-		_eliController.transform.position = SourcePart_0.Eli_point_0.position;
-		_eliController.transform.rotation = SourcePart_0.Eli_point_0.rotation;
-		_eliController.Animator.transform.localEulerAngles = Vector3.zero;
-		_prontoController.gameObject.SetActive(true);
-		_prontoController.transform.position = SourcePart_0.Pronto_point_0.position;
-		_prontoController.transform.rotation = SourcePart_0.Pronto_point_0.rotation;
-		_prontoController.Animator.transform.localEulerAngles = Vector3.zero;
-		SourcePart_0.wow.gameObject.SetActive(false);
-		StartCoroutine(AnimationPlay(SourceCommon.Most1.gameObject, 1f, "up"));
-		StartCoroutine(AnimationPlay(SourceCommon.Most2.gameObject, 1f, "down"));
-		SourcePart_2.Marker_ChekPoint_0.SetActive(true);
+		if (_eliController != null)
+		{
+			_eliController.gameObject.SetActive(true);
+			if (SourcePart_0.Eli_point_0 != null)
+			{
+				_eliController.transform.position = SourcePart_0.Eli_point_0.position;
+				_eliController.transform.rotation = SourcePart_0.Eli_point_0.rotation;
+			}
+			if (_eliController.Animator != null)
+			{
+				_eliController.Animator.transform.localEulerAngles = Vector3.zero;
+			}
+		}
+		if (_prontoController != null)
+		{
+			_prontoController.gameObject.SetActive(true);
+			if (SourcePart_0.Pronto_point_0 != null)
+			{
+				_prontoController.transform.position = SourcePart_0.Pronto_point_0.position;
+				_prontoController.transform.rotation = SourcePart_0.Pronto_point_0.rotation;
+			}
+			if (_prontoController.Animator != null)
+			{
+				_prontoController.Animator.transform.localEulerAngles = Vector3.zero;
+			}
+		}
+		if (SourcePart_0.wow != null)
+		{
+			SourcePart_0.wow.gameObject.SetActive(false);
+		}
+		GameObject doorTrigger = GameObject.Find("Door_Trigger");
+		if (doorTrigger != null)
+		{
+			doorTrigger.SetActive(false);
+		}
+		if (SourceCommon.Most1 != null)
+		{
+			StartCoroutine(AnimationPlay(SourceCommon.Most1.gameObject, 1f, "up"));
+		}
+		if (SourceCommon.Most2 != null)
+		{
+			StartCoroutine(AnimationPlay(SourceCommon.Most2.gameObject, 1f, "down"));
+		}
+		if (SourcePart_2.Marker_ChekPoint_0 != null)
+		{
+			SourcePart_2.Marker_ChekPoint_0.SetActive(true);
+		}
 		StartCoroutine(SetActiveHelpFalse("skip", 1f));
-		SourcePart_0.SplineCamera.enabled = false;
-		StartCoroutine(SetActiveTrue(SourcePart_0.wallAdded, 0f));
+		if (SourcePart_0.SplineCamera != null)
+		{
+			SourcePart_0.SplineCamera.enabled = false;
+		}
+		if (SourcePart_0.wallAdded != null)
+		{
+			StartCoroutine(SetActiveTrue(SourcePart_0.wallAdded, 0f));
+		}
 		if (SourcePart_0.Slug != null)
 		{
 			SourcePart_0.Slug.gameObject.SetActive(false);
 		}
-		SourcePart_0.Fly.gameObject.SetActive(false);
+		if (SourcePart_0.Fly != null)
+		{
+			SourcePart_0.Fly.gameObject.SetActive(false);
+		}
 		StartCoroutine(HideFilmHint_0(0f));
-		DonDestroyMonoSingleton<InputManager>.Instance.DisableInputEvents(GetType());
+		if (DonDestroyMonoSingleton<InputManager>.IsAlive)
+		{
+			DonDestroyMonoSingleton<InputManager>.Instance.DisableInputEvents(GetType());
+		}
 		InputEnable = false;
 	}
 
@@ -1436,12 +1535,33 @@ public class CutScene_Tutor : SlugterraCutScene
 		SourcePart_4.Hand_DT.SetActive(true);
 	}
 
-	private IEnumerator _part_4_start_1_fixDT(float t)
+	private IEnumerator _part_4_sentinelDefeatedFlow()
 	{
-		yield return new WaitForSeconds(t);
-		SourcePart_4.TargetFalse = true;
-		DonDestroyMonoSingleton<InputManager>.Instance.EnableInputEvents(GetType());
-		InputEnable = true;
+		yield return new WaitForSeconds(1.2f);
+		if (SourcePart_4.Hand_DT != null)
+		{
+			SourcePart_4.Hand_DT.SetActive(false);
+		}
+		if (DonDestroyMonoSingleton<InputManager>.IsAlive)
+		{
+			DonDestroyMonoSingleton<InputManager>.Instance.DisableInputEvents(GetType());
+		}
+		InputEnable = false;
+		EnableMove();
+		if (SourceCommon._sentinelController != null)
+		{
+			SourceCommon._sentinelController.OnStandUp();
+			yield return new WaitForSeconds(1.4f);
+			SourceCommon._sentinelController.DamageSystem.Clear();
+			SourceCommon._sentinelController.ViewArea.Items.Clear();
+			SourceCommon._sentinelController.AttackTarget = null;
+			SourceCommon._sentinelController.CanAttack = false;
+			if (SourcePart_4.SentilelGoHome != null)
+			{
+				SourceCommon._sentinelController.MoveTo(SourcePart_4.SentilelGoHome.position, 5f);
+			}
+		}
+		StartCoroutine(_part_4_start_cutScene(1.5f));
 	}
 
 	private IEnumerator _part_4_start_cutScene(float t)
@@ -1461,6 +1581,7 @@ public class CutScene_Tutor : SlugterraCutScene
 	private IEnumerator _part_4_start_cutScene_0(float t)
 	{
 		yield return new WaitForSeconds(t);
+		SourceCommon._trixieController.enabled = true;
 		StartCoroutine(MoveTargetUnit(SourceCommon._trixieController, 6.5f, SourcePart_4.TrixieEnd.position));
 		SourceCommon._trixieController.AttackTarget = null;
 		SourceCommon._trixieController.transform.position = SourcePart_4.TrixieEnd.position;
@@ -1611,16 +1732,27 @@ public class CutScene_Tutor : SlugterraCutScene
 
 	private void Update()
 	{
+		if (_isSkipEnable)
+		{
+			bool buttonVisible = _cutSceneView != null && _cutSceneView.SkipButton != null && _cutSceneView.SkipButton.gameObject.activeSelf;
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Escape) || (buttonVisible && Input.GetMouseButtonDown(0)))
+			{
+				Skip();
+			}
+		}
 		if (_cutScenePart == CutScenePart.Part_0)
 		{
-			if (SourcePart_0.Slug != null && SourcePart_0.Slug.gameObject.activeSelf && SourcePart_0.SplineCamera.enabled && SourcePart_0.SplineCamera.speed < SourcePart_0.MaxSpeedUp)
+			if (SourcePart_0.Slug != null && SourcePart_0.Slug.gameObject.activeSelf && SourcePart_0.SplineCamera != null && SourcePart_0.SplineCamera.enabled && SourcePart_0.SplineCamera.speed < SourcePart_0.MaxSpeedUp)
 			{
 				SourcePart_0.SplineCamera.speed += SourcePart_0.speedUp * Time.deltaTime;
 			}
-			if (SourcePart_0.Slug == null && !SourcePart_0.doorExp)
+			if ((SourcePart_0.Slug == null || (_nachoFired && !SourcePart_0.Slug.gameObject.activeInHierarchy)) && !SourcePart_0.doorExp)
 			{
 				SourcePart_0.doorExp = true;
-				SourcePart_0.SplineCamera.enabled = false;
+				if (SourcePart_0.SplineCamera != null)
+				{
+					SourcePart_0.SplineCamera.enabled = false;
+				}
 				DoShake(2f);
 			}
 			if (!Part_0)
@@ -1739,7 +1871,7 @@ public class CutScene_Tutor : SlugterraCutScene
 			{
 				weitHand -= Time.deltaTime;
 			}
-			if (_cutScenePart != CutScenePart.Part_4 && SourceCommon._sentinelController.AttackTarget != null)
+			if (_cutScenePart != CutScenePart.Part_4 && SourceCommon._sentinelController != null && (SourceCommon._sentinelController.AttackTarget != null || _eliController.AttackTarget == SourceCommon._sentinelController.transform || SourceCommon._sentinelController.Model.Health < SourceCommon._sentinelController.Model.MaxHealth || SourceCommon._sentinelController.Model.Health <= 500f))
 			{
 				_cutScenePart = CutScenePart.Part_4;
 				Help.DisableHelp("select");
@@ -1750,60 +1882,41 @@ public class CutScene_Tutor : SlugterraCutScene
 			if (!Part_4)
 			{
 				Part_4 = true;
-				DonDestroyMonoSingleton<InputManager>.Instance.DisableInputEvent(InputEvent.DoubleTap);
 				StartCoroutine(_part_4_start(0f));
 				Help.DisableHelp("select");
 			}
-			if (true)
-			{
-				if (!SourcePart_4.EnemyKick && SourceCommon._sentinelController.Model.Health <= 500f)
-				{
-					SourcePart_4.EnemyKick = true;
-					SourceCommon._sentinelController.Model.Invulnerability = true;
-					SourceCommon._sentinelController.SetViewRadius(0f);
-					SourceCommon._sentinelController.AttackTarget = null;
-					SourceCommon._sentinelController.SetAttackTarget(null);
-					SourcePart_4.SentilelArea.center += Vector3.up * 25f;
-					SourceCommon._sentinelController.OnFallDown();
-					_eliController.UseAutoattack = false;
-					_eliController.CanAttack = false;
-					_eliController.DamageSystem.Clear();
-					_eliController.AttackTarget = null;
-					_eliController.SetAttackTarget(null);
-					SourceCommon._sentinelController.enabled = false;
-					_prontoController.SetAttackTarget(null);
-					_prontoController.enabled = false;
-					StartCoroutine(MoveTargetUnit(SourceCommon._trixieController, 8f, SourceCommon._trixieController.transform.position, 0.3f));
-					SourceCommon._trixieController.SetAttackTarget(null);
-					SourceCommon._trixieController.enabled = false;
-					SourcePart_4.MostTouch.enabled = false;
-					SourceCommon._sentinelTouch.enabled = false;
-					Help.DisableHelp("select");
-					StartCoroutine(_part_4_start_1_fixDT(1f));
-				}
-			}
-			else if (!SourcePart_4.EnemyKick && SourceCommon._sentinelController.Model.Health <= 500f)
+			if (!SourcePart_4.EnemyKick && SourceCommon._sentinelController != null && SourceCommon._sentinelController.Model.Health <= 500f)
 			{
 				SourcePart_4.EnemyKick = true;
 				SourceCommon._sentinelController.Model.Invulnerability = true;
 				SourceCommon._sentinelController.SetViewRadius(0f);
+				SourceCommon._sentinelController.ViewArea.Items.Clear();
+				SourceCommon._sentinelController.DamageSystem.Clear();
+				SourceCommon._sentinelController.AttackTarget = null;
 				SourceCommon._sentinelController.SetAttackTarget(null);
 				SourcePart_4.SentilelArea.center += Vector3.up * 25f;
-				_eliController.AttackTarget = SourceCommon._sentinelController.transform;
+				SourceCommon._sentinelController.OnFallDown();
+				_eliController.UseAutoattack = false;
 				_eliController.CanAttack = false;
-				StartCoroutine(MoveTargetUnit(_eliController, 4f, _cameraSmoothFollow.transform.position - _cameraSmoothFollow.cameraOffset));
-				SourceCommon._sentinelController.enabled = false;
+				_eliController.DamageSystem.Clear();
+				_eliController.AttackTarget = null;
+				_eliController.SetAttackTarget(null);
 				_prontoController.SetAttackTarget(null);
 				_prontoController.enabled = false;
-				StartCoroutine(MoveTargetUnit(SourceCommon._trixieController, 8f, SourceCommon._trixieController.transform.position, 0.3f));
-				SourceCommon._trixieController.SetAttackTarget(null);
-				SourceCommon._trixieController.enabled = false;
-				SourceCommon._sentinelController.OnFallDown();
-				DisableMove();
+				if (SourceCommon._trixieController != null)
+				{
+					StartCoroutine(MoveTargetUnit(SourceCommon._trixieController, 8f, SourceCommon._trixieController.transform.position, 0.3f));
+					SourceCommon._trixieController.SetAttackTarget(null);
+					SourceCommon._trixieController.enabled = false;
+				}
 				SourcePart_4.MostTouch.enabled = false;
-				_cameraSmoothFollow.SetPlayer(SourceCommon._sentinelController.transform);
+				SourceCommon._sentinelTouch.enabled = false;
 				Help.DisableHelp("select");
-				StartCoroutine(_part_4_start_1(2f));
+				if (SourceCommon._eliAttackTarget != null)
+				{
+					SourceCommon._eliAttackTarget.SetActive(false);
+				}
+				StartCoroutine(_part_4_sentinelDefeatedFlow());
 			}
 			timer += Time.deltaTime;
 			if (!SourcePart_4.EnemyKick && SourceCommon._trixieController.AttackTarget != SourceCommon._sentinelController.transform && timer > 0.5f)
@@ -1827,33 +1940,6 @@ public class CutScene_Tutor : SlugterraCutScene
 					{
 						SourceCommon.CustomSpeed[i].speed = SourceCommon.newSpeed;
 					}
-				}
-			}
-			if (SourcePart_4.TargetFalse)
-			{
-				if (SourceCommon._eliAttackTarget.activeSelf)
-				{
-					if (!SourcePart_4.FixDtap)
-					{
-						SourcePart_4.FixDtap = true;
-						StartCoroutine(EliReadyFire(5f));
-					}
-				}
-				else
-				{
-					SourcePart_4.TargetFalse = false;
-					StartCoroutine(SetActiveFalse(SourcePart_4.Hand_DT, 0f));
-					DonDestroyMonoSingleton<InputManager>.Instance.DisableInputEvents(GetType());
-					InputEnable = false;
-					EnableMove();
-					SourceCommon._sentinelController.OnStandUp();
-					StartCoroutine(MoveTargetUnit(SourceCommon._sentinelController, 5f, SourcePart_4.SentilelGoHome.position, 1.6f));
-					StartCoroutine(MoveTargetUnit(SourceCommon._sentinelController, 5f, SourcePart_4.SentilelGoHome.position, 2f));
-					StartCoroutine(MoveTargetUnit(SourceCommon._sentinelController, 5f, SourcePart_4.SentilelGoHome.position, 2.4f));
-					StartCoroutine(MoveTargetUnit(SourceCommon._sentinelController, 5f, SourcePart_4.SentilelGoHome.position, 2.8f));
-					StartCoroutine(MoveTargetUnit(SourceCommon._sentinelController, 5f, SourcePart_4.SentilelGoHome.position, 3f));
-					StartCoroutine(MoveTargetUnit(SourceCommon._sentinelController, 5f, SourcePart_4.SentilelGoHome.position, 3.8f));
-					StartCoroutine(_part_4_start_cutScene(3f));
 				}
 			}
 			if (weitHand >= 0f)

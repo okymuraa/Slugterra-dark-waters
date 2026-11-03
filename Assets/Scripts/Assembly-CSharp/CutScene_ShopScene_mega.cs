@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using AppsMinistry.Core;
+using AppsMinistry.UI;
 using DG.Tweening;
 using Slugterra.App;
 using Slugterra.Configuration;
@@ -350,6 +351,47 @@ public class CutScene_ShopScene_mega : MonoBehaviour
 		}
 	}
 
+	private bool IsPopupOrAnnouncementUIItem(tk2dUIItem item)
+	{
+		if (item == null)
+		{
+			return false;
+		}
+		if (item.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (item.sendMessageTarget != null && item.sendMessageTarget.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (item.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.transform.parent != null && item.transform.parent.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.sendMessageTarget != null && item.sendMessageTarget.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.transform.parent != null && item.transform.parent.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.sendMessageTarget != null && item.sendMessageTarget.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private IEnumerator AfterStart()
 	{
 		yield return new WaitForSeconds(0.01f);
@@ -401,7 +443,7 @@ public class CutScene_ShopScene_mega : MonoBehaviour
 			{
 				btnArmorPanel = btnUIItem[i];
 			}
-			if (btnUIItem[i].transform.parent.name != "btnBack")
+			if (btnUIItem[i].transform.parent.name != "btnBack" && !IsPopupOrAnnouncementUIItem(btnUIItem[i]))
 			{
 				btnUIItem[i].enabled = false;
 			}

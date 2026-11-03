@@ -1,5 +1,6 @@
 using System.Collections;
 using AppsMinistry.Core;
+using AppsMinistry.UI;
 using Slugterra.App;
 using Slugterra.Domain.Game.UI;
 using Slugterra.Scene.Game;
@@ -20,6 +21,47 @@ public class CutScene_Multiplayer_MainScene : MonoBehaviour
 	private tk2dButton[] btnMission;
 
 	private int i;
+
+	private bool IsPopupOrAnnouncementButton(tk2dButton btn)
+	{
+		if (btn == null)
+		{
+			return false;
+		}
+		if (btn.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (btn.name.IndexOf("Popup", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.transform.parent != null && btn.transform.parent.name.IndexOf("Popup", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.name.IndexOf("Popup", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.name.IndexOf("Announcement", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.transform.parent != null && btn.transform.parent.name.IndexOf("Announcement", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.name.IndexOf("Announcement", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		return false;
+	}
 
 	private void Start()
 	{
@@ -49,14 +91,14 @@ public class CutScene_Multiplayer_MainScene : MonoBehaviour
 				btmCurrent = btnMission[i];
 				StartCoroutine(ShowHandFlip(1f));
 			}
-			else
+			else if (!IsPopupOrAnnouncementButton(btnMission[i]))
 			{
 				btnMission[i].enabled = false;
 			}
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if ((btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupDailyBonus") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupFacebookGoals"))
+			if (IsPopupOrAnnouncementButton(btnMission[i]) || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupDailyBonus") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupFacebookGoals"))
 			{
 				btnMission[i].enabled = true;
 			}

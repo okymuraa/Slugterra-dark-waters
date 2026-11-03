@@ -89,6 +89,17 @@ namespace Slugterra.UI.Game
 			}
 		}
 
+		private void Update()
+		{
+			if (_skipButton != null && _skipButton.gameObject.activeInHierarchy && _skipButton.targetObject != null)
+			{
+				if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+				{
+					_skipButton.targetObject.SendMessage(_skipButton.messageName);
+				}
+			}
+		}
+
 		private void SkipTutor(InputEvent e)
 		{
 			if (e == InputEvent.Enter && _skipButton != null && _skipButton.targetObject != null && _skipButton.gameObject.activeSelf)

@@ -26,9 +26,12 @@ namespace Slugterra.Game.Units.Enemy
 			CharacterController component = Controller.GetComponent<CharacterController>();
 			if (component != null)
 			{
-				Object.Destroy(component);
+				component.detectCollisions = false;
 			}
-			Controller.PathFinder.enabled = false;
+			if (Controller.PathFinder != null)
+			{
+				Controller.PathFinder.canMove = false;
+			}
 			Controller.enabled = false;
 		}
 	}

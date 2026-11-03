@@ -29,6 +29,8 @@ namespace Slugterra.UI.Game.Camera
 
 		private PlayerController _player;
 
+		private int _lastDirectDragFrame = -1;
+
 		private void Start()
 		{
 			_camera = GetComponent<UnityEngine.Camera>();
@@ -90,8 +92,56 @@ namespace Slugterra.UI.Game.Camera
 			_cameraPosition.z = Mathf.Clamp(_cameraPosition.z, vector2.z, vector3.z);
 		}
 
+		private void Update()
+		{
+			// Direct mouse drag on PC standalone
+			if (UnityEngine.Input.GetMouseButtonDown(0))
+			{
+				_prevMovePos = UnityEngine.Input.mousePosition;
+				_lastDirectDragFrame = Time.frameCount;
+			}
+			else if (UnityEngine.Input.GetMouseButton(0))
+			{
+				Vector3 mousePos = UnityEngine.Input.mousePosition;
+				if (_prevMovePos != Vector3.zero)
+				{
+					Vector3 vector = -(mousePos - _prevMovePos);
+					Vector3 eulerAngles = _cameraTransform.rotation.eulerAngles;
+					Vector3 vector2 = RotatePoint(ScreenToWorld(vector), Quaternion.Euler(0f, eulerAngles.y, eulerAngles.z));
+					TranslateCamera(vector2);
+					_lastWorldDelta = vector2;
+				}
+				_prevMovePos = mousePos;
+				_lastDirectDragFrame = Time.frameCount;
+			}
+			else if (UnityEngine.Input.GetMouseButtonUp(0))
+			{
+				_prevMovePos = Vector3.zero;
+				float magnitude = _lastWorldDelta.magnitude;
+				if (magnitude > 1f)
+				{
+					TranslateCamera(_lastWorldDelta.normalized * (magnitude * 8f));
+				}
+				_lastWorldDelta = Vector3.zero;
+				_lastDirectDragFrame = Time.frameCount;
+			}
+
+			// Keyboard WASD / Arrow keys for panning Minimap
+			float h = UnityEngine.Input.GetAxisRaw("Horizontal");
+			float v = UnityEngine.Input.GetAxisRaw("Vertical");
+			if (Mathf.Abs(h) > 0.01f || Mathf.Abs(v) > 0.01f)
+			{
+				Vector3 dir = new Vector3(h, 0f, v).normalized * (25f * Time.unscaledDeltaTime);
+				TranslateCamera(dir);
+			}
+		}
+
 		private void OnMove(Vector3 position, float actionTime)
 		{
+			if (_lastDirectDragFrame == Time.frameCount)
+			{
+				return;
+			}
 			if (_prevMovePos == Vector3.zero)
 			{
 				_prevMovePos = position;

@@ -24,39 +24,60 @@ namespace Slugterra.UI.Popup
 
 		protected override void OnStart()
 		{
-			progressBar.Value = 0f;
 			gameObject.SetActive(false);
+			try
+			{
+				if (progressBar != null)
+				{
+					progressBar.Value = 0f;
+				}
+			}
+			catch { }
 			views = UnityEngine.Object.FindObjectsOfType<LevelItemView>();
 			CheckInternetService instance = DonDestroyMonoSingleton<CheckInternetService>.Instance;
-			instance.onInternetConnectionLost = (Action)Delegate.Combine(instance.onInternetConnectionLost, new Action(InternetConnectionLost));
+			if (instance != null)
+			{
+				instance.onInternetConnectionLost = (Action)Delegate.Combine(instance.onInternetConnectionLost, new Action(InternetConnectionLost));
+			}
 		}
 
 		protected override void OnReleaseResource()
 		{
 			base.OnReleaseResource();
 			CheckInternetService instance = DonDestroyMonoSingleton<CheckInternetService>.Instance;
-			instance.onInternetConnectionLost = (Action)Delegate.Remove(instance.onInternetConnectionLost, new Action(InternetConnectionLost));
+			if (instance != null)
+			{
+				instance.onInternetConnectionLost = (Action)Delegate.Remove(instance.onInternetConnectionLost, new Action(InternetConnectionLost));
+			}
 		}
 
 		public void Update()
 		{
-			int count = DonDestroyMonoSingleton<AssetBundleManager>.Instance.itemsProgress.Count;
-			if (count > 0 && !internetConnectionLost)
+			if (DonDestroyMonoSingleton<AssetBundleManager>.Instance != null && DonDestroyMonoSingleton<AssetBundleManager>.Instance.itemsProgress != null)
 			{
-				float num = 0f;
-				foreach (KeyValuePair<string, float> item in DonDestroyMonoSingleton<AssetBundleManager>.Instance.itemsProgress)
+				int count = DonDestroyMonoSingleton<AssetBundleManager>.Instance.itemsProgress.Count;
+				if (count > 0 && !internetConnectionLost)
 				{
-					if (!item.Key.Contains("Android") && !item.Key.Contains("iOS") && !item.Key.Contains("WebGL"))
+					float num = 0f;
+					foreach (KeyValuePair<string, float> item in DonDestroyMonoSingleton<AssetBundleManager>.Instance.itemsProgress)
 					{
-						num += item.Value / 100f;
+						if (!item.Key.Contains("Android") && !item.Key.Contains("iOS") && !item.Key.Contains("WebGL"))
+						{
+							num += item.Value / 100f;
+						}
 					}
+					try
+					{
+						if (progressBar != null)
+						{
+							progressBar.Value = num / (float)count;
+						}
+					}
+					catch { }
+					return;
 				}
-				progressBar.Value = num / (float)count;
 			}
-			else
-			{
-				Hide();
-			}
+			Hide();
 		}
 
 		public void OnBtnCloseClick()
@@ -67,16 +88,29 @@ namespace Slugterra.UI.Popup
 		public void Hide()
 		{
 			Screen.sleepTimeout = -2;
-			progressBar.Value = 0f;
+			try
+			{
+				if (progressBar != null)
+				{
+					progressBar.Value = 0f;
+				}
+			}
+			catch { }
 			if ((SceneManager.GetActiveScene().name == "MapScene" || SceneManager.GetActiveScene().name == "MapScene_HD") && views != null && views.Length > 0)
 			{
 				for (int i = 0; i < views.Length; i++)
 				{
-					views[i].enabled = true;
-					BoxCollider component = views[i].LevelButton.GetComponent<BoxCollider>();
-					if (component != null)
+					if (views[i] != null)
 					{
-						component.enabled = true;
+						views[i].enabled = true;
+						if (views[i].LevelButton != null)
+						{
+							BoxCollider component = views[i].LevelButton.GetComponent<BoxCollider>();
+							if (component != null)
+							{
+								component.enabled = true;
+							}
+						}
 					}
 				}
 			}

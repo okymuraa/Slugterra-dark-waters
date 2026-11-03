@@ -25,10 +25,6 @@ public class tk2dSprite : tk2dBaseSprite
 		GetComponent<MeshFilter>().mesh = mesh;
 		if ((bool)Collection)
 		{
-			if (_spriteId < 0 || _spriteId >= Collection.Count)
-			{
-				_spriteId = 0;
-			}
 			Build();
 		}
 	}
@@ -47,7 +43,17 @@ public class tk2dSprite : tk2dBaseSprite
 
 	public override void Build()
 	{
-		tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[spriteId];
+		InitInstance();
+		if (collectionInst == null || collectionInst.spriteDefinitions == null || collectionInst.spriteDefinitions.Length == 0)
+		{
+			return;
+		}
+		int safeId = Mathf.Clamp(spriteId, 0, collectionInst.spriteDefinitions.Length - 1);
+		tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[safeId];
+		if (tk2dSpriteDefinition2 == null || tk2dSpriteDefinition2.positions == null)
+		{
+			return;
+		}
 		meshVertices = new Vector3[tk2dSpriteDefinition2.positions.Length];
 		meshColors = new Color32[tk2dSpriteDefinition2.positions.Length];
 		meshNormals = new Vector3[0];
@@ -122,7 +128,17 @@ public class tk2dSprite : tk2dBaseSprite
 
 	protected void UpdateVerticesImpl()
 	{
-		tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[spriteId];
+		InitInstance();
+		if (collectionInst == null || collectionInst.spriteDefinitions == null || collectionInst.spriteDefinitions.Length == 0)
+		{
+			return;
+		}
+		int safeId = Mathf.Clamp(spriteId, 0, collectionInst.spriteDefinitions.Length - 1);
+		tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[safeId];
+		if (tk2dSpriteDefinition2 == null || tk2dSpriteDefinition2.positions == null)
+		{
+			return;
+		}
 		if (!(mesh == null) && meshVertices != null && meshVertices.Length != 0)
 		{
 			if (tk2dSpriteDefinition2.normals.Length != meshNormals.Length)
@@ -146,7 +162,17 @@ public class tk2dSprite : tk2dBaseSprite
 	{
 		if (!(mesh == null))
 		{
-			tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[spriteId];
+			InitInstance();
+			if (collectionInst == null || collectionInst.spriteDefinitions == null || collectionInst.spriteDefinitions.Length == 0)
+			{
+				return;
+			}
+			int safeId = Mathf.Clamp(spriteId, 0, collectionInst.spriteDefinitions.Length - 1);
+			tk2dSpriteDefinition tk2dSpriteDefinition2 = collectionInst.spriteDefinitions[safeId];
+			if (tk2dSpriteDefinition2 == null || tk2dSpriteDefinition2.positions == null)
+			{
+				return;
+			}
 			if (meshVertices == null || meshVertices.Length != tk2dSpriteDefinition2.positions.Length)
 			{
 				meshVertices = new Vector3[tk2dSpriteDefinition2.positions.Length];
@@ -183,10 +209,15 @@ public class tk2dSprite : tk2dBaseSprite
 
 	protected override void UpdateMaterial()
 	{
+		InitInstance();
 		Renderer component = GetComponent<Renderer>();
-		if (component.sharedMaterial != collectionInst.spriteDefinitions[spriteId].materialInst)
+		if (component != null && collectionInst != null && collectionInst.spriteDefinitions != null && collectionInst.spriteDefinitions.Length > 0)
 		{
-			component.material = collectionInst.spriteDefinitions[spriteId].materialInst;
+			int safeId = Mathf.Clamp(spriteId, 0, collectionInst.spriteDefinitions.Length - 1);
+			if (collectionInst.spriteDefinitions[safeId] != null && component.sharedMaterial != collectionInst.spriteDefinitions[safeId].materialInst)
+			{
+				component.material = collectionInst.spriteDefinitions[safeId].materialInst;
+			}
 		}
 	}
 

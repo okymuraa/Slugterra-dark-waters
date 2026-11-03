@@ -142,10 +142,6 @@ public class tk2dSlicedSprite : tk2dBaseSprite
 		}
 		if ((bool)Collection)
 		{
-			if (_spriteId < 0 || _spriteId >= Collection.Count)
-			{
-				_spriteId = 0;
-			}
 			Build();
 		}
 	}
@@ -258,6 +254,10 @@ public class tk2dSlicedSprite : tk2dBaseSprite
 			PermanentUpgradeLegacyMode();
 		}
 		tk2dSpriteDefinition currentSprite = CurrentSprite;
+		if (currentSprite == null)
+		{
+			return;
+		}
 		meshUvs = new Vector2[16];
 		meshVertices = new Vector3[16];
 		meshColors = new Color32[16];

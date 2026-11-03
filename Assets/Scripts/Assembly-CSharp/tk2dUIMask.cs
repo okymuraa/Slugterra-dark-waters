@@ -54,7 +54,22 @@ public class tk2dUIMask : MonoBehaviour
 
 	private void Awake()
 	{
+		DisableMaskRenderer();
 		Build();
+	}
+
+	private void OnEnable()
+	{
+		DisableMaskRenderer();
+	}
+
+	private void DisableMaskRenderer()
+	{
+		MeshRenderer mr = GetComponent<MeshRenderer>();
+		if (mr != null && mr.enabled)
+		{
+			mr.enabled = false;
+		}
 	}
 
 	private void OnDestroy()
@@ -133,6 +148,7 @@ public class tk2dUIMask : MonoBehaviour
 
 	public void Build()
 	{
+		DisableMaskRenderer();
 		if (ThisMeshFilter.sharedMesh == null)
 		{
 			Mesh mesh = new Mesh();

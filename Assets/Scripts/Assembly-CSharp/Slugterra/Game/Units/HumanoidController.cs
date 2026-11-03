@@ -146,26 +146,42 @@ namespace Slugterra.Game.Units
 
 		public void MoveTo(Vector3 newPosition)
 		{
-			if (NewVersionAI)
-			{
-				MyBehavior.MoveTo(newPosition);
-			}
-			else
-			{
-				Debug.LogWarning("Old AI need to use old functions");
-			}
+			MoveTo(newPosition, (Model != null) ? Model.RunSpeed : 5f);
 		}
 
 		public void MoveTo(Vector3 newPosition, float speed)
 		{
-			if (NewVersionAI)
+			if (NewVersionAI && MyBehavior != null)
 			{
 				MyBehavior.MoveTo(newPosition);
 				MyBehavior.UseCustomWalkSpeed(speed);
 			}
-			else
+			else if (StateMachine != null)
 			{
-				Debug.LogWarning("Old AI need to use old functions");
+				enabled = true;
+				StateMachine.enabled = true;
+				if (PathFinder != null)
+				{
+					PathFinder.enabled = true;
+				}
+				if (Model != null)
+				{
+					Model.RemoveSpeedCoeficient(GetType());
+				}
+				IsFallDown = false;
+				if (MoveTarget != null)
+				{
+					MoveTarget.position = newPosition;
+				}
+				Slugterra.Game.Units.Ally.Assistant.FollowerController followerController = this as Slugterra.Game.Units.Ally.Assistant.FollowerController;
+				if (followerController != null)
+				{
+					followerController.OnMove(speed);
+				}
+				else
+				{
+					StateMachine.ChangeState<Slugterra.Game.Units.Enemy.MoveState>(new object[2] { newPosition, speed });
+				}
 			}
 		}
 

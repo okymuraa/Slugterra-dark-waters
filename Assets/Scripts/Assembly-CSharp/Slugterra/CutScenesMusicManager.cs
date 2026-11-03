@@ -56,7 +56,12 @@ namespace Slugterra
 			}
 			if (!string.IsNullOrEmpty(text))
 			{
-				return Resources.Load<AudioClip>("Sounds/music/" + text);
+				AudioClip clip = Resources.Load<AudioClip>("sounds/music/" + text);
+				if (clip == null)
+				{
+					clip = Resources.Load<AudioClip>("Sounds/music/" + text);
+				}
+				return clip;
 			}
 			return null;
 		}

@@ -22,7 +22,10 @@ public class tk2dUpdateManager : MonoBehaviour
 					GameObject gameObject = new GameObject("@tk2dUpdateManager");
 					gameObject.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 					inst = gameObject.AddComponent<tk2dUpdateManager>();
-					Object.DontDestroyOnLoad(gameObject);
+					if (Application.isPlaying)
+					{
+						Object.DontDestroyOnLoad(gameObject);
+					}
 				}
 			}
 			return inst;

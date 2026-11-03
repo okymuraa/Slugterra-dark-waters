@@ -86,7 +86,8 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 	{
 		get
 		{
-			return inst.spriteDefinitions.Length;
+			tk2dSpriteCollectionData i = inst;
+			return (i != null && i.spriteDefinitions != null) ? i.spriteDefinitions.Length : 0;
 		}
 	}
 
@@ -94,10 +95,12 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 	{
 		get
 		{
-			tk2dSpriteDefinition[] array = inst.spriteDefinitions;
+			tk2dSpriteCollectionData i = inst;
+			if (i == null || i.spriteDefinitions == null) return null;
+			tk2dSpriteDefinition[] array = i.spriteDefinitions;
 			foreach (tk2dSpriteDefinition tk2dSpriteDefinition2 in array)
 			{
-				if (tk2dSpriteDefinition2.Valid)
+				if (tk2dSpriteDefinition2 != null && tk2dSpriteDefinition2.Valid)
 				{
 					return tk2dSpriteDefinition2;
 				}
@@ -111,9 +114,10 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 		get
 		{
 			tk2dSpriteCollectionData tk2dSpriteCollectionData2 = inst;
+			if (tk2dSpriteCollectionData2 == null || tk2dSpriteCollectionData2.spriteDefinitions == null) return -1;
 			for (int i = 0; i < tk2dSpriteCollectionData2.spriteDefinitions.Length; i++)
 			{
-				if (tk2dSpriteCollectionData2.spriteDefinitions[i].Valid)
+				if (tk2dSpriteCollectionData2.spriteDefinitions[i] != null && tk2dSpriteCollectionData2.spriteDefinitions[i].Valid)
 				{
 					return i;
 				}
@@ -126,33 +130,61 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 	{
 		get
 		{
-			if (platformSpecificData == null)
+			if (platformSpecificData == null || (hasPlatformData && (platformSpecificData.spriteDefinitions == null || platformSpecificData.spriteDefinitions.Length == 0)))
 			{
 				if (hasPlatformData)
 				{
 					string currentPlatform = tk2dSystem.CurrentPlatform;
 					string text = string.Empty;
-					for (int i = 0; i < spriteCollectionPlatforms.Length; i++)
+					if (spriteCollectionPlatforms != null && spriteCollectionPlatformGUIDs != null)
 					{
-						if (spriteCollectionPlatforms[i] == currentPlatform)
+						for (int i = 0; i < spriteCollectionPlatforms.Length; i++)
 						{
-							text = spriteCollectionPlatformGUIDs[i];
-							break;
+							if (spriteCollectionPlatforms[i] == currentPlatform && i < spriteCollectionPlatformGUIDs.Length)
+							{
+								text = spriteCollectionPlatformGUIDs[i];
+								break;
+							}
+						}
+						if (text.Length == 0 && spriteCollectionPlatformGUIDs.Length > 0)
+						{
+							text = spriteCollectionPlatformGUIDs[0];
 						}
 					}
-					if (text.Length == 0)
+					if (!string.IsNullOrEmpty(text))
 					{
-						text = spriteCollectionPlatformGUIDs[0];
+						platformSpecificData = tk2dSystem.LoadResourceByGUID<tk2dSpriteCollectionData>(text);
 					}
-					platformSpecificData = tk2dSystem.LoadResourceByGUID<tk2dSpriteCollectionData>(text);
 				}
-				else
+				if (platformSpecificData == null || (platformSpecificData.spriteDefinitions == null || platformSpecificData.spriteDefinitions.Length == 0))
 				{
-					platformSpecificData = this;
+					if (spriteDefinitions != null && spriteDefinitions.Length > 0)
+					{
+						platformSpecificData = this;
+					}
+					else
+					{
+						string baseName = name.Replace("(Clone)", "").Trim();
+						if (baseName.EndsWith("@1x") || baseName.EndsWith("@2x"))
+						{
+							platformSpecificData = this;
+						}
+						else
+						{
+							platformSpecificData = tk2dSystem.LoadResourceByName<tk2dSpriteCollectionData>(baseName + "@2x");
+							if (platformSpecificData == null || platformSpecificData.spriteDefinitions == null || platformSpecificData.spriteDefinitions.Length == 0)
+							{
+								platformSpecificData = this;
+							}
+						}
+					}
 				}
 			}
-			platformSpecificData.Init();
-			return platformSpecificData;
+			if (platformSpecificData != null)
+			{
+				platformSpecificData.Init();
+			}
+			return platformSpecificData != null ? platformSpecificData : this;
 		}
 	}
 
@@ -163,9 +195,11 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 
 	public int GetSpriteIdByName(string name, int defaultValue)
 	{
-		inst.InitDictionary();
+		tk2dSpriteCollectionData i = inst;
+		if (i == null) return defaultValue;
+		i.InitDictionary();
 		int value = defaultValue;
-		if (!inst.spriteNameLookupDict.TryGetValue(name, out value))
+		if (i.spriteNameLookupDict == null || !i.spriteNameLookupDict.TryGetValue(name, out value))
 		{
 			return defaultValue;
 		}
@@ -174,12 +208,17 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 
 	public string GetSpriteName(int id)
 	{
-		inst.InitDictionary();
-		foreach (string key in inst.spriteNameLookupDict.Keys)
+		tk2dSpriteCollectionData i = inst;
+		if (i == null) return string.Empty;
+		i.InitDictionary();
+		if (i.spriteNameLookupDict != null)
 		{
-			if (inst.spriteNameLookupDict[key] == id)
+			foreach (string key in i.spriteNameLookupDict.Keys)
 			{
-				return key;
+				if (i.spriteNameLookupDict[key] == id)
+				{
+					return key;
+				}
 			}
 		}
 		return string.Empty;
@@ -193,32 +232,44 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 	public tk2dSpriteDefinition GetSpriteDefinition(string name)
 	{
 		int spriteIdByName = GetSpriteIdByName(name, -1);
-		if (spriteIdByName == -1)
+		tk2dSpriteCollectionData target = inst;
+		if (spriteIdByName == -1 || target == null || target.spriteDefinitions == null || spriteIdByName < 0 || spriteIdByName >= target.spriteDefinitions.Length)
 		{
 			return null;
 		}
-		return spriteDefinitions[spriteIdByName];
+		return target.spriteDefinitions[spriteIdByName];
 	}
 
 	public void InitDictionary()
 	{
 		if (spriteNameLookupDict == null)
 		{
-			spriteNameLookupDict = new Dictionary<string, int>(spriteDefinitions.Length);
-			for (int i = 0; i < spriteDefinitions.Length; i++)
+			if (spriteDefinitions != null)
 			{
-				spriteNameLookupDict[spriteDefinitions[i].name] = i;
+				spriteNameLookupDict = new Dictionary<string, int>(spriteDefinitions.Length);
+				for (int i = 0; i < spriteDefinitions.Length; i++)
+				{
+					if (spriteDefinitions[i] != null && !string.IsNullOrEmpty(spriteDefinitions[i].name))
+					{
+						spriteNameLookupDict[spriteDefinitions[i].name] = i;
+					}
+				}
+			}
+			else
+			{
+				spriteNameLookupDict = new Dictionary<string, int>();
 			}
 		}
 	}
 
 	public bool IsValidSpriteId(int id)
 	{
-		if (id < 0 || id >= inst.spriteDefinitions.Length)
+		tk2dSpriteCollectionData i = inst;
+		if (i == null || i.spriteDefinitions == null || id < 0 || id >= i.spriteDefinitions.Length)
 		{
 			return false;
 		}
-		return inst.spriteDefinitions[id].Valid;
+		return i.spriteDefinitions[id] != null && i.spriteDefinitions[id].Valid;
 	}
 
 	public void InitMaterialIds()
@@ -295,14 +346,21 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 				}
 				for (int k = 0; k < materials.Length; k++)
 				{
-					materialInsts[k] = UnityEngine.Object.Instantiate(materials[k]);
-					if (flag)
+					if (materials[k] != null)
 					{
-						int num = ((materialPngTextureId.Length != 0) ? materialPngTextureId[k] : 0);
-						materialInsts[k].mainTexture = textureInsts[num];
-						if (materials[k] != null)
+						materialInsts[k] = UnityEngine.Object.Instantiate(materials[k]);
+					}
+					else
+					{
+						materialInsts[k] = new Material(Shader.Find("tk2d/BlendVertexColor"));
+					}
+					if (flag && textureInsts != null && textureInsts.Length > 0)
+					{
+						int num = ((materialPngTextureId != null && materialPngTextureId.Length > k) ? materialPngTextureId[k] : 0);
+						if (num < 0 || num >= textureInsts.Length) num = 0;
+						if (materialInsts[k] != null)
 						{
-							materials[k].mainTexture = textureInsts[num];
+							materialInsts[k].mainTexture = textureInsts[num];
 						}
 					}
 				}
@@ -310,7 +368,11 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 			for (int l = 0; l < spriteDefinitions.Length; l++)
 			{
 				tk2dSpriteDefinition tk2dSpriteDefinition2 = spriteDefinitions[l];
-				tk2dSpriteDefinition2.materialInst = materialInsts[tk2dSpriteDefinition2.materialId];
+				if (tk2dSpriteDefinition2 != null && materialInsts != null && materialInsts.Length > 0)
+				{
+					int matId = Mathf.Clamp(tk2dSpriteDefinition2.materialId, 0, materialInsts.Length - 1);
+					tk2dSpriteDefinition2.materialInst = materialInsts[matId];
+				}
 			}
 		}
 		else
@@ -322,7 +384,10 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 			for (int n = 0; n < spriteDefinitions.Length; n++)
 			{
 				tk2dSpriteDefinition tk2dSpriteDefinition3 = spriteDefinitions[n];
-				tk2dSpriteDefinition3.materialInst = tk2dSpriteDefinition3.material;
+				if (tk2dSpriteDefinition3 != null)
+				{
+					tk2dSpriteDefinition3.materialInst = tk2dSpriteDefinition3.material;
+				}
 			}
 		}
 		tk2dEditorSpriteDataUnloader.Register(this);

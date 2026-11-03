@@ -6,7 +6,7 @@ namespace Slugterra.Game.Units
 	public class UnitPathFinder : AIPath
 	{
 		[SerializeField]
-		private float sleepVelocity = 0.4f;
+		private float sleepVelocity = 0.05f;
 
 		private Vector3 _velocity;
 
@@ -54,7 +54,7 @@ namespace Slugterra.Game.Units
 				{
 					controller.SimpleMove(vector);
 				}
-				direction = controller.velocity;
+				direction = (controller != null) ? controller.velocity : vector;
 			}
 			else
 			{

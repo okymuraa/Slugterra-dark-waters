@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using AppsMinistry.Core;
+using AppsMinistry.UI;
 using DG.Tweening;
 using Slugterra.App;
 using Slugterra.Scene.Game;
@@ -102,10 +103,96 @@ public class CutScene_ShopScene : MonoBehaviour
 
 	private bool BoostsTap;
 
+	private bool IsPopupOrAnnouncementButton(tk2dButton btn)
+	{
+		if (btn == null)
+		{
+			return false;
+		}
+		if (btn.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (btn.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.transform.parent != null && btn.transform.parent.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.transform.parent != null && btn.transform.parent.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private bool IsPopupOrAnnouncementUIItem(tk2dUIItem item)
+	{
+		if (item == null)
+		{
+			return false;
+		}
+		if (item.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (item.sendMessageTarget != null && item.sendMessageTarget.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (item.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.transform.parent != null && item.transform.parent.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.sendMessageTarget != null && item.sendMessageTarget.name.IndexOf("Popup", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.transform.parent != null && item.transform.parent.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (item.sendMessageTarget != null && item.sendMessageTarget.name.IndexOf("Announcement", StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private void OnDisable()
 	{
 		OnBuySmallPack.OnClick -= OnBuySmallPackClick;
 		BtnStart.OnClick -= OnBtnStartClick;
+		if (btnBoosts != null)
+		{
+			btnBoosts.OnClick -= OnBtnBoostsClick;
+		}
 	}
 
 	private void Awake()
@@ -138,6 +225,10 @@ public class CutScene_ShopScene : MonoBehaviour
 			}
 			text_gold = GameObject.Find("lblCountCoins").transform;
 			BtnStart.OnClick += OnBtnStartClick;
+			if (btnBoosts != null)
+			{
+				btnBoosts.OnClick += OnBtnBoostsClick;
+			}
 			StartCoroutine("AfterStart");
 			if (useFood != 0 && useHealth != 0)
 			{
@@ -160,7 +251,7 @@ public class CutScene_ShopScene : MonoBehaviour
 		btnUIItem = UnityEngine.Object.FindObjectsOfType<tk2dUIItem>();
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if (btnMission[i].transform.parent.name != "btnBack")
+			if (btnMission[i].transform.parent.name != "btnBack" && !IsPopupOrAnnouncementButton(btnMission[i]))
 			{
 				btnMission[i].enabled = false;
 				if ((bool)btnMission[i].GetComponent<tk2dUIItem>())
@@ -170,14 +261,18 @@ public class CutScene_ShopScene : MonoBehaviour
 			}
 			else
 			{
-				btnBack = btnMission[i].transform.parent;
-				btnBack.transform.position -= Vector3.forward;
+				if (btnMission[i].transform.parent.name == "btnBack")
+				{
+					btnBack = btnMission[i].transform.parent;
+					btnBack.transform.position -= Vector3.forward;
+				}
+				btnMission[i].enabled = true;
 			}
 		}
 		OnBuyLargePack.enabled = false;
 		for (i = 0; i < btnUIItem.Length; i++)
 		{
-			if (btnUIItem[i].transform.parent.name != "btnBack")
+			if (btnUIItem[i].transform.parent.name != "btnBack" && !IsPopupOrAnnouncementUIItem(btnUIItem[i]))
 			{
 				btnUIItem[i].enabled = false;
 			}

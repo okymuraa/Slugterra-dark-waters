@@ -92,10 +92,6 @@ public class tk2dTiledSprite : tk2dBaseSprite
 		GetComponent<MeshFilter>().mesh = mesh;
 		if ((bool)Collection)
 		{
-			if (_spriteId < 0 || _spriteId >= Collection.Count)
-			{
-				_spriteId = 0;
-			}
 			Build();
 			if (boxCollider == null)
 			{

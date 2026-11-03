@@ -60,10 +60,6 @@ public class tk2dRadialSprite : tk2dBaseSprite
 		}
 		if ((bool)Collection)
 		{
-			if (_spriteId < 0 || _spriteId >= Collection.Count)
-			{
-				_spriteId = 0;
-			}
 			Build();
 		}
 	}

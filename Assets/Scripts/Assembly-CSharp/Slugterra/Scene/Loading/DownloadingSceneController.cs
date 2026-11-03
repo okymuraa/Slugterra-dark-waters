@@ -211,7 +211,24 @@ namespace Slugterra.Scene.Loading
 			{
 				whatWeLoad = whatWeLoad + bundlesToLoading[i] + "; ";
 			}
-			yield return new WaitForSeconds(0.1f);
+			Slugterra.UI.Downloading.DownloadingView view = UnityEngine.Object.FindObjectOfType<Slugterra.UI.Downloading.DownloadingView>();
+			if (view != null)
+			{
+				float duration = 1.0f;
+				float elapsed = 0f;
+				while (elapsed < duration)
+				{
+					elapsed += Time.deltaTime;
+					view.SetProgressDirect(elapsed / duration);
+					yield return null;
+				}
+				view.SetProgressDirect(1f);
+				yield return new WaitForSeconds(0.25f);
+			}
+			else
+			{
+				yield return new WaitForSeconds(0.5f);
+			}
 			SceneLoader.LoadScene(nextScene);
 		}
 

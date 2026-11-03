@@ -42,12 +42,17 @@ public class UnitBehaviorInitializer : MonoBehaviour
 		{
 			Debug.Log(transform.name);
 		}
-		_scrapheadTree.EnableBehavior();
-		_unitController.Animator.logWarnings = false;
+		if (_unitController != null && _unitController.Animator != null)
+		{
+			_unitController.Animator.logWarnings = false;
+		}
 		dataHolder = new BehaviorDataHolder();
-		dataHolder.Me.Controller = _unitController;
+		if (_unitController != null)
+		{
+			dataHolder.Me.Controller = _unitController;
+			dataHolder.Me.Root = _unitController.transform;
+		}
 		dataHolder.Me.ViewAreaTrigger = _viewAreaTrigger;
-		dataHolder.Me.Root = _unitController.transform;
 		if (_gameController == null)
 		{
 			_gameController = Object.FindObjectOfType<GameController>();
@@ -68,11 +73,42 @@ public class UnitBehaviorInitializer : MonoBehaviour
 		dataHolder.Me.MovementSettings.AdvancedMovement = advancedMovement;
 		dataHolder.Me.AttackSettings.AdvancedSlugShooting = advancedSlugShooting;
 		dataHolder.Me.AttackSettings.IsRangeAttacker = true;
-		_scrapheadTree.SetVariableValue("DataHolder", dataHolder);
+		if (_unitController != null && !_unitController.NewVersionAI)
+		{
+			if (_scrapheadTree != null)
+			{
+				_scrapheadTree.enabled = false;
+			}
+			UnitBehavior component = GetComponent<UnitBehavior>();
+			if (component != null)
+			{
+				component.enabled = false;
+			}
+			enabled = false;
+			return;
+		}
+		try
+		{
+			if (_scrapheadTree != null)
+			{
+				_scrapheadTree.EnableBehavior();
+				_scrapheadTree.SetVariableValue("DataHolder", dataHolder);
+			}
+		}
+		catch (System.Exception)
+		{
+			if (_scrapheadTree != null)
+			{
+				_scrapheadTree.enabled = false;
+			}
+		}
 	}
 
 	private void Start()
 	{
-		_viewAreaTrigger.UpdateTargets();
+		if (_viewAreaTrigger != null)
+		{
+			_viewAreaTrigger.UpdateTargets();
+		}
 	}
 }

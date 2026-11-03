@@ -136,6 +136,22 @@ namespace Slugterra.Game.Units.Ally.Assistant
 			}
 		}
 
+		protected override void OnUpdate()
+		{
+			base.OnUpdate();
+			if (Model != null && !Model.IsDead() && _playerTransform != null && StateMachine != null)
+			{
+				if (StateMachine.CurrentState is IdleState)
+				{
+					float distSq = Vector3.SqrMagnitude(_playerTransform.position - Transform.position);
+					if (distSq > 16f)
+					{
+						StateMachine.ChangeState<FollowState>(new object[1] { _playerTransform });
+					}
+				}
+			}
+		}
+
 		public override void OnDamage(float damage, Attacker attackedUnit)
 		{
 			if (!Model.IsDead())

@@ -94,6 +94,14 @@ namespace Slugterra.UI.Popup
 			{
 				OnDeclineEvent__BackingField(_decline);
 			}
+			else
+			{
+				if (_decline != null)
+				{
+					_decline();
+				}
+				gameObject.SetActive(false);
+			}
 		}
 
 		private void OnBtnAcceptClick()
@@ -101,6 +109,14 @@ namespace Slugterra.UI.Popup
 			if (OnAcceptEvent__BackingField != null)
 			{
 				OnAcceptEvent__BackingField(_accept);
+			}
+			else
+			{
+				if (_accept != null)
+				{
+					_accept();
+				}
+				gameObject.SetActive(false);
 			}
 		}
 

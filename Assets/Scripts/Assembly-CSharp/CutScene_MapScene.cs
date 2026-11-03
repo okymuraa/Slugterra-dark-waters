@@ -1,6 +1,7 @@
 using System.Collections;
 using AppsMinistry.Core;
 using AppsMinistry.Core.Input.Window;
+using AppsMinistry.UI;
 using DG.Tweening;
 using Slugterra.App;
 using Slugterra.Domain.Game.UI;
@@ -110,6 +111,47 @@ public class CutScene_MapScene : MonoBehaviour
 
 	private Transform BtnMultiplayer;
 
+	private bool IsPopupOrAnnouncementButton(tk2dButton btn)
+	{
+		if (btn == null)
+		{
+			return false;
+		}
+		if (btn.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.GetComponentInParent<PopupView>() != null)
+		{
+			return true;
+		}
+		if (btn.name.IndexOf("Popup", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.transform.parent != null && btn.transform.parent.name.IndexOf("Popup", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.name.IndexOf("Popup", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.name.IndexOf("Announcement", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.transform.parent != null && btn.transform.parent.name.IndexOf("Announcement", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		if (btn.targetObject != null && btn.targetObject.name.IndexOf("Announcement", System.StringComparison.OrdinalIgnoreCase) >= 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private void OnEnable()
 	{
 		mapMenuView = Object.FindObjectOfType<MapMenuView>();
@@ -122,10 +164,18 @@ public class CutScene_MapScene : MonoBehaviour
 		{
 			mapMenuView.OnLevelItemCreatedEvent -= StartTutor;
 		}
+		if (_mapCamera != null)
+		{
+			_mapCamera.enabled = true;
+		}
 	}
 
 	private void StartTutor()
 	{
+		if (_mapCamera == null)
+		{
+			_mapCamera = Object.FindObjectOfType<MapCamera>();
+		}
 		hand2d.SetActive(false);
 		hand3d.SetActive(false);
 		CameraPosition = new Vector3(-15.752f, 13f, -7f);
@@ -265,14 +315,14 @@ public class CutScene_MapScene : MonoBehaviour
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if (btnMission[i].transform.parent.name != "btnBack")
+			if (btnMission[i].transform.parent.name != "btnBack" && !IsPopupOrAnnouncementButton(btnMission[i]))
 			{
 				btnMission[i].enabled = false;
 			}
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if ((btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
+			if (IsPopupOrAnnouncementButton(btnMission[i]) || (btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
 			{
 				btnMission[i].enabled = true;
 			}
@@ -313,14 +363,14 @@ public class CutScene_MapScene : MonoBehaviour
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if (btnMission[i].transform.parent.name != "btnBack")
+			if (btnMission[i].transform.parent.name != "btnBack" && !IsPopupOrAnnouncementButton(btnMission[i]))
 			{
 				btnMission[i].enabled = false;
 			}
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if ((btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
+			if (IsPopupOrAnnouncementButton(btnMission[i]) || (btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
 			{
 				btnMission[i].enabled = true;
 			}
@@ -361,14 +411,14 @@ public class CutScene_MapScene : MonoBehaviour
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if (btnMission[i].transform.parent.name != "btnBack")
+			if (btnMission[i].transform.parent.name != "btnBack" && !IsPopupOrAnnouncementButton(btnMission[i]))
 			{
 				btnMission[i].enabled = false;
 			}
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if ((btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
+			if (IsPopupOrAnnouncementButton(btnMission[i]) || (btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
 			{
 				btnMission[i].enabled = true;
 			}
@@ -409,14 +459,14 @@ public class CutScene_MapScene : MonoBehaviour
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if (btnMission[i].transform.parent.name != "btnBack")
+			if (btnMission[i].transform.parent.name != "btnBack" && !IsPopupOrAnnouncementButton(btnMission[i]))
 			{
 				btnMission[i].enabled = false;
 			}
 		}
 		for (i = 0; i < btnMission.Length; i++)
 		{
-			if ((btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
+			if (IsPopupOrAnnouncementButton(btnMission[i]) || (btnMission[i].targetObject != null && btnMission[i].targetObject.transform.parent != null && btnMission[i].targetObject.transform.parent.name == "InGame") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "AnnouncementListItem(Clone)") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupConfirm") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAdFeedback") || (btnMission[i].targetObject != null && btnMission[i].targetObject.name == "PopupAreYouSure"))
 			{
 				btnMission[i].enabled = true;
 			}
@@ -448,17 +498,28 @@ public class CutScene_MapScene : MonoBehaviour
 		}
 		for (int j = 0; j < popupButtons.Length; j++)
 		{
+			popupButtons[j].enabled = true;
 			if (popupButtons[j].messageName == "OnBtnMultiplayerClick")
 			{
-				popupMultiplayerAvailabilityView.LockBack = true;
+				popupMultiplayerAvailabilityView.LockBack = false;
 				BtnMultiplayer = popupButtons[j].transform;
 				StartCoroutine(ShowHand(0.8f));
 			}
-			else
-			{
-				popupButtons[j].enabled = false;
-			}
 		}
+		popupMultiplayerAvailabilityView.OnCloseEvent += () =>
+		{
+			if (hand2dFlip != null)
+			{
+				hand2dFlip.SetActive(false);
+			}
+		};
+		popupMultiplayerAvailabilityView.OnMultiplayerEvent += () =>
+		{
+			if (hand2dFlip != null)
+			{
+				hand2dFlip.SetActive(false);
+			}
+		};
 	}
 
 	private IEnumerator Scale(float weit, float scale)
@@ -470,6 +531,10 @@ public class CutScene_MapScene : MonoBehaviour
 	public void OnBtnBackpackClick()
 	{
 		hand2d.SetActive(false);
+		if (_mapCamera != null)
+		{
+			_mapCamera.enabled = true;
+		}
 		Equip.transform.parent.parent.parent.SendMessage("OnBtnBackpackClick");
 		PlayerPrefs.SetInt("Tutor_CutSceneMap", 1);
 	}
@@ -505,6 +570,13 @@ public class CutScene_MapScene : MonoBehaviour
 
 	private void LateUpdate()
 	{
+		if ((TutorialMapSceneComplete && TutorialMapSceneComplete0 && TutorialMapSceneComplete1 && TutorialMapSceneComplete2) || missionTap)
+		{
+			if (_mapCamera != null && !_mapCamera.enabled)
+			{
+				_mapCamera.enabled = true;
+			}
+		}
 		if (!AfterStart3Lock && !TutorialMapSceneComplete3 && PopupMultiplayer.activeSelf)
 		{
 			AfterStart3Lock = true;

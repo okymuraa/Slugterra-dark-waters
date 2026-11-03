@@ -53,6 +53,8 @@ namespace Slugterra.UI.Game.Camera
 
 		private Vector3 _velocity;
 
+		private int _lastDirectDragFrame = -1;
+
 		private void Start()
 		{
 			_cameraTransform = transform;
@@ -168,9 +170,60 @@ namespace Slugterra.UI.Game.Camera
 			}
 		}
 
+		private void Update()
+		{
+			if (isLocked)
+			{
+				return;
+			}
+
+			// Direct mouse drag on PC standalone
+			if (UnityEngine.Input.GetMouseButtonDown(0))
+			{
+				_prevMovePos = UnityEngine.Input.mousePosition;
+				_offset = Vector3.zero;
+				_basePosition = _cameraTransform.position;
+				_lastDirectDragFrame = Time.frameCount;
+			}
+			else if (UnityEngine.Input.GetMouseButton(0))
+			{
+				Vector3 currentMouse = UnityEngine.Input.mousePosition;
+				if (_prevMovePos != Vector3.zero)
+				{
+					Vector3 vector = -(currentMouse - _prevMovePos);
+					_movement = new Vector3(vector.x, 0f, vector.y);
+					_offset += _movement * _sensitive;
+				}
+				_prevMovePos = currentMouse;
+				_lastDirectDragFrame = Time.frameCount;
+			}
+			else if (UnityEngine.Input.GetMouseButtonUp(0))
+			{
+				_movement = Vector3.zero;
+				_prevMovePos = Vector3.zero;
+				_lastDirectDragFrame = Time.frameCount;
+			}
+
+			// Keyboard WASD / Arrow keys for PC
+			float h = UnityEngine.Input.GetAxisRaw("Horizontal");
+			float v = UnityEngine.Input.GetAxisRaw("Vertical");
+			if (Mathf.Abs(h) > 0.01f || Mathf.Abs(v) > 0.01f)
+			{
+				Vector3 keyMove = new Vector3(h, 0f, v).normalized * (15f * Time.deltaTime);
+				_basePosition += keyMove;
+			}
+
+			// Mouse scroll wheel zoom
+			float scroll = UnityEngine.Input.GetAxis("Mouse ScrollWheel");
+			if (Mathf.Abs(scroll) > 0.01f)
+			{
+				OnZoom(scroll * 15f);
+			}
+		}
+
 		private void OnMove(Vector3 position, float actionTime)
 		{
-			if (!isLocked)
+			if (!isLocked && _lastDirectDragFrame != Time.frameCount)
 			{
 				if (_prevMovePos == Vector3.zero)
 				{

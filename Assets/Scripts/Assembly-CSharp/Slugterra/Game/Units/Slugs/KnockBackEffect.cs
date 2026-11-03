@@ -44,7 +44,7 @@ namespace Slugterra.Game.Units.Slugs
 			}
 			if (_controller.PathFinder != null)
 			{
-				_controller.PathFinder.enabled = false;
+				_controller.PathFinder.canMove = false;
 			}
 			if (_controller.StateMachine.CurrentState != null)
 			{
@@ -52,7 +52,6 @@ namespace Slugterra.Game.Units.Slugs
 			}
 			_controller.Animator.SetFloat("VelocityX", 0f);
 			_controller.Animator.SetFloat("VelocityY", 0f);
-			_controller.enabled = false;
 		}
 
 		private void Update()
@@ -76,6 +75,10 @@ namespace Slugterra.Game.Units.Slugs
 			if (_controller != null && !_controller.Model.IsDead())
 			{
 				_controller.OnStandUp();
+				if (_controller.PathFinder != null)
+				{
+					_controller.PathFinder.canMove = true;
+				}
 				if (_controller.StateMachine.CurrentState != null)
 				{
 					_controller.StateMachine.CurrentState.Finish();

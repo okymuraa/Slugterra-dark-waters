@@ -12,7 +12,7 @@ namespace Slugterra.Game.Units.Ally.Assistant
 
 		protected const float STOP_DISTANCE = 0.2f;
 
-		private const float HOLD_TIME = 0.5f;
+		private const float HOLD_TIME = 1.2f;
 
 		private float _holdTime;
 
@@ -80,12 +80,16 @@ namespace Slugterra.Game.Units.Ally.Assistant
 			{
 				if (_holdTime < 0f)
 				{
-					_holdTime = Time.time + 0.5f;
+					_holdTime = Time.time + HOLD_TIME;
 				}
 				else if (_holdTime < Time.time)
 				{
 					Finish();
 					return;
+				}
+				else if (_holdTime - Time.time < 0.6f && Controller.PathFinder != null && Controller.PathFinder.canSearch)
+				{
+					Controller.PathFinder.SearchPath();
 				}
 			}
 			else

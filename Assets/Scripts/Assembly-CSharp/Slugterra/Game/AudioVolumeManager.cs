@@ -40,17 +40,40 @@ namespace Slugterra.Game
 			}
 		}
 
+		private void EnsureMasterMixer()
+		{
+			if (_masterMixer == null)
+			{
+				_masterMixer = Resources.Load<AudioMixer>("sounds/mixers/MasterMixer") ?? Resources.Load<AudioMixer>("Sounds/Mixers/MasterMixer");
+			}
+			if (_volumeCurve == null || _volumeCurve.length == 0)
+			{
+				_volumeCurve = new AnimationCurve(new Keyframe(0f, -80f), new Keyframe(1f, 20f));
+			}
+		}
+
 		private void SetMusicVolume(float volume)
 		{
-			float value = _volumeCurve.Evaluate(volume);
-			_masterMixer.SetFloat("MusicVolume", value);
+			EnsureMasterMixer();
+			if (_masterMixer != null)
+			{
+				float value = _volumeCurve.Evaluate(volume);
+				_masterMixer.SetFloat("MusicVolume", value);
+				_masterMixer.SetFloat("mposwoH", value);
+			}
 		}
 
 		private void SetSoundFxVolume(float volume)
 		{
-			float value = _volumeCurve.Evaluate(volume);
-			_masterMixer.SetFloat("AmbienceVolume", value);
-			_masterMixer.SetFloat("SfxVolume", value);
+			EnsureMasterMixer();
+			if (_masterMixer != null)
+			{
+				float value = _volumeCurve.Evaluate(volume);
+				_masterMixer.SetFloat("AmbienceVolume", value);
+				_masterMixer.SetFloat("SOprRTH", value);
+				_masterMixer.SetFloat("SfxVolume", value);
+				_masterMixer.SetFloat("hkkpiSL", value);
+			}
 		}
 
 		protected override void OnReleaseResource()

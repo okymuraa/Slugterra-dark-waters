@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Slugterra.Configuration;
 using UnityEngine;
 
@@ -74,10 +75,56 @@ namespace Slugterra.Game.Units.Player.Strategy
 
 		public virtual void OnNextTarget()
 		{
+			if (Controller == null) return;
+			List<Transform> list = Controller.BuildTargetsPriorityList();
+			List<Transform> list2 = list.FindAll(Controller.CheckTargetInFOV);
+			if (list2.Count == 0)
+			{
+				list2 = list;
+			}
+			if (list2.Count == 0)
+			{
+				return;
+			}
+			int num = -1;
+			if (Controller.AttackTarget != null)
+			{
+				num = list2.IndexOf(Controller.AttackTarget);
+			}
+			int nextIndex = (num + 1) % list2.Count;
+			Controller.AttackTarget = list2[nextIndex];
+			Controller.UseAutoattack = true;
+			Controller.RotateToTarget = true;
+			Controller.IsIgnorEnemy = false;
 		}
 
 		public virtual void OnPrevTarget()
 		{
+			if (Controller == null) return;
+			List<Transform> list = Controller.BuildTargetsPriorityList();
+			List<Transform> list2 = list.FindAll(Controller.CheckTargetInFOV);
+			if (list2.Count == 0)
+			{
+				list2 = list;
+			}
+			if (list2.Count == 0)
+			{
+				return;
+			}
+			int num = list2.Count;
+			if (Controller.AttackTarget != null)
+			{
+				num = list2.IndexOf(Controller.AttackTarget);
+				if (num < 0)
+				{
+					num = list2.Count;
+				}
+			}
+			int prevIndex = (num - 1 + list2.Count) % list2.Count;
+			Controller.AttackTarget = list2[prevIndex];
+			Controller.UseAutoattack = true;
+			Controller.RotateToTarget = true;
+			Controller.IsIgnorEnemy = false;
 		}
 	}
 }

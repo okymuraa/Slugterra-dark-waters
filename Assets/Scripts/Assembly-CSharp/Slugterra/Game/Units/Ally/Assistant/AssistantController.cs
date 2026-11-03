@@ -155,6 +155,7 @@ namespace Slugterra.Game.Units.Ally.Assistant
 
 		protected override void OnUpdate()
 		{
+			base.OnUpdate();
 			if (AttackTarget != null && LayerMask.LayerToName(AttackTarget.gameObject.layer) == "AllyLayer")
 			{
 				AttackTarget = null;

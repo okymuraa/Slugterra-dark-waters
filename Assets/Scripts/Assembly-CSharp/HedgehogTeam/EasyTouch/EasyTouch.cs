@@ -1555,7 +1555,7 @@ namespace HedgehogTeam.EasyTouch
 			{
 				CreateGesture2Finger(EvtType.On_Cancel2Fingers, Vector2.zero, Vector2.zero, Vector2.zero, 0f, SwipeDirection.None, 0f, Vector2.zero, 0f, 0f, 0f);
 			}
-			UpdateTouches(true, num);
+			UpdateTouches(Application.isMobilePlatform, num);
 			twoFinger.oldPickedObject = twoFinger.pickedObject;
 			if (enable2FingersGesture && num == 2)
 			{

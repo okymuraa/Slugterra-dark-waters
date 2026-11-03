@@ -1,5 +1,9 @@
 using AppsMinistry.Core;
 using Pathfinding;
+using Slugterra.Game.Environment;
+using Slugterra.Game.Units;
+using Slugterra.Game.Units.Ally.Assistant;
+using Slugterra.Game.Units.Player;
 using Slugterra.Scene;
 using UnityEngine;
 
@@ -30,6 +34,14 @@ namespace Slugterra.Game.Input
 				if (_baseCamera == null)
 				{
 					OnSceneChanged();
+				}
+				if (_baseCamera == null)
+				{
+					_baseCamera = Camera.main;
+				}
+				if (_baseCamera == null)
+				{
+					_baseCamera = Object.FindObjectOfType<Camera>();
 				}
 				return _baseCamera;
 			}
@@ -91,19 +103,47 @@ namespace Slugterra.Game.Input
 			{
 				Ray ray = MousePointToRay(mousePosition);
 				int num = LayerMask.NameToLayer("TouchLayer");
-				int layerMask = 1 << num;
-				RaycastHit hitInfo;
-				if (Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, layerMask))
+				int layerMask = (1 << num) | (1 << _enemyLayer) | (1 << _neutralLayer);
+				RaycastHit[] hits = Physics.RaycastAll(ray, float.PositiveInfinity, layerMask);
+				if (hits != null && hits.Length > 0)
 				{
-					Transform parent = hitInfo.transform;
-					if (parent.gameObject.layer == num)
+					// Pass 1: Prioritize living enemies
+					foreach (RaycastHit hit in hits)
 					{
-						parent = hitInfo.transform.parent;
+						Transform t = hit.transform;
+						UnitController unit = t.GetComponent<UnitController>() ?? t.GetComponentInParent<UnitController>();
+						if (unit != null && !(unit is PlayerController) && !(unit is FollowerController))
+						{
+							if (unit.Model == null || !unit.Model.IsDead())
+							{
+								enemy = unit.transform;
+								return true;
+							}
+						}
+						Transform parent = (t.gameObject.layer == num) ? t.parent : t;
+						if (parent != null && parent.gameObject.layer == _enemyLayer)
+						{
+							enemy = parent;
+							return true;
+						}
 					}
-					if (parent.gameObject.layer == _enemyLayer || parent.gameObject.layer == _neutralLayer)
+
+					// Pass 2: Interactive / destructible environment props (cajas, barrels)
+					foreach (RaycastHit hit2 in hits)
 					{
-						enemy = parent;
-						return true;
+						Transform t2 = hit2.transform;
+						InteractiveEnvironmentController env = t2.GetComponent<InteractiveEnvironmentController>() ?? t2.GetComponentInParent<InteractiveEnvironmentController>();
+						if (env != null)
+						{
+							enemy = env.transform;
+							return true;
+						}
+						Transform parent2 = (t2.gameObject.layer == num) ? t2.parent : t2;
+						if (parent2 != null && parent2.gameObject.layer == _neutralLayer)
+						{
+							enemy = parent2;
+							return true;
+						}
 					}
 				}
 			}

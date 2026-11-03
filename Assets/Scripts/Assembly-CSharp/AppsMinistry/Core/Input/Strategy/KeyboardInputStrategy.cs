@@ -15,9 +15,28 @@ namespace AppsMinistry.Core.Input.Strategy
 
 		private Vector2 _lastMoveDir = Vector2.up;
 
+		private Vector3 _mouseSwipeStart;
+
+		private float _mouseSwipeStartTime;
+
+		private bool _isMouseSwiping;
+
 		public override void Activate()
 		{
 			base.Activate();
+			EnableEvent(InputEvent.OnMove);
+			EnableEvent(InputEvent.OnMoveEnd);
+			EnableEvent(InputEvent.Plus);
+			EnableEvent(InputEvent.Minus);
+			EnableEvent(InputEvent.Swipe);
+			EnableEvent(InputEvent.Tap);
+			EnableEvent(InputEvent.DoubleTap);
+			EnableEvent(InputEvent.Press);
+			EnableEvent(InputEvent.Release);
+			EnableEvent(InputEvent.Up);
+			EnableEvent(InputEvent.Down);
+			EnableEvent(InputEvent.Left);
+			EnableEvent(InputEvent.Right);
 		}
 
 		public override void Deactivate()
@@ -37,18 +56,56 @@ namespace AppsMinistry.Core.Input.Strategy
 
 		private void UpdateMouseCombat()
 		{
+			if (UnityEngine.Input.GetMouseButtonDown(0))
+			{
+				_mouseSwipeStart = UnityEngine.Input.mousePosition;
+				_mouseSwipeStartTime = Time.time;
+				_isMouseSwiping = true;
+			}
+			else if (UnityEngine.Input.GetMouseButtonUp(0) && _isMouseSwiping)
+			{
+				_isMouseSwiping = false;
+				Vector3 diff = UnityEngine.Input.mousePosition - _mouseSwipeStart;
+				float duration = Time.time - _mouseSwipeStartTime;
+				if (diff.magnitude > (float)Screen.width * 0.07f && duration < 0.6f)
+				{
+					Use_OnSwipeStart(_mouseSwipeStart);
+					Use_OnSwipeEnd(UnityEngine.Input.mousePosition);
+				}
+			}
 			if (UnityEngine.Input.GetMouseButtonDown(1))
 			{
-				Use_OnBegineAttack();
+				Slugterra.Game.Units.Player.PlayerController localPlayer = UnityEngine.Object.FindObjectOfType<Slugterra.Game.Units.Player.PlayerController>();
+				if (localPlayer != null && localPlayer.AttackTarget != null)
+				{
+					localPlayer.AttackTarget = null;
+					localPlayer.UseAutoattack = false;
+					localPlayer.DamageSystem.Clear();
+				}
+				else
+				{
+					Use_OnBegineAttack();
+				}
 			}
 			float scroll = UnityEngine.Input.GetAxis("Mouse ScrollWheel");
-			if (scroll > 0.05f)
+			if (Mathf.Abs(scroll) > 0.01f)
 			{
-				OnUseNextSlug();
-			}
-			else if (scroll < -0.05f)
-			{
-				OnUsePreviousSlug();
+				Slugterra.Game.Units.Player.PlayerController localPlayer = UnityEngine.Object.FindObjectOfType<Slugterra.Game.Units.Player.PlayerController>();
+				if (localPlayer != null)
+				{
+					if (scroll > 0.05f)
+					{
+						OnUseNextSlug();
+					}
+					else if (scroll < -0.05f)
+					{
+						OnUsePreviousSlug();
+					}
+				}
+				else
+				{
+					Use_OnZoom(scroll * 15f);
+				}
 			}
 		}
 
@@ -82,13 +139,9 @@ namespace AppsMinistry.Core.Input.Strategy
 
 		private void UpdateKeyboardMovement()
 		{
-			if (UnityEngine.Input.GetMouseButton(0) || UnityEngine.Input.GetMouseButton(1))
+			Slugterra.Game.Units.Player.PlayerController localPlayer = UnityEngine.Object.FindObjectOfType<Slugterra.Game.Units.Player.PlayerController>();
+			if (localPlayer != null && localPlayer.StateMachine != null && localPlayer.StateMachine.CurrentState is Slugterra.Game.Units.Player.RollState)
 			{
-				if (_wasMovingKeyboard)
-				{
-					_wasMovingKeyboard = false;
-					Use_OnMoveEndEvent();
-				}
 				return;
 			}
 			Vector2 moveVec = GetKeyboardMoveVector();
@@ -129,9 +182,38 @@ namespace AppsMinistry.Core.Input.Strategy
 			}
 			if (GetKeyDown(KeyCode.Space) || GetKeyDown(KeyCode.LeftShift))
 			{
-				Use_OnMoveEndEvent();
-				Use_OnSwipe(_lastMoveDir);
-				Use_OnSwipeClick(_lastMoveDir);
+				Slugterra.Game.Units.Player.PlayerController localPlayer = UnityEngine.Object.FindObjectOfType<Slugterra.Game.Units.Player.PlayerController>();
+				Vector2 currentInput = GetKeyboardMoveVector();
+				Vector2 swipeDir;
+				if (currentInput.sqrMagnitude > 0.01f)
+				{
+					swipeDir = currentInput.normalized;
+				}
+				else if (_lastMoveDir.sqrMagnitude > 0.01f)
+				{
+					swipeDir = _lastMoveDir;
+				}
+				else if (localPlayer != null)
+				{
+					Vector3 fwd = localPlayer.Transform.forward;
+					swipeDir = new Vector2(fwd.x, fwd.z).normalized;
+					if (swipeDir.sqrMagnitude < 0.01f)
+					{
+						swipeDir = Vector2.up;
+					}
+				}
+				else
+				{
+					swipeDir = Vector2.up;
+				}
+
+				if (localPlayer != null && localPlayer.CanSwipe)
+				{
+					Vector3 startPos = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+					Vector3 endPos = startPos + new Vector3(swipeDir.x, swipeDir.y, 0f) * ((float)Screen.width * 0.2f);
+					Use_OnSwipeStart(startPos);
+					Use_OnSwipeEnd(endPos);
+				}
 			}
 			if (GetKeyDown(KeyCode.Return))
 			{
@@ -160,9 +242,30 @@ namespace AppsMinistry.Core.Input.Strategy
 			}
 			else if (GetKeyDown(KeyCode.Escape))
 			{
-				tutorSkipping = !tutorSkipping;
-				showHelp = false;
-				OnBackBtn();
+				Slugterra.Game.Units.Player.PlayerController localPlayer = UnityEngine.Object.FindObjectOfType<Slugterra.Game.Units.Player.PlayerController>();
+				if (localPlayer != null && localPlayer.AttackTarget != null)
+				{
+					localPlayer.AttackTarget = null;
+					localPlayer.UseAutoattack = false;
+					localPlayer.DamageSystem.Clear();
+				}
+				else
+				{
+					tutorSkipping = !tutorSkipping;
+					showHelp = false;
+					OnBackBtn();
+				}
+			}
+			if (GetKeyDown(KeyCode.Tab))
+			{
+				if (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift))
+				{
+					Use_OnPrevTargetBtnEvent();
+				}
+				else
+				{
+					Use_OnNextTargetBtnEvent();
+				}
 			}
 			if (GetKeyDown(KeyCode.Alpha1))
 			{
@@ -254,7 +357,7 @@ namespace AppsMinistry.Core.Input.Strategy
 				}
 				timing.Remove(KeyCode.Return);
 			}
-			else if (GetKeyUp(KeyCode.Keypad0) || GetKeyUp(KeyCode.Tab))
+			else if (GetKeyUp(KeyCode.Keypad0))
 			{
 				Use_OnNextTargetBtnEvent();
 			}

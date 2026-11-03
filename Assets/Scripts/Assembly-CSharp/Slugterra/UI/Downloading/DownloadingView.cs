@@ -154,5 +154,44 @@ namespace Slugterra.UI.Downloading
 				lblDescriptionShadow.text = MonoSingleton<Localization>.Instance.GetValueByKey(loadingTexts[num2]);
 			}
 		}
+
+		public void SetProgressDirect(float num)
+		{
+			if (loadingContent != null && !loadingContent.gameObject.activeSelf)
+			{
+				loadingContent.gameObject.SetActive(true);
+			}
+			num = Mathf.Clamp01(num);
+			if (progressBar != null)
+			{
+				progressBar.Value = num;
+			}
+			int num2 = (loadingTexts != null && loadingTexts.Length > 0) ? Mathf.Clamp((int)((float)(loadingTexts.Length - 1) * num), 0, loadingTexts.Length - 1) : 0;
+			string titleText = MonoSingleton<Localization>.Instance.GetValueByKey("loading_title") + " " + (num * 100f).ToString("0") + "%";
+			if (lblTitle != null)
+			{
+				lblTitle.text = titleText;
+			}
+			if (lblTitleShadow != null)
+			{
+				lblTitleShadow.text = titleText;
+			}
+			if (loadingTexts != null && loadingTexts.Length > 0)
+			{
+				if (lblDescription != null && !lblDescription.gameObject.activeSelf)
+				{
+					lblDescription.gameObject.SetActive(true);
+				}
+				if (lblDescription != null)
+				{
+					lblDescription.color = descBaseColor;
+					lblDescription.text = MonoSingleton<Localization>.Instance.GetValueByKey(loadingTexts[num2]);
+				}
+				if (lblDescriptionShadow != null)
+				{
+					lblDescriptionShadow.text = MonoSingleton<Localization>.Instance.GetValueByKey(loadingTexts[num2]);
+				}
+			}
+		}
 	}
 }

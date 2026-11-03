@@ -20,15 +20,18 @@ public class UnitBehavior : IBehavior
 	{
 		get
 		{
-			return dataHolder.Me.MovementSettings.CanMove;
+			return dataHolder != null && dataHolder.Me.MovementSettings.CanMove;
 		}
 		set
 		{
-			if (dataHolder == null)
+			if (dataHolder == null && MyBehaviorTree != null && MyBehaviorTree.GetVariable("DataHolder") != null)
 			{
 				dataHolder = (BehaviorDataHolder)MyBehaviorTree.GetVariable("DataHolder").GetValue();
 			}
-			dataHolder.Me.MovementSettings.CanMove = value;
+			if (dataHolder != null)
+			{
+				dataHolder.Me.MovementSettings.CanMove = value;
+			}
 		}
 	}
 
@@ -36,11 +39,14 @@ public class UnitBehavior : IBehavior
 	{
 		get
 		{
-			return dataHolder.Me.MovementSettings.CanPatrol;
+			return dataHolder != null && dataHolder.Me.MovementSettings.CanPatrol;
 		}
 		set
 		{
-			dataHolder.Me.MovementSettings.CanPatrol = value;
+			if (dataHolder != null)
+			{
+				dataHolder.Me.MovementSettings.CanPatrol = value;
+			}
 		}
 	}
 
@@ -48,7 +54,6 @@ public class UnitBehavior : IBehavior
 	{
 		if (MyBehaviorTree == null)
 		{
-			Debug.Log("<color=red>Behavior tree link on UnitBehavior is null</color>");
 			return;
 		}
 		SharedVariable variable = MyBehaviorTree.GetVariable("DataHolder");
@@ -56,20 +61,12 @@ public class UnitBehavior : IBehavior
 		{
 			dataHolder = (BehaviorDataHolder)variable.GetValue();
 		}
-		else
-		{
-			Debug.Log("<color=red>sharedVariable is null</color>");
-		}
 		if (dataHolder != null && dataHolder.Me != null && dataHolder.Me.Controller != null)
 		{
 			dataHolder.Me.Controller.OnDamageRecievedEvent += OnDamage;
 		}
-		else
-		{
-			Debug.Log("<color=red>Problem with dataHolder something in dataHolder is null</color>");
-		}
 		GameController gameController = Object.FindObjectOfType<GameController>();
-		if (gameController != null && gameController.IsMultiplayer)
+		if (dataHolder != null && gameController != null && gameController.IsMultiplayer)
 		{
 			EliController eliController = Object.FindObjectOfType<EliController>();
 			if (eliController != null)
@@ -91,7 +88,7 @@ public class UnitBehavior : IBehavior
 
 	public override void OnDamage(float damage, Attacker attacker)
 	{
-		if (!dataHolder.Enemy.Exist && !dataHolder.Me.Effects.InFear && attacker.transform.GetComponent<IDestructible>() != null)
+		if (dataHolder != null && !dataHolder.Enemy.Exist && !dataHolder.Me.Effects.InFear && attacker != null && attacker.transform != null && attacker.transform.GetComponent<IDestructible>() != null)
 		{
 			MoveTo(attacker.transform.position);
 			dataHolder.Me.Controller.PathFinder.speed = dataHolder.Me.Controller.Model.RunSpeed;
@@ -100,54 +97,82 @@ public class UnitBehavior : IBehavior
 
 	public override void CutSceneUnlock()
 	{
-		dataHolder.Me.UnitSettings.CutSceneUnlock = true;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.UnitSettings.CutSceneUnlock = true;
+		}
 	}
 
 	public override void Fear()
 	{
-		dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
-		dataHolder.Me.Effects.InFear = true;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
+			dataHolder.Me.Effects.InFear = true;
+		}
 	}
 
 	public override void UnFear()
 	{
-		dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
-		dataHolder.Me.Effects.InFear = false;
-		dataHolder.Me.Controller.ViewArea.UpdateTargets();
+		if (dataHolder != null)
+		{
+			dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
+			dataHolder.Me.Effects.InFear = false;
+			dataHolder.Me.Controller.ViewArea.UpdateTargets();
+		}
 	}
 
 	public override void Stun()
 	{
-		dataHolder.Me.Effects.InStun = true;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.Effects.InStun = true;
+		}
 	}
 
 	public override void UnStun()
 	{
-		dataHolder.Me.Effects.InStun = false;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.Effects.InStun = false;
+		}
 	}
 
 	public override void Blind()
 	{
-		dataHolder.Me.AttackSettings.CanShoot = false;
-		dataHolder.Enemy.Controller = null;
-		dataHolder.Enemy.Root = null;
-		dataHolder.Enemy.AttackTargetPoint = null;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.AttackSettings.CanShoot = false;
+			dataHolder.Enemy.Controller = null;
+			dataHolder.Enemy.Root = null;
+			dataHolder.Enemy.AttackTargetPoint = null;
+		}
 	}
 
 	public override void UnBlind()
 	{
-		dataHolder.Me.AttackSettings.CanShoot = true;
-		dataHolder.Me.Controller.ViewArea.UpdateTargets();
+		if (dataHolder != null)
+		{
+			dataHolder.Me.AttackSettings.CanShoot = true;
+			dataHolder.Me.Controller.ViewArea.UpdateTargets();
+		}
 	}
 
 	public override void AttackTarget(Transform target)
 	{
+		if (dataHolder == null)
+		{
+			return;
+		}
 		if (target == null)
 		{
 			dataHolder.Enemy.Root = null;
 			dataHolder.Enemy.Controller = null;
 			dataHolder.Enemy.AttackTargetPoint = null;
-			dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
+			if (dataHolder.Me.Controller != null && dataHolder.Me.Controller.Animator != null)
+			{
+				dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
+			}
 		}
 		else
 		{
@@ -176,41 +201,62 @@ public class UnitBehavior : IBehavior
 
 	public override void ConvertToAlly()
 	{
-		dataHolder.Enemy.Root = null;
-		dataHolder.Enemy.Controller = null;
-		dataHolder.Enemy.AttackTargetPoint = null;
+		if (dataHolder != null)
+		{
+			dataHolder.Enemy.Root = null;
+			dataHolder.Enemy.Controller = null;
+			dataHolder.Enemy.AttackTargetPoint = null;
+		}
 	}
 
 	public override void ConvertToEnemy()
 	{
-		dataHolder.Enemy.Root = null;
-		dataHolder.Enemy.Controller = null;
-		dataHolder.Enemy.AttackTargetPoint = null;
+		if (dataHolder != null)
+		{
+			dataHolder.Enemy.Root = null;
+			dataHolder.Enemy.Controller = null;
+			dataHolder.Enemy.AttackTargetPoint = null;
+		}
 	}
 
 	public override void OnFallDown()
 	{
-		dataHolder.Me.AttackSettings.CanShoot = false;
-		dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
+		if (dataHolder != null)
+		{
+			dataHolder.Me.AttackSettings.CanShoot = false;
+			if (dataHolder.Me.Controller != null && dataHolder.Me.Controller.Animator != null)
+			{
+				dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", false);
+			}
+		}
 	}
 
 	public override IEnumerator OnStandUp(float delayTime)
 	{
 		yield return new WaitForSeconds(delayTime);
-		dataHolder.Me.AttackSettings.CanShoot = true;
-		dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", dataHolder.Enemy.Exist);
+		if (dataHolder != null)
+		{
+			dataHolder.Me.AttackSettings.CanShoot = true;
+			if (dataHolder.Me.Controller != null && dataHolder.Me.Controller.Animator != null)
+			{
+				dataHolder.Me.Controller.Animator.SetBool("EnemyInSight", dataHolder.Enemy.Exist);
+			}
+		}
 	}
 
 	public override void MoveTo(Vector3 movePoint)
 	{
-		dataHolder.Me.Movement.MovePoint.position = movePoint;
-		dataHolder.Me.Movement.IsMoveOrderRecieved = true;
-		CutSceneUnlock();
+		if (dataHolder != null && dataHolder.Me.Movement.MovePoint != null)
+		{
+			dataHolder.Me.Movement.MovePoint.position = movePoint;
+			dataHolder.Me.Movement.IsMoveOrderRecieved = true;
+			CutSceneUnlock();
+		}
 	}
 
 	public override void UseFiniteCustomPath(MovePath path)
 	{
-		if (path.Points != null && path.Points.Count != 0)
+		if (path != null && path.Points != null && path.Points.Count != 0)
 		{
 			if (customPatrolPath == null)
 			{
@@ -218,25 +264,40 @@ public class UnitBehavior : IBehavior
 			}
 			customPatrolPath.SetPath(path.Points);
 			customPatrolPath.EndlessPath = false;
-			dataHolder = (BehaviorDataHolder)MyBehaviorTree.GetVariable("DataHolder").GetValue();
-			dataHolder.Me.MovementSettings.PatrolPath = customPatrolPath;
+			if (MyBehaviorTree != null && MyBehaviorTree.GetVariable("DataHolder") != null)
+			{
+				dataHolder = (BehaviorDataHolder)MyBehaviorTree.GetVariable("DataHolder").GetValue();
+			}
+			if (dataHolder != null)
+			{
+				dataHolder.Me.MovementSettings.PatrolPath = customPatrolPath;
+			}
 		}
 	}
 
 	public override void UseCustomWalkSpeed(float customSpeed)
 	{
-		dataHolder.Me.MovementSettings.UseCustomWalkSpeed = true;
-		dataHolder.Me.MovementSettings.CustomWalkSpeed = customSpeed;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.MovementSettings.UseCustomWalkSpeed = true;
+			dataHolder.Me.MovementSettings.CustomWalkSpeed = customSpeed;
+		}
 	}
 
 	public override void UseCustomPatrolSpeed(float customSpeed)
 	{
-		dataHolder.Me.MovementSettings.UseCustomPatrolSpeed = true;
-		dataHolder.Me.MovementSettings.CustomPatrolSpeed = customSpeed;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.MovementSettings.UseCustomPatrolSpeed = true;
+			dataHolder.Me.MovementSettings.CustomPatrolSpeed = customSpeed;
+		}
 	}
 
 	public override void AttackSpeedCoefChangged()
 	{
-		dataHolder.Me.Attack.ReloadCoefChanged = true;
+		if (dataHolder != null)
+		{
+			dataHolder.Me.Attack.ReloadCoefChanged = true;
+		}
 	}
 }

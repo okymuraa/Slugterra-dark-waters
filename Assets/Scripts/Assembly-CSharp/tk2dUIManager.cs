@@ -304,6 +304,18 @@ public class tk2dUIManager : MonoBehaviour
 				sortedCameras.Add(tk2dUICamera2);
 			}
 		}
+		if (sortedCameras.Count == 0)
+		{
+			tk2dUICamera[] foundCams = UnityEngine.Object.FindObjectsOfType<tk2dUICamera>();
+			for (int j = 0; j < foundCams.Length; j++)
+			{
+				if (foundCams[j] != null && !allCameras.Contains(foundCams[j]))
+				{
+					allCameras.Add(foundCams[j]);
+					sortedCameras.Add(foundCams[j]);
+				}
+			}
+		}
 		sortedCameras.Sort((tk2dUICamera a, tk2dUICamera b) => b.GetComponent<Camera>().depth.CompareTo(a.GetComponent<Camera>().depth));
 	}
 
@@ -676,17 +688,33 @@ public class tk2dUIManager : MonoBehaviour
 			if (tk2dUICamera2.RaycastType == tk2dUICamera.tk2dRaycastType.Physics3D)
 			{
 				ray = tk2dUICamera2.HostCamera.ScreenPointToRay(screenPos);
-				if (Physics.Raycast(ray, out hit, tk2dUICamera2.HostCamera.farClipPlane - tk2dUICamera2.HostCamera.nearClipPlane, tk2dUICamera2.FilteredMask))
+				RaycastHit[] hits = Physics.RaycastAll(ray, tk2dUICamera2.HostCamera.farClipPlane - tk2dUICamera2.HostCamera.nearClipPlane, tk2dUICamera2.FilteredMask, QueryTriggerInteraction.Ignore);
+				if (hits != null && hits.Length > 0)
 				{
-					return hit.collider.GetComponent<tk2dUIItem>();
+					System.Array.Sort(hits, (RaycastHit a, RaycastHit b) => a.distance.CompareTo(b.distance));
+					for (int h = 0; h < hits.Length; h++)
+					{
+						tk2dUIItem item = hits[h].collider.GetComponentInParent<tk2dUIItem>();
+						if (item != null && item.enabled && item.gameObject.activeInHierarchy)
+						{
+							return item;
+						}
+					}
 				}
 			}
 			else if (tk2dUICamera2.RaycastType == tk2dUICamera.tk2dRaycastType.Physics2D)
 			{
-				Collider2D collider2D = Physics2D.OverlapPoint(tk2dUICamera2.HostCamera.ScreenToWorldPoint(screenPos), tk2dUICamera2.FilteredMask);
-				if (collider2D != null)
+				Collider2D[] colliders = Physics2D.OverlapPointAll(tk2dUICamera2.HostCamera.ScreenToWorldPoint(screenPos), tk2dUICamera2.FilteredMask);
+				if (colliders != null && colliders.Length > 0)
 				{
-					return collider2D.GetComponent<tk2dUIItem>();
+					for (int c = 0; c < colliders.Length; c++)
+					{
+						tk2dUIItem item2 = colliders[c].GetComponentInParent<tk2dUIItem>();
+						if (item2 != null && item2.enabled && item2.gameObject.activeInHierarchy)
+						{
+							return item2;
+						}
+					}
 				}
 			}
 		}

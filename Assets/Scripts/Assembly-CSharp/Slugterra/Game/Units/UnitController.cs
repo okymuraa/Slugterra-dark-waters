@@ -277,7 +277,7 @@ namespace Slugterra.Game.Units
 		{
 			get
 			{
-				return _newVersionAI;
+				return _newVersionAI && (GetComponent<IBehavior>() != null || GetComponent<BehaviorDesigner.Runtime.BehaviorTree>() != null);
 			}
 			set
 			{
@@ -337,7 +337,7 @@ namespace Slugterra.Game.Units
 			}
 			set
 			{
-				if (NewVersionAI)
+				if (NewVersionAI && MyBehavior != null)
 				{
 					MyBehavior.UseFiniteCustomPath(value);
 					MyBehavior.CanPatrol = true;
@@ -417,6 +417,16 @@ namespace Slugterra.Game.Units
 			_damageSystem = _gameObject.AddComponent<DamageSystem>();
 			if (_pathFinder != null)
 			{
+				if (_pathFinder.target == null)
+				{
+					GameObject gameObject = new GameObject("~moveTarget");
+					gameObject.transform.position = _transform.position;
+					if (_transform.parent != null)
+					{
+						gameObject.transform.parent = _transform.parent;
+					}
+					_pathFinder.target = gameObject.transform;
+				}
 				_moveTarget = _pathFinder.target;
 			}
 			_hitMarker = GetComponent<HitMarker>();
@@ -424,7 +434,92 @@ namespace Slugterra.Game.Units
 			{
 				_hitMarker = _gameObject.AddComponent<HitMarker>();
 			}
+			if (_animator != null)
+			{
+				_animator.applyRootMotion = false;
+			}
 			OnCreate();
+		}
+
+		public void SnapToGroundOnce()
+		{
+			int terrain = LayerMask.NameToLayer("Terrain");
+			int prop = LayerMask.NameToLayer("PropLayer");
+			int def = LayerMask.NameToLayer("Default");
+			int mask = 0;
+			if (terrain != -1) mask |= (1 << terrain);
+			if (prop != -1) mask |= (1 << prop);
+			if (def != -1) mask |= (1 << def);
+			if (mask != 0)
+			{
+				Vector3 origin = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
+				RaycastHit[] hits = Physics.RaycastAll(origin, Vector3.down, 20f, mask, QueryTriggerInteraction.Ignore);
+				float bestY = float.MinValue;
+				bool found = false;
+				for (int i = 0; i < hits.Length; i++)
+				{
+					RaycastHit hit = hits[i];
+					if (hit.collider == null || hit.collider.isTrigger) continue;
+					if (hit.collider.transform == transform || hit.collider.transform.IsChildOf(transform)) continue;
+					if (hit.collider.GetComponentInParent<UnitController>() != null) continue;
+					if (hit.point.y > bestY && hit.point.y <= origin.y)
+					{
+						bestY = hit.point.y;
+						found = true;
+					}
+				}
+				if (found)
+				{
+					CharacterController cc = GetComponent<CharacterController>();
+					if (cc != null) cc.enabled = false;
+					transform.position = new Vector3(transform.position.x, bestY + 0.05f, transform.position.z);
+					if (cc != null) cc.enabled = true;
+				}
+			}
+		}
+
+		public void ClampAboveGround()
+		{
+			int terrain = LayerMask.NameToLayer("Terrain");
+			int prop = LayerMask.NameToLayer("PropLayer");
+			int def = LayerMask.NameToLayer("Default");
+			int mask = 0;
+			if (terrain != -1) mask |= (1 << terrain);
+			if (prop != -1) mask |= (1 << prop);
+			if (def != -1) mask |= (1 << def);
+			if (mask != 0)
+			{
+				float startY = transform.position.y;
+				Vector3 origin = new Vector3(transform.position.x, startY + 1.2f, transform.position.z);
+				RaycastHit[] hits = Physics.RaycastAll(origin, Vector3.down, 4.0f, mask, QueryTriggerInteraction.Ignore);
+				float highestValidY = float.MinValue;
+				bool found = false;
+
+				for (int i = 0; i < hits.Length; i++)
+				{
+					RaycastHit hit = hits[i];
+					if (hit.collider == null || hit.collider.isTrigger) continue;
+					if (hit.collider.transform == transform || hit.collider.transform.IsChildOf(transform)) continue;
+					if (hit.collider.GetComponentInParent<UnitController>() != null) continue;
+
+					if (hit.point.y <= startY + 0.4f)
+					{
+						if (hit.point.y > highestValidY)
+						{
+							highestValidY = hit.point.y;
+							found = true;
+						}
+					}
+				}
+
+				if (found && startY < highestValidY)
+				{
+					CharacterController cc = GetComponent<CharacterController>();
+					if (cc != null) cc.enabled = false;
+					transform.position = new Vector3(transform.position.x, highestValidY + 0.02f, transform.position.z);
+					if (cc != null) cc.enabled = true;
+				}
+			}
 		}
 
 		private void Start()
@@ -447,11 +542,13 @@ namespace Slugterra.Game.Units
 				_viewArea.SetAngle(Model.ViewAngle);
 			}
 			Model.OnDamageEvent += ModelOnDamage;
+			SnapToGroundOnce();
 			OnStart();
 		}
 
 		private void Update()
 		{
+			ClampAboveGround();
 			OnUpdate();
 		}
 
@@ -496,7 +593,7 @@ namespace Slugterra.Game.Units
 
 		public virtual void OnDamage(float damage, Attacker attackedUnit = null)
 		{
-			if (Model.IsDead() || attackedUnit == null || attackedUnit.transform == null || GameObject.layer == attackedUnit.transform.gameObject.layer)
+			if (Model.IsDead() || Model.Invulnerability || attackedUnit == null || attackedUnit.transform == null || GameObject.layer == attackedUnit.transform.gameObject.layer)
 			{
 				return;
 			}
@@ -549,7 +646,7 @@ namespace Slugterra.Game.Units
 			{
 				return;
 			}
-			if (NewVersionAI)
+			if (NewVersionAI && MyBehavior != null)
 			{
 				MyBehavior.OnFallDown();
 			}
@@ -565,9 +662,8 @@ namespace Slugterra.Game.Units
 				Animator.SetTrigger("OnFallDown");
 				if ((bool)PathFinder)
 				{
-					PathFinder.enabled = false;
+					PathFinder.canMove = false;
 				}
-				enabled = false;
 				CanAttack = false;
 				IsFallDown = true;
 				if (StateMachine.CurrentState != null)
@@ -583,7 +679,7 @@ namespace Slugterra.Game.Units
 		{
 			if (Model != null && !Model.IsDead() && IsFallDown)
 			{
-				if (NewVersionAI)
+				if (NewVersionAI && MyBehavior != null)
 				{
 					StartCoroutine(MyBehavior.OnStandUp(1.5f));
 				}
@@ -599,9 +695,11 @@ namespace Slugterra.Game.Units
 		private IEnumerator EnablePathFinder(float time)
 		{
 			yield return new WaitForSeconds(time);
+			enabled = true;
 			if ((bool)PathFinder)
 			{
 				PathFinder.enabled = true;
+				PathFinder.canMove = true;
 			}
 			if (StateMachine.CurrentState != null)
 			{
@@ -614,7 +712,7 @@ namespace Slugterra.Game.Units
 			Model.RemoveSpeedCoeficient(GetType());
 		}
 
-		public void SetViewRadius(float radius)
+		public virtual void SetViewRadius(float radius)
 		{
 			_viewArea.SetRadius(radius);
 		}
@@ -634,7 +732,7 @@ namespace Slugterra.Game.Units
 		public void SetAttackTarget(Transform target)
 		{
 			AttackTarget = target;
-			if (NewVersionAI)
+			if (NewVersionAI && MyBehavior != null)
 			{
 				MyBehavior.AttackTarget(target);
 			}

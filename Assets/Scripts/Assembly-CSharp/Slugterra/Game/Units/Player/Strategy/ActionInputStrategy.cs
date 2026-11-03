@@ -45,6 +45,9 @@ namespace Slugterra.Game.Units.Player.Strategy
 			bool flag = false;
 			if (_tapOn == TapOn.eTerrain)
 			{
+				Controller.AttackTarget = null;
+				Controller.UseAutoattack = false;
+				Controller.DamageSystem.Clear();
 				if (Controller.PathFinder != null)
 				{
 					Controller.PathFinder.target.position = _terrainPosition;
@@ -52,6 +55,13 @@ namespace Slugterra.Game.Units.Player.Strategy
 			}
 			else if (_tapOn == TapOn.eEnemy)
 			{
+				if (Controller.AttackTarget == _enemy)
+				{
+					Controller.AttackTarget = null;
+					Controller.UseAutoattack = false;
+					Controller.DamageSystem.Clear();
+					return;
+				}
 				Controller.AttackTarget = _enemy;
 				Controller.UseAutoattack = true;
 				Controller.IsIgnorEnemy = false;
@@ -84,6 +94,9 @@ namespace Slugterra.Game.Units.Player.Strategy
 			float num = 0.2f;
 			if (_tapOn == TapOn.eTerrain)
 			{
+				Controller.AttackTarget = null;
+				Controller.UseAutoattack = false;
+				Controller.DamageSystem.Clear();
 				if (Controller.PathFinder != null)
 				{
 					Controller.PathFinder.target.position = _terrainPosition;
@@ -93,6 +106,8 @@ namespace Slugterra.Game.Units.Player.Strategy
 			if (_tapOn == TapOn.eEnemy && Controller.AttackTarget == _enemy)
 			{
 				Controller.AttackTarget = null;
+				Controller.UseAutoattack = false;
+				Controller.DamageSystem.Clear();
 			}
 		}
 
@@ -142,6 +157,10 @@ namespace Slugterra.Game.Units.Player.Strategy
 				}
 				if (Controller.StateMachine.CurrentState != null)
 				{
+					if (Controller.StateMachine.CurrentState is RollState)
+					{
+						return;
+					}
 					Controller.StateMachine.Terminate();
 				}
 				if (Controller.PathFinder != null)
@@ -171,58 +190,67 @@ namespace Slugterra.Game.Units.Player.Strategy
 
 		public override void OnMoveEnd()
 		{
+			if (Controller.StateMachine.CurrentState is RollState)
+			{
+				return;
+			}
 			Controller.StateMachine.ChangeState<IdleState>(new object[0]);
 			if (_walkCommand != null && _walkCommand.enabled)
 			{
 				_walkCommand.enabled = false;
 			}
-			if (Controller.PathFinder != null)
-			{
-				Controller.PathFinder.canMove = false;
-				Controller.PathFinder.target.position = Controller.Transform.position;
-				if (Controller.PathFinder.target.gameObject.activeSelf)
-				{
-					Controller.PathFinder.target.gameObject.SetActive(false);
-				}
-			}
 		}
 
 		public override void OnNextTarget()
 		{
+			List<Transform> list = Controller.BuildTargetsPriorityList();
+			List<Transform> list2 = list.FindAll(Controller.CheckTargetInFOV);
+			if (list2.Count == 0)
+			{
+				list2 = list;
+			}
+			if (list2.Count == 0)
+			{
+				return;
+			}
+			int num = -1;
 			if (Controller.AttackTarget != null)
 			{
-				List<Transform> list = Controller.BuildTargetsPriorityList();
-				List<Transform> list2 = list.FindAll(Controller.CheckTargetInFOV);
-				int num = list2.IndexOf(Controller.AttackTarget);
-				Transform transform = null;
-				if (num < list2.Count - 1)
-				{
-					transform = list2[num + 1];
-				}
-				if (transform != null)
-				{
-					Controller.AttackTarget = transform;
-				}
+				num = list2.IndexOf(Controller.AttackTarget);
 			}
+			int nextIndex = (num + 1) % list2.Count;
+			Controller.AttackTarget = list2[nextIndex];
+			Controller.UseAutoattack = true;
+			Controller.RotateToTarget = true;
+			Controller.IsIgnorEnemy = false;
 		}
 
 		public override void OnPrevTarget()
 		{
+			List<Transform> list = Controller.BuildTargetsPriorityList();
+			List<Transform> list2 = list.FindAll(Controller.CheckTargetInFOV);
+			if (list2.Count == 0)
+			{
+				list2 = list;
+			}
+			if (list2.Count == 0)
+			{
+				return;
+			}
+			int num = list2.Count;
 			if (Controller.AttackTarget != null)
 			{
-				List<Transform> list = Controller.BuildTargetsPriorityList();
-				List<Transform> list2 = list.FindAll(Controller.CheckTargetInFOV);
-				int num = list2.IndexOf(Controller.AttackTarget);
-				Transform transform = null;
-				if (num > 0)
+				num = list2.IndexOf(Controller.AttackTarget);
+				if (num < 0)
 				{
-					transform = list2[num - 1];
-				}
-				if (transform != null)
-				{
-					Controller.AttackTarget = transform;
+					num = list2.Count;
 				}
 			}
+			int prevIndex = (num - 1 + list2.Count) % list2.Count;
+			Controller.AttackTarget = list2[prevIndex];
+			Controller.UseAutoattack = true;
+			Controller.RotateToTarget = true;
+			Controller.IsIgnorEnemy = false;
 		}
 
 		public override void OnTouch(Vector3 position, float actionTime)
@@ -230,6 +258,12 @@ namespace Slugterra.Game.Units.Player.Strategy
 			if (!MonoSingleton<GameCollisionMap>.Instance.IsTapOnTerrain(position, out _terrainPosition))
 			{
 				return;
+			}
+			if (Controller.AttackTarget != null)
+			{
+				Controller.AttackTarget = null;
+				Controller.UseAutoattack = false;
+				Controller.DamageSystem.Clear();
 			}
 			if (Controller.PathFinder != null)
 			{
@@ -259,20 +293,12 @@ namespace Slugterra.Game.Units.Player.Strategy
 
 		public override void OnRelease(Vector3 direction, float actionTime)
 		{
-			if (actionTime > 0.2f)
+			if (actionTime > 0.3f)
 			{
 				Controller.StateMachine.ChangeState<IdleState>(new object[0]);
 				if (_walkCommand != null && _walkCommand.enabled)
 				{
 					_walkCommand.enabled = false;
-				}
-				if (Controller.PathFinder != null)
-				{
-					Controller.PathFinder.canMove = false;
-					if (Controller.PathFinder.target.gameObject.activeSelf)
-					{
-						Controller.PathFinder.target.gameObject.SetActive(false);
-					}
 				}
 			}
 		}

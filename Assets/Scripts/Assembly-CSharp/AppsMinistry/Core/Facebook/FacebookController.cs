@@ -253,11 +253,18 @@ namespace AppsMinistry.Core.Facebook
 			{
 				UnityEngine.Object.Destroy(gameObject);
 			}
-			else if (!FB.IsInitialized)
+			else if (Application.isMobilePlatform && !FB.IsInitialized)
 			{
-				FB.Init(InitCallback, OnHideUnity);
+				try
+				{
+					FB.Init(InitCallback, OnHideUnity);
+				}
+				catch (Exception ex)
+				{
+					UnityEngine.Debug.LogWarning("Facebook Init skipped: " + ex.Message);
+				}
 			}
-			else
+			else if (FB.IsInitialized)
 			{
 				FB.ActivateApp();
 			}

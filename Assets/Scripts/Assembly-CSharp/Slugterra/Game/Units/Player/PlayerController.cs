@@ -18,6 +18,7 @@ using Slugterra.Game.Blasters;
 using Slugterra.Game.Duel;
 using Slugterra.Game.Environment;
 using Slugterra.Game.Item;
+using Slugterra.Game.Units.Ally.Assistant;
 using Slugterra.Game.Units.Animals;
 using Slugterra.Game.Units.AreaTrigger;
 using Slugterra.Game.Units.Enemy.Deadweed;
@@ -374,6 +375,7 @@ namespace Slugterra.Game.Units.Player
 			else
 			{
 				ViewArea.SetAngle(360f);
+				ViewArea.SetRadius(30f);
 			}
 			_pickUpArea.SetBaseTransform(Animator.transform);
 			EnableControl(GetType());
@@ -381,19 +383,30 @@ namespace Slugterra.Game.Units.Player
 			Model.CurrentSpeed = Model.RunSpeed;
 		}
 
+		public override void SetViewRadius(float radius)
+		{
+			if (!_isTPCMode)
+			{
+				base.SetViewRadius(Mathf.Max(30f, radius));
+			}
+			else
+			{
+				base.SetViewRadius(radius);
+			}
+		}
+
+		public void AdvanceNextReaim(float delay = -1f)
+		{
+			if (delay < 0f)
+			{
+				delay = _reaimTimeDelay;
+			}
+			_nextReaim = Time.time + delay;
+		}
+
 		protected virtual void OnPlayerAreaEnter(Transform item)
 		{
-			if (UseAutoattack)
-			{
-				if (AttackTarget != null && AttackTarget.GetComponent<HumanoidController>() == null && item.GetComponent<HumanoidController>() != null)
-				{
-					AttackTarget = item;
-				}
-				if (AttackTarget == null && item != null)
-				{
-					AttackTarget = item;
-				}
-			}
+			// Pure manual targeting: do not auto-acquire target on area enter
 		}
 
 		protected virtual void OnPlayerAreaExit(Transform item)
@@ -403,7 +416,22 @@ namespace Slugterra.Game.Units.Player
 				ViewArea.VisibleItems.Remove(item);
 				if (AttackTarget != null && AttackTarget.Equals(item))
 				{
-					AttackTarget = null;
+					bool keepTarget = false;
+					if (item != null && item.gameObject.activeInHierarchy && CheckTargetInFOV(item))
+					{
+						UnitController unit = item.GetComponent<UnitController>() ?? item.GetComponentInParent<UnitController>();
+						if (unit != null && unit.Model != null && !unit.Model.IsDead() && !unit.Model.Invulnerability)
+						{
+							if ((item.position - Transform.position).sqrMagnitude < 35f * 35f)
+							{
+								keepTarget = true;
+							}
+						}
+					}
+					if (!keepTarget)
+					{
+						AttackTarget = null;
+					}
 				}
 			}
 		}
@@ -441,52 +469,37 @@ namespace Slugterra.Game.Units.Player
 			{
 				return;
 			}
-			if ((bool)_aim)
+			if (AttackTarget != null)
 			{
-				_aimPointLight.position = _aim.position;
-			}
-			if (_nextReaim < Time.time)
-			{
-				if (AttackTarget == null)
+				UnitController unitTarget = AttackTarget.GetComponent<UnitController>() ?? AttackTarget.GetComponentInParent<UnitController>();
+				if (unitTarget != null && unitTarget.Model != null && unitTarget.Model.IsDead())
 				{
-					List<Transform> list = BuildTargetsPriorityList();
-					if (list.Count > 0)
+					AttackTarget = null;
+					_aim = null;
+					if (_aimPointLight != null)
 					{
-						Transform transform = list[0];
-						AttackTarget = list[0];
-						if (transform != _aim)
-						{
-							_aim = transform;
-						}
-						if (AttackTarget == null)
-						{
-							_aimPointLight.gameObject.SetActive(true);
-						}
-					}
-					else if (_aim != null)
-					{
-						_aim = null;
-						AttackTarget = null;
 						_aimPointLight.gameObject.SetActive(false);
 					}
-					_nextReaim += _reaimTimeDelay;
 				}
 				else
 				{
-					List<Transform> list2 = BuildTargetsPriorityList();
-					if (list2.Count == 0)
+					_aim = AttackTarget;
+					if (_aimPointLight != null)
 					{
-						AttackTarget = null;
-					}
-					else
-					{
-						Transform transform2 = list2[0];
-						if (AttackTarget != _aim)
+						if (!_aimPointLight.gameObject.activeSelf)
 						{
-							AttackTarget = list2[0];
+							_aimPointLight.gameObject.SetActive(true);
 						}
+						_aimPointLight.position = _aim.position;
 					}
-					_nextReaim += _reaimTimeDelay + 0.05f;
+				}
+			}
+			else
+			{
+				_aim = null;
+				if (_aimPointLight != null && _aimPointLight.gameObject.activeSelf)
+				{
+					_aimPointLight.gameObject.SetActive(false);
 				}
 			}
 			if (AttackTarget != null)
@@ -991,26 +1004,133 @@ namespace Slugterra.Game.Units.Player
 		public List<Transform> BuildTargetsPriorityList()
 		{
 			List<Transform> list = new List<Transform>();
-			ViewArea.VisibleItems.RemoveAll((Transform t) => t == null);
-			list.AddRange(from t in ViewArea.VisibleItems.FindAll((Transform t) => t.GetComponent<HumanoidController>() != null && t.GetComponent<DeadweedController>() == null)
-				orderby (t.position - Transform.position).magnitude
-				select t);
-			list.AddRange(from t in ViewArea.VisibleItems.FindAll((Transform t) => t.GetComponent<AnimalController>() != null)
-				orderby (t.position - Transform.position).magnitude
-				select t);
-			list.AddRange(from t in ViewArea.VisibleItems.FindAll((Transform t) => t.GetComponent<ExplosionEnvironmentController>() != null)
-				orderby (t.position - Transform.position).magnitude
-				select t);
-			list.AddRange(from t in ViewArea.VisibleItems.FindAll((Transform t) => t.GetComponent<ArenaInteractiveEnvironmant>() != null)
-				orderby (t.position - Transform.position).magnitude
-				select t);
-			foreach (Transform visibleItem in ViewArea.VisibleItems)
+			if (ViewArea == null || ViewArea.VisibleItems == null)
 			{
-				if (!list.Contains(visibleItem))
+				return list;
+			}
+			ViewArea.VisibleItems.RemoveAll((Transform t) => t == null);
+
+			List<Transform> enemyList = new List<Transform>();
+			List<Transform> propList = new List<Transform>();
+
+			foreach (Transform item in ViewArea.VisibleItems)
+			{
+				if (item == null || !item.gameObject.activeInHierarchy)
 				{
-					list.Add(visibleItem);
+					continue;
+				}
+
+				// Check if this is a Unit (Enemy / Animal)
+				UnitController unit = item.GetComponent<UnitController>() ?? item.GetComponentInParent<UnitController>();
+				if (unit != null)
+				{
+					if (unit is PlayerController || unit is FollowerController)
+					{
+						continue; // Ignore player and friendly allies
+					}
+					if (unit.GetComponent<DeadweedController>() != null)
+					{
+						continue;
+					}
+					if (unit.Model != null && (unit.Model.IsDead() || unit.Model.Invulnerability))
+					{
+						continue; // Ignore dead or invulnerable units
+					}
+					Transform unitTransform = unit.transform;
+					if (!enemyList.Contains(unitTransform))
+					{
+						enemyList.Add(unitTransform);
+					}
+					continue;
+				}
+
+				// Check if this is an interactive / destructible environment object (Caja, barrel, etc.)
+				ArenaInteractiveEnvironmant interactive = item.GetComponent<ArenaInteractiveEnvironmant>() ?? item.GetComponentInParent<ArenaInteractiveEnvironmant>();
+				if (interactive != null)
+				{
+					if (!interactive.IsReady || !interactive.gameObject.activeInHierarchy)
+					{
+						continue;
+					}
+					Transform interactiveTransform = interactive.transform;
+					if (!propList.Contains(interactiveTransform))
+					{
+						propList.Add(interactiveTransform);
+					}
+					continue;
+				}
+
+				ExplosionEnvironmentController explosion = item.GetComponent<ExplosionEnvironmentController>() ?? item.GetComponentInParent<ExplosionEnvironmentController>();
+				if (explosion != null)
+				{
+					if (!explosion.gameObject.activeInHierarchy)
+					{
+						continue;
+					}
+					Transform expTransform = explosion.transform;
+					if (!propList.Contains(expTransform))
+					{
+						propList.Add(expTransform);
+					}
+					continue;
 				}
 			}
+
+			// Also scan nearby physics colliders up to 30m to ensure living enemies on screen are always included
+			int enemyLayer = LayerMask.NameToLayer("EnemyLayer");
+			int neutralLayer = LayerMask.NameToLayer("NeutralLayer");
+			int mask = 0;
+			if (enemyLayer != -1) mask |= (1 << enemyLayer);
+			if (neutralLayer != -1) mask |= (1 << neutralLayer);
+
+			if (mask != 0)
+			{
+				Collider[] colliders = Physics.OverlapSphere(Transform.position, 30f, mask);
+				for (int i = 0; i < colliders.Length; i++)
+				{
+					Collider col = colliders[i];
+					if (col == null || !col.enabled || !col.gameObject.activeInHierarchy)
+					{
+						continue;
+					}
+					UnitController unit = col.GetComponent<UnitController>() ?? col.GetComponentInParent<UnitController>();
+					if (unit != null)
+					{
+						if (unit is PlayerController || unit is FollowerController)
+						{
+							continue;
+						}
+						if (unit.GetComponent<DeadweedController>() != null)
+						{
+							continue;
+						}
+						if (unit.Model != null && (unit.Model.IsDead() || unit.Model.Invulnerability))
+						{
+							continue;
+						}
+						Transform unitTransform = unit.transform;
+						if (!enemyList.Contains(unitTransform))
+						{
+							enemyList.Add(unitTransform);
+						}
+					}
+				}
+			}
+
+			// Sort enemies by distance from player (closest first)
+			enemyList.Sort((Transform a, Transform b) =>
+				(a.position - Transform.position).sqrMagnitude.CompareTo((b.position - Transform.position).sqrMagnitude));
+
+			// Sort props by distance from player (closest first)
+			propList.Sort((Transform a, Transform b) =>
+				(a.position - Transform.position).sqrMagnitude.CompareTo((b.position - Transform.position).sqrMagnitude));
+
+			// Priority 1: Living enemies
+			list.AddRange(enemyList);
+
+			// Priority 2: Destructible objects (cajas, explosive barrels)
+			list.AddRange(propList);
+
 			return list;
 		}
 
@@ -1018,18 +1138,18 @@ namespace Slugterra.Game.Units.Player
 		{
 			if (_camera == null)
 			{
+				_camera = Camera.main;
+			}
+			if (_camera == null || target == null)
+			{
 				return false;
 			}
-			if (target != null)
+			Vector3 vector = _camera.WorldToViewportPoint(target.position);
+			if (vector.z <= 0f || vector.x < -0.15f || vector.x > 1.15f || vector.y < -0.15f || vector.y > 1.15f)
 			{
-				Vector3 vector = _camera.WorldToViewportPoint(target.position);
-				if (vector.x < -0.01f || 1.01f < vector.x || vector.y < -0.01f || 1.01f < vector.y)
-				{
-					return false;
-				}
-				return true;
+				return false;
 			}
-			return false;
+			return true;
 		}
 
 		private IEnumerator UpdateControl()

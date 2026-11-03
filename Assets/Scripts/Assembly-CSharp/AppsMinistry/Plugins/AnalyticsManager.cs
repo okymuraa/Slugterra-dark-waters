@@ -123,9 +123,12 @@ namespace AppsMinistry.Plugins
 			if (!(currentLevel == "BackpackSceneController") && !(currentLevel == "ShopSceneController"))
 			{
 				FlurryAnalyticsLogEventParams(currentLevel, new Dictionary<string, string> { { "GameStatus", "Play" } });
-				Dictionary<string, object> dictionary = new Dictionary<string, object>();
-				dictionary["GameStatus"] = "Play";
-				FB.LogAppEvent(currentLevel, null, dictionary);
+				if (FB.IsInitialized)
+				{
+					Dictionary<string, object> dictionary = new Dictionary<string, object>();
+					dictionary["GameStatus"] = "Play";
+					FB.LogAppEvent(currentLevel, null, dictionary);
+				}
 			}
 		}
 
@@ -334,9 +337,12 @@ namespace AppsMinistry.Plugins
 				Debug.Log("Send InApp Analytics To AppsFlyer");
 				AppsFlyer.trackRichEvent("af_purchase", dictionary2);
 				string text = JsonConvert.SerializeObject(dictionary2);
-				Dictionary<string, object> dictionary3 = new Dictionary<string, object>();
-				dictionary3["productId"] = SKU;
-				FB.LogPurchase(price, currencyCode, dictionary3);
+				if (FB.IsInitialized)
+				{
+					Dictionary<string, object> dictionary3 = new Dictionary<string, object>();
+					dictionary3["productId"] = SKU;
+					FB.LogPurchase(price, currencyCode, dictionary3);
+				}
 				DonDestroyMonoSingleton<AnalyticsManager>.Instance.InAppPurchased(SKU);
 			}
 		}
